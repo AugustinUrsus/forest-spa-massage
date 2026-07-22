@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import { CalendarHeart, ArrowDown, CircleParking, HeartHandshake, Clock } from 'lucide-react';
+import { business, booking } from '../../data/siteData';
+import heroImg from '../../assets/images/hero-ambiance.jpg';
+
+const chips = [
+  { icon: CircleParking, label: 'Free Parking' },
+  { icon: HeartHandshake, label: 'LGBTQ-Friendly' },
+  { icon: Clock, label: 'Open 7 Days · 9–9' },
+];
+---
+
+<section
+  id="top"
+  class="relative flex min-h-[92svh] items-center overflow-hidden bg-charcoal text-sand"
+>
+  <!-- Background photo (LCP) -->
+  <Image
+    src={heroImg}
+    alt=""
+    aria-hidden="true"
+    class="absolute inset-0 h-full w-full object-cover object-center"
+    widths={[768, 1280, 1920, 2600]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <!-- Legibility overlays -->
+  <div
+    class="absolute inset-0 bg-gradient-to-r from-charcoal-deep/85 via-charcoal/70 to-charcoal/30"
+  >
+  </div>
+  <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-sand/95"></div>
+
+  <div class="container-px relative z-10 py-28 lg:py-32">
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-5 text-gold">{business.tagline}</p>
+
+      <h1 class="display-heading text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
+        {business.headline}
+      </h1>
+
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-sand/85 sm:text-xl">
+        {business.subhead}
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <a
+          href={booking.primary}
+          target="_blank"
+          rel="noopener"
+          data-book="hero"
+          class="btn btn-primary"
+        >
+          <CalendarHeart size={19} /> Book Appointment
+        </a>
+        <a href="#services" class="btn btn-ghost-dark">
+          Explore Services <ArrowDown size={17} />
+        </a>
+      </div>
+
+      <ul class="mt-12 flex flex-wrap gap-x-7 gap-y-3 text-sm text-sand/80">
+        {
+          chips.map(({ icon: Icon, label }) => (
+            <li class="inline-flex items-center gap-2">
+              <Icon size={18} strokeWidth={1.6} className="text-sage" />
+              {label}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

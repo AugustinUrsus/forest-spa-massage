@@ -1,0 +1,226 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { business, booking, analytics, maps, serviceCategories, seo } from '../data/siteData';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path (relative to site) or absolute URL of the social share image. */
+  image?: string;
+}
+
+const {
+  title = seo.title,
+  description = seo.description,
+  image = seo.ogImage,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL; // "/" (custom domain) or "/forest-spa-massage/"
+const site = Astro.site ?? new URL('https://www.forestspamassage.com');
+
+/** Join a public-asset path onto the deploy base (BASE_URL always ends in "/"). */
+const withBase = (p: string) => `${base.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+/** Base-aware absolute URL for a public asset. */
+const absUrl = (p: string) => new URL(withBase(p), site).href;
+
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImage = /^https?:/.test(image) ? image : absUrl(image);
+
+/**
+ * "The Seasons" @font-face lives here (not global.css) so the url()s carry the
+ * base path — Vite does not rebase root-absolute url()s inside CSS files.
+ */
+const fontFaceCss = [
+  `@font-face{font-family:'The Seasons';src:url('${withBase('fonts/theseasons-regular.woff2')}') format('woff2'),url('${withBase('fonts/theseasons-regular.woff')}') format('woff');font-weight:400;font-style:normal;font-display:swap;}`,
+  `@font-face{font-family:'The Seasons';src:url('${withBase('fonts/theseasons-bold.woff2')}') format('woff2'),url('${withBase('fonts/theseasons-bold.woff')}') format('woff');font-weight:600 700;font-style:normal;font-display:swap;}`,
+].join('');
+
+/* ---- DaySpa structured data (NAP, hours, geo, service catalog, socials) --- */
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': ['DaySpa', 'HealthAndBeautyBusiness'],
+  '@id': `${canonical}#business`,
+  name: business.name,
+  description: business.description,
+  url: canonical,
+  telephone: business.phoneE164,
+  email: business.email,
+  image: absUrl('og-image.jpg'),
+  logo: absUrl('icon-512.png'),
+  priceRange: business.priceRange,
+  currenciesAccepted: 'USD',
+  paymentAccepted: 'Cash, Credit Card',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: business.address.street,
+    addressLocality: business.address.locality,
+    addressRegion: business.address.region,
+    postalCode: business.address.postalCode,
+    addressCountry: business.address.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: business.geo.lat,
+    longitude: business.geo.lng,
+  },
+  hasMap: maps.directions,
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: business.hours.days,
+      opens: business.hours.openTime,
+      closes: business.hours.closeTime,
+    },
+  ],
+  areaServed: [
+    { '@type': 'City', name: 'Poway' },
+    { '@type': 'City', name: 'San Diego' },
+  ],
+  sameAs: [business.social.instagram, business.social.facebook],
+  potentialAction: {
+    '@type': 'ReserveAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: booking.primary,
+    },
+    name: 'Book an appointment',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Spa & Massage Services',
+    itemListElement: serviceCategories.map((cat) => ({
+      '@type': 'OfferCatalog',
+      name: cat.label,
+      itemListElement: cat.services.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: s.name, description: s.description },
+      })),
+    })),
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content={business.name} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#2e2e2b" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Brand display face @font-face (base-aware) -->
+    <style is:inline set:html={fontFaceCss}></style>
+
+    <!-- Icons / PWA -->
+    <link rel="icon" href={withBase('favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase('favicon-32.png')} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase('favicon-16.png')} />
+    <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
+    <link rel="manifest" href={withBase('site.webmanifest')} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Performance: preconnect to booking + map hosts, preload the above-the-fold brand face -->
+    <link rel="preconnect" href="https://www.fresha.com" />
+    <link rel="preconnect" href="https://maps.google.com" />
+    <link rel="dns-prefetch" href="https://www.google.com" />
+    <link
+      rel="preload"
+      href={withBase('fonts/theseasons-bold.woff2')}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+
+    <!-- Google gtag — GA4 and/or Google Ads (only when configured) -->
+    {
+      (analytics.ga4Id || analytics.googleAdsId) && (
+        <>
+          <script
+            is:inline
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${analytics.ga4Id || analytics.googleAdsId}`}
+          />
+          <script is:inline define:vars={{ ga4Id: analytics.ga4Id, adsId: analytics.googleAdsId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            window.gtag = gtag;
+            gtag('js', new Date());
+            if (ga4Id) gtag('config', ga4Id, { anonymize_ip: true });
+            if (adsId) gtag('config', adsId);
+          </script>
+        </>
+      )
+    }
+
+    <!-- Meta Pixel (only when configured) -->
+    {
+      analytics.metaPixelId && (
+        <script is:inline define:vars={{ pixelId: analytics.metaPixelId }}>
+          !(function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+              n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+          })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', pixelId);
+          fbq('track', 'PageView');
+        </script>
+      )
+    }
+  </head>
+
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-charcoal focus:px-5 focus:py-2.5 focus:text-sand"
+    >
+      Skip to content
+    </a>
+
+    <slot />
+
+    <!-- Bundled: conversion tracking for booking / call CTAs across the page -->
+    <script>
+      import { initTracking } from '../lib/tracking';
+      initTracking();
+    </script>
+  </body>
+</html>

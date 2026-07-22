@@ -1,0 +1,54 @@
+---
+/**
+ * BrandMark — the Forest Spa logo, rebuilt as scalable, theme-able markup:
+ * an inline SVG of the pine-tree emblem (recolors via currentColor) paired
+ * with the "Forest Spa" wordmark set in the brand face, "The Seasons".
+ * No image request; crisp at any size; inherits color for light/dark contexts.
+ */
+interface Props {
+  /** Emblem diameter in px. */
+  size?: number;
+  /** Show the "Forest Spa" wordmark beside the emblem. */
+  wordmark?: boolean;
+  /** Extra classes on the root. */
+  class?: string;
+  /** Accessible label (rendered as visually-hidden text + svg title). */
+  label?: string;
+}
+
+const { size = 40, wordmark = true, class: className = '', label = 'Forest Spa' } = Astro.props;
+---
+
+<span class={`inline-flex items-center gap-3 ${className}`} aria-label={label} role="img">
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    fill="none"
+    aria-hidden="true"
+    class="shrink-0 text-current"
+  >
+    <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="2.4" opacity="0.85" />
+    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="1" opacity="0.4" />
+    <g
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M41 42 C44.5 37.5 47 35 50 33 C53 35 55.5 37.5 59 42" />
+      <path d="M36 54 C41 48.5 45 45 50 42.5 C55 45 59 48.5 64 54" />
+      <path d="M31 66 C38 59.5 43.5 55.5 50 53 C56.5 55.5 62 59.5 69 66" />
+      <path d="M50 63 L50 74" stroke-width="3.4" />
+    </g>
+  </svg>
+
+  {
+    wordmark && (
+      <span class="display-heading leading-none font-semibold uppercase tracking-[0.18em] text-current">
+        <span class="text-[1.12em]">Forest</span>
+        <span class="ml-[0.35em] tracking-[0.3em] text-[0.72em] opacity-90">Spa</span>
+      </span>
+    )
+  }
+</span>

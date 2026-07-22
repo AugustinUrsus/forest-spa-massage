@@ -1,0 +1,105 @@
+---
+import { MapPin, Clock, Phone, Mail, Navigation, CalendarHeart } from 'lucide-react';
+import { business, booking, maps } from '../../data/siteData';
+
+const contactRows = [
+  { icon: MapPin, label: 'Address', value: business.address.full },
+  { icon: Clock, label: 'Hours', value: business.hours.display },
+];
+---
+
+<section id="location" class="scroll-mt-24 bg-cloud py-[var(--spacing-section)]">
+  <div class="container-px reveal">
+    <header class="mx-auto mb-14 max-w-2xl text-center">
+      <p class="eyebrow mb-4">Visit Us</p>
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+        Find your way to calm
+      </h2>
+    </header>
+
+    <div class="grid gap-8 lg:grid-cols-2 lg:items-stretch">
+      <!-- LEFT — contact panel -->
+      <div class="surface-card flex flex-col p-8 sm:p-10">
+        <ul class="space-y-6">
+          {
+            contactRows.map(({ icon: Icon, label, value }) => (
+              <li class="flex items-start gap-4">
+                <span class="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sand">
+                  <Icon size={20} strokeWidth={1.6} className="text-bronze" />
+                </span>
+                <span class="flex flex-col">
+                  <span class="eyebrow mb-1">{label}</span>
+                  <span class="text-lg leading-snug text-ink">{value}</span>
+                </span>
+              </li>
+            ))
+          }
+
+          <li class="flex items-start gap-4">
+            <span class="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sand">
+              <Phone size={20} strokeWidth={1.6} className="text-bronze" />
+            </span>
+            <span class="flex flex-col">
+              <span class="eyebrow mb-1">Phone</span>
+              <a
+                href={business.phoneHref}
+                data-call="location"
+                class="text-lg leading-snug text-ink transition-colors hover:text-bronze"
+              >
+                {business.phone}
+              </a>
+            </span>
+          </li>
+
+          <li class="flex items-start gap-4">
+            <span class="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sand">
+              <Mail size={20} strokeWidth={1.6} className="text-bronze" />
+            </span>
+            <span class="flex flex-col">
+              <span class="eyebrow mb-1">Email</span>
+              <a
+                href={`mailto:${business.email}`}
+                class="text-lg leading-snug text-ink transition-colors hover:text-bronze"
+              >
+                {business.email}
+              </a>
+            </span>
+          </li>
+        </ul>
+
+        <div class="hair-rule my-8"></div>
+
+        <div class="flex flex-wrap gap-4">
+          <a
+            href={maps.directions}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-outline"
+          >
+            <Navigation size={19} strokeWidth={1.6} /> Get Directions
+          </a>
+          <a
+            href={booking.primary}
+            target="_blank"
+            rel="noopener"
+            data-book="location"
+            class="btn btn-primary"
+          >
+            <CalendarHeart size={19} strokeWidth={1.6} /> Book Now
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT — Google Maps embed -->
+      <div class="overflow-hidden rounded-[var(--radius-card)]">
+        <iframe
+          src={maps.embed}
+          title="Map showing Forest Spa in Poway, CA"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="h-full w-full min-h-[360px] rounded-[var(--radius-card)] border-0 shadow-lg"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>

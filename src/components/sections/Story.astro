@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import { CircleParking, HeartHandshake, Users, Clock } from 'lucide-react';
+import { story, amenities } from '../../data/siteData';
+import couplesImg from '../../assets/images/couples-room.jpg';
+
+/** Map amenity.icon names (from siteData) to their lucide-react components. */
+const amenityIcons = {
+  CircleParking,
+  HeartHandshake,
+  Users,
+  Clock,
+} as const;
+---
+
+<section id="story" class="scroll-mt-24 bg-sand py-[var(--spacing-section)]">
+  <div class="container-px reveal">
+    <!-- Two-column: image on the left, story text on the right -->
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Image
+        src={couplesImg}
+        alt="Forest Spa couples treatment room with sage-green linens"
+        class="w-full rounded-[var(--radius-card)] object-cover shadow-xl"
+        widths={[480, 768, 1100]}
+        sizes="(min-width:1024px) 50vw, 100vw"
+        loading="lazy"
+      />
+
+      <div class="max-w-xl">
+        <p class="eyebrow mb-4">{story.eyebrow}</p>
+        <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+          {story.title}
+        </h2>
+        <div class="mt-6 space-y-5">
+          {story.paragraphs.map((paragraph) => (
+            <p class="text-lg leading-relaxed text-ink-soft">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Amenities grid: 2 cols on mobile → 4 cols on large screens -->
+    <div class="hair-rule mt-16 lg:mt-20"></div>
+    <ul class="mt-14 grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-4">
+      {
+        amenities.map((amenity) => {
+          const Icon = amenityIcons[amenity.icon as keyof typeof amenityIcons];
+          return (
+            <li class="flex flex-col items-start">
+              <span class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-full bg-sage/15 text-sage-deep">
+                <Icon size={24} strokeWidth={1.6} className="text-sage-deep" />
+              </span>
+              <h3 class="display-heading text-lg text-ink">{amenity.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-soft">{amenity.description}</p>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

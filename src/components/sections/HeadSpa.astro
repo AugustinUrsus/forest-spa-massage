@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import { Check, Droplets } from 'lucide-react';
+import { headSpa, booking } from '../../data/siteData';
+import headImg from '../../assets/images/head-spa.jpg';
+---
+
+<section id="head-spa" class="scroll-mt-24 bg-cloud py-[var(--spacing-section)]">
+  <div class="container-px reveal">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <!-- Image column (right on desktop, first on mobile) -->
+      <div class="lg:order-2 lg:h-full">
+        <Image
+          src={headImg}
+          alt="Forest Spa head spa station with a gold waterfall basin and fresh flowers"
+          class="rounded-[var(--radius-card)] shadow-xl w-full h-full object-cover"
+          widths={[480, 768, 1000]}
+          sizes="(min-width:1024px) 50vw, 100vw"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Text column -->
+      <div class="lg:order-1 max-w-xl">
+        <p class="eyebrow mb-4">{headSpa.eyebrow}</p>
+
+        <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+          {headSpa.title}
+        </h2>
+
+        <p class="mt-6 text-lg leading-relaxed text-ink-soft">
+          {headSpa.intro}
+        </p>
+
+        <ul class="mt-9 space-y-4">
+          {
+            headSpa.benefits.map((benefit) => (
+              <li class="flex items-start gap-4">
+                <span class="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sage/15 text-sage-deep">
+                  <Check size={18} strokeWidth={1.8} />
+                </span>
+                <span class="text-ink-soft">{benefit}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="mt-9 text-xl font-medium italic leading-relaxed text-bronze">
+          {headSpa.closer}
+        </p>
+
+        <div class="mt-10">
+          <a
+            href={booking.primary}
+            target="_blank"
+            rel="noopener"
+            data-book="head-spa"
+            class="btn btn-primary"
+          >
+            <Droplets size={19} strokeWidth={1.6} /> Book Head Spa
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+---
+import { serviceCategories, booking } from '../../data/siteData';
+import ServiceTabs from '../react/ServiceTabs.tsx';
+---
+
+<section id="services" class="scroll-mt-24 py-[var(--spacing-section)]">
+  <div class="container-px reveal">
+    <header class="mx-auto mb-14 max-w-2xl text-center">
+      <p class="eyebrow mb-4">Our Services</p>
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+        Therapies tailored to you
+      </h2>
+      <p class="mt-5 text-lg text-ink-soft">
+        From signature head spa rituals to deep therapeutic bodywork — every session is
+        shaped around how you want to feel when you leave.
+      </p>
+    </header>
+
+    <ServiceTabs client:visible categories={serviceCategories} bookUrl={booking.services} />
+  </div>
+</section>

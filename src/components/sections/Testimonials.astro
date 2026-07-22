@@ -1,0 +1,40 @@
+---
+import { Star, Quote } from 'lucide-react';
+import { testimonials } from '../../data/siteData';
+
+const featured = testimonials[0];
+const stars = Array.from({ length: 5 });
+// The 5-star row is decorative brand affirmation (role=img). We intentionally
+// do NOT emit Review/AggregateRating structured data — self-serving on-page
+// ratings without a verifiable source violate Google's rich-results policy.
+---
+
+<section id="testimonials" class="scroll-mt-24 bg-charcoal py-[var(--spacing-section)] text-sand">
+  <div class="container-px reveal">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="eyebrow mb-5 text-gold">What Clients Say</p>
+
+      <div class="flex items-center justify-center gap-1.5" role="img" aria-label="Five out of five stars">
+        {stars.map(() => <Star size={20} strokeWidth={1.6} fill="currentColor" className="text-gold" />)}
+      </div>
+
+      <figure class="mt-10">
+        <Quote size={64} strokeWidth={1.6} className="mx-auto text-sage opacity-20" aria-hidden="true" />
+
+        <blockquote
+          class="display-heading mt-6 text-2xl leading-snug text-sand sm:text-3xl"
+        >
+          {featured.quote}
+        </blockquote>
+
+        <figcaption class="mt-8 text-sand/70">
+          — {featured.author}
+        </figcaption>
+      </figure>
+
+      <p class="mt-12 text-sm text-sand/60">
+        Loved by guests across Google &amp; Fresha
+      </p>
+    </div>
+  </div>
+</section>

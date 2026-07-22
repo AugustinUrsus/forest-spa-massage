@@ -1,0 +1,78 @@
+---
+import { Phone, CalendarHeart } from 'lucide-react';
+import { business, booking, navLinks } from '../../data/siteData';
+import BrandMark from '../BrandMark.astro';
+import MobileNav from '../react/MobileNav.tsx';
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-30 h-[4.75rem] border-b border-black/5 bg-sand/85 text-ink backdrop-blur transition-shadow duration-300 data-[scrolled]:shadow-sm"
+>
+  <div class="container-px flex h-full items-center justify-between gap-6">
+    <!-- Brand -->
+    <a href="#top" aria-label="Forest Spa home" class="text-sage-deep">
+      <BrandMark size={38} />
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-9">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm font-medium text-ink transition-colors hover:text-bronze"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Desktop CTAs -->
+    <div class="hidden lg:flex lg:items-center lg:gap-3">
+      <a
+        href={business.phoneHref}
+        data-call="header"
+        class="btn btn-outline"
+        aria-label={`Call Forest Spa at ${business.phone}`}
+      >
+        <Phone size={18} strokeWidth={1.6} />
+        <span class="hidden xl:inline">{business.phone}</span>
+      </a>
+      <a
+        href={booking.primary}
+        target="_blank"
+        rel="noopener"
+        data-book="header"
+        class="btn btn-primary"
+      >
+        <CalendarHeart size={18} strokeWidth={1.6} /> Book Now
+      </a>
+    </div>
+
+    <!-- Mobile nav island (renders its own lg:hidden wrapper + drawer; only hydrates below lg) -->
+    <MobileNav
+      client:media="(max-width: 1023px)"
+      links={navLinks}
+      bookUrl={booking.primary}
+      phone={business.phone}
+      phoneHref={business.phoneHref}
+    />
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  if (header) {
+    const onScroll = () => {
+      if (window.scrollY > 16) {
+        header.setAttribute('data-scrolled', '');
+      } else {
+        header.removeAttribute('data-scrolled');
+      }
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

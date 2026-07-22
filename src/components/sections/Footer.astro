@@ -1,0 +1,118 @@
+---
+import { Instagram, Facebook, MapPin, Phone, Mail, CalendarHeart } from 'lucide-react';
+import BrandMark from '../BrandMark.astro';
+import { business, booking, navLinks } from '../../data/siteData';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-charcoal-deep pt-16 pb-10 text-sand/80">
+  <div class="container-px reveal">
+    <!-- Top area -->
+    <div class="grid gap-12 lg:grid-cols-4 lg:gap-10">
+      <!-- Brand -->
+      <div class="lg:pr-6">
+        <BrandMark size={40} class="text-sand" />
+        <p class="eyebrow mt-6 text-gold">{business.tagline}</p>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-sand/60">
+          {business.description}
+        </p>
+      </div>
+
+      <!-- Explore -->
+      <nav aria-label="Footer" class="lg:pl-2">
+        <h3 class="display-heading text-xs uppercase tracking-[0.22em] text-sand/60">Explore</h3>
+        <ul class="mt-5 space-y-3 text-sm">
+          {
+            navLinks.map(({ label, href }) => (
+              <li>
+                <a href={href} class="text-sand/80 transition-colors duration-300 hover:text-gold">
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="display-heading text-xs uppercase tracking-[0.22em] text-sand/60">Contact</h3>
+        <ul class="mt-5 space-y-4 text-sm">
+          <li class="flex items-start gap-3">
+            <MapPin size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-sage" />
+            <span class="text-sand/70">{business.address.full}</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <Phone size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-sage" />
+            <a
+              href={business.phoneHref}
+              data-call="footer"
+              class="text-sand/80 transition-colors duration-300 hover:text-gold"
+            >
+              {business.phone}
+            </a>
+          </li>
+          <li class="flex items-start gap-3">
+            <Mail size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-sage" />
+            <a
+              href={`mailto:${business.email}`}
+              class="break-all text-sand/80 transition-colors duration-300 hover:text-gold"
+            >
+              {business.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Connect -->
+      <div>
+        <h3 class="display-heading text-xs uppercase tracking-[0.22em] text-sand/60">Connect</h3>
+        <div class="mt-5 flex items-center gap-3">
+          <a
+            href={business.social.instagram}
+            target="_blank"
+            rel="noopener me"
+            aria-label="Forest Spa on Instagram"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sand/20 text-sand/80 transition-colors duration-300 hover:border-gold hover:text-gold"
+          >
+            <Instagram size={20} strokeWidth={1.6} />
+          </a>
+          <a
+            href={business.social.facebook}
+            target="_blank"
+            rel="noopener me"
+            aria-label="Forest Spa on Facebook"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sand/20 text-sand/80 transition-colors duration-300 hover:border-gold hover:text-gold"
+          >
+            <Facebook size={20} strokeWidth={1.6} />
+          </a>
+        </div>
+        <a
+          href={booking.primary}
+          target="_blank"
+          rel="noopener"
+          data-book="footer"
+          class="btn btn-primary mt-6"
+        >
+          <CalendarHeart size={19} /> Book Now
+        </a>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="hair-rule my-10"></div>
+
+    <!-- Bottom bar -->
+    <div
+      class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-sand/60"
+    >
+      <p>&copy; {year} Forest Spa. All rights reserved.</p>
+      <p>Cash discount available at checkout.</p>
+      <p>We respect your privacy.</p>
+    </div>
+
+    <!-- Spacer so the footer clears the mobile sticky bar -->
+    <div class="h-16 lg:hidden" aria-hidden="true"></div>
+  </div>
+</footer>

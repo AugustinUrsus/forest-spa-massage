@@ -1,0 +1,60 @@
+---
+import { Users, BadgeDollarSign, Gift, HeartHandshake } from 'lucide-react';
+import { promotions, booking } from '../../data/siteData';
+
+/** Map promotion.icon strings to their lucide-react components. */
+const iconMap = { Users, BadgeDollarSign } as const;
+---
+
+<section id="specials" class="scroll-mt-24 bg-charcoal py-[var(--spacing-section)] text-sand">
+  <div class="container-px reveal">
+    <header class="mx-auto mb-14 max-w-2xl text-center">
+      <p class="eyebrow mb-4 text-gold">Special Offers</p>
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+        A little more to love
+      </h2>
+      <p class="mt-5 text-lg text-sand/80">
+        Small gestures of generosity — because rest should feel effortless, and
+        shared calm is always worth celebrating.
+      </p>
+    </header>
+
+    <ul class="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2">
+      {
+        promotions.map((promo) => {
+          const Icon = iconMap[promo.icon as keyof typeof iconMap];
+          return (
+            <li class="flex flex-col items-center gap-4 rounded-[var(--radius-card)] border border-sand/10 bg-charcoal-deep/40 p-8 text-center">
+              <span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-sand/10 text-gold">
+                {Icon && <Icon size={26} strokeWidth={1.6} className="text-gold" />}
+              </span>
+              <h3 class="display-heading text-xl text-sand">{promo.title}</h3>
+              <p class="text-sand/80 leading-relaxed">{promo.description}</p>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
+      <a
+        href={booking.giftCards}
+        target="_blank"
+        rel="noopener"
+        data-book="specials-giftcards"
+        class="btn btn-on-dark"
+      >
+        <Gift size={19} strokeWidth={1.6} /> Gift Cards
+      </a>
+      <a
+        href={booking.primary}
+        target="_blank"
+        rel="noopener"
+        data-book="specials"
+        class="btn btn-ghost-dark"
+      >
+        <HeartHandshake size={19} strokeWidth={1.6} /> Book a couple's session
+      </a>
+    </div>
+  </div>
+</section>

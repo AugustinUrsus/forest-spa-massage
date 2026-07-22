@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress production deploy.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Preview mode: when the repo variable PAGES_BASE is set (e.g. "/forest-spa-massage"),
+      # build for the github.io project URL and drop the custom-domain CNAME, so the live
+      # forestspamassage.com (still on Wix) is left untouched. Unset PAGES_BASE for the
+      # production cutover to the custom domain at the web root.
+      - name: Preview mode — drop custom domain
+        if: ${{ vars.PAGES_BASE != '' }}
+        run: rm -f public/CNAME
+
+      - name: Build with Astro
+        uses: withastro/action@v3
+        with:
+          node-version: 20
+        env:
+          # Optional — set these as repository secrets to enable analytics.
+          # (When unset, the GA4 / Google Ads / Meta Pixel tags don't render.)
+          PUBLIC_GA4_ID: ${{ secrets.PUBLIC_GA4_ID }}
+          PUBLIC_META_PIXEL_ID: ${{ secrets.PUBLIC_META_PIXEL_ID }}
+          PUBLIC_GOOGLE_ADS_ID: ${{ secrets.PUBLIC_GOOGLE_ADS_ID }}
+          PUBLIC_GOOGLE_ADS_BOOKING_LABEL: ${{ secrets.PUBLIC_GOOGLE_ADS_BOOKING_LABEL }}
+          # Domain is env-driven. PAGES_BASE set → github.io project preview; unset → custom domain.
+          SITE_URL: ${{ vars.PAGES_BASE != '' && 'https://augustinursus.github.io' || 'https://www.forestspamassage.com' }}
+          BASE_PATH: ${{ vars.PAGES_BASE != '' && vars.PAGES_BASE || '/' }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
