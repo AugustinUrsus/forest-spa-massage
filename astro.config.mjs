@@ -54,7 +54,7 @@ for (const slug of legacyServicePages) {
   redirects[`/service-page/${slug}`] = /scalp|head|tmj/.test(slug) ? '/#head-spa' : '/#services';
 }
 
-const homeUrl = new URL('/', SITE_URL).href;
+const homeUrl = new URL(BASE_PATH.endsWith('/') ? BASE_PATH : `${BASE_PATH}/`, SITE_URL).href;
 
 export default defineConfig({
   site: SITE_URL,

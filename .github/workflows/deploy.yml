@@ -30,10 +30,26 @@ jobs:
         if: ${{ vars.PAGES_BASE != '' }}
         run: rm -f public/CNAME
 
-      - name: Build with Astro
-        uses: withastro/action@v3
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+
+      # Resilient install: withastro/action's bundled `npm ci` intermittently
+      # under-installs (npm "Exit handler never called!" bug) and leaves the astro
+      # binary missing. Verify it, and fall back to a clean install if needed.
+      - name: Install dependencies
+        run: |
+          npm ci --no-audit --no-fund || true
+          if [ ! -x node_modules/.bin/astro ]; then
+            echo "astro binary missing after npm ci — doing a clean npm install"
+            rm -rf node_modules
+            npm install --no-audit --no-fund
+          fi
+
+      - name: Build
+        run: npm run build
         env:
           # Optional — set these as repository secrets to enable analytics.
           # (When unset, the GA4 / Google Ads / Meta Pixel tags don't render.)
@@ -44,6 +60,11 @@ jobs:
           # Domain is env-driven. PAGES_BASE set → github.io project preview; unset → custom domain.
           SITE_URL: ${{ vars.PAGES_BASE != '' && 'https://augustinursus.github.io' || 'https://www.forestspamassage.com' }}
           BASE_PATH: ${{ vars.PAGES_BASE != '' && vars.PAGES_BASE || '/' }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 
   deploy:
     needs: build
