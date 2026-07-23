@@ -6,15 +6,13 @@ import MobileNav from '../react/MobileNav.tsx';
 ---
 
 <!--
-  Translucent frosted header: an alpha background + backdrop blur (with the
-  -webkit- prefix Safari requires) over content that runs edge-to-edge
-  (viewport-fit=cover). It pads the safe-area so it also frosts the status-bar /
-  dynamic-island region — content scrolls and blurs underneath rather than
-  sitting behind a solid bar.
+  Translucent frosted header (alpha bg + backdrop blur incl. the -webkit- prefix),
+  padding the safe-area so it also frosts the status-bar region. Content runs
+  edge-to-edge (viewport-fit=cover) and blurs underneath it.
 -->
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-30 border-b border-black/5 bg-sand/80 text-ink backdrop-blur-md [-webkit-backdrop-filter:blur(12px)] pt-[env(safe-area-inset-top)] transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
+  class="fixed inset-x-0 top-0 z-30 border-b border-black/5 bg-sand/70 text-ink backdrop-blur-md [-webkit-backdrop-filter:blur(14px)] pt-[env(safe-area-inset-top)] transition-shadow duration-300 will-change-transform data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
 >
   <div class="container-px flex h-16 items-center justify-between gap-6">
     <!-- Brand -->
@@ -68,12 +66,12 @@ import MobileNav from '../react/MobileNav.tsx';
 
 <script>
   const header = document.getElementById('site-header');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const sections = Array.from(document.querySelectorAll('section, footer'));
   if (header) {
-    // Smooth (GPU-composited) show/hide on phones: toggling a CSS transform
-    // transition by scroll direction stays fluid at any refresh rate — unlike
-    // per-scroll tracking of a fixed element, which stutters on iOS/120Hz.
     const mq = window.matchMedia('(max-width: 1023px)');
     let lastY = Math.max(0, window.scrollY);
+    let translate = 0; // 0 = shown · offsetHeight = hidden (slid up), tracks the swipe
     let ticking = false;
 
     const frame = () => {
@@ -82,11 +80,33 @@ import MobileNav from '../react/MobileNav.tsx';
       if (y > 8) header.setAttribute('data-scrolled', '');
       else header.removeAttribute('data-scrolled');
 
+      // Header follows the scroll gesture on phones (enters/exits with the swipe).
       if (mq.matches && !document.body.classList.contains('drawer-open')) {
-        if (y > lastY + 4 && y > 90) header.setAttribute('data-hidden', '');
-        else if (y < lastY - 4 || y < 90) header.removeAttribute('data-hidden');
+        const max = header.offsetHeight;
+        translate = Math.min(max, Math.max(0, translate + (y - lastY)));
+        if (y <= 4) translate = 0;
+        header.style.transform = `translate3d(0, ${-translate}px, 0)`;
       } else {
-        header.removeAttribute('data-hidden');
+        header.style.transform = '';
+        translate = 0;
+      }
+
+      // Option A: retint the page background + theme-color to the section under the
+      // viewport, so the iOS safe-area bars (behind the island / URL bar) match it.
+      if (themeMeta && sections.length) {
+        const mid = window.innerHeight / 2;
+        for (const el of sections) {
+          const r = el.getBoundingClientRect();
+          if (r.top <= mid && r.bottom > mid) {
+            const bg = getComputedStyle(el).backgroundColor;
+            if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+              document.documentElement.style.backgroundColor = bg;
+              document.body.style.backgroundColor = bg;
+              themeMeta.setAttribute('content', bg);
+            }
+            break;
+          }
+        }
       }
       lastY = y;
     };
@@ -99,6 +119,7 @@ import MobileNav from '../react/MobileNav.tsx';
     };
     frame();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => requestAnimationFrame(frame), { passive: true });
     mq.addEventListener('change', frame);
   }
 </script>

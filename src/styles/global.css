@@ -69,6 +69,13 @@
     -moz-osx-font-smoothing: grayscale;
     font-synthesis: none;
     overflow-x: clip;
+    /* JS retints body/html to the section under the viewport so the iOS safe-area
+       bars (behind the dynamic island / URL bar) match the content; crossfade it. */
+    transition: background-color 0.4s ease;
+  }
+
+  html {
+    transition: background-color 0.4s ease;
   }
 
   h1, h2, h3, h4 {
@@ -253,4 +260,13 @@ body.drawer-open #mobile-sticky-bar {
   transform: translateY(130%);
   opacity: 0;
   pointer-events: none;
+}
+
+/* On phones the header hides as you scroll, so anchor jumps only need to clear
+   the safe-area (not the header height) — otherwise a sliver of the previous
+   section shows above the target. Desktop keeps the full header offset. */
+@media (max-width: 1023px) {
+  html {
+    scroll-padding-top: calc(env(safe-area-inset-top) + 0.5rem);
+  }
 }
