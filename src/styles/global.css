@@ -212,6 +212,14 @@
       transparent
     );
   }
+
+  /* Adaptive Header logo for dark section background */
+  #site-header .header-logo {
+    transition: filter 0.4s ease;
+  }
+  #site-header[data-dark] .header-logo {
+    filter: brightness(0) invert(0.92);
+  }
 }
 
 /* --------------------------------------------------------------------------
