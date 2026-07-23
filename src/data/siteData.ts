@@ -54,6 +54,7 @@ export interface Membership {
   tagline: string;
   description: string;
   perks: string[];
+  joinUrl: string;
   featured?: boolean;
 }
 
@@ -121,8 +122,11 @@ export function bookingUrl(offerId: string): string {
 }
 
 export const booking = {
-  /** Full booking menu — used by the generic "Book Now" CTAs. */
-  primary: `${FRESHA_VENUE}/booking?menu=true&share=true&pId=${FRESHA_PID}&dppub=true`,
+  /** Generic "Book Now" — the all-offer venue page so guests can choose an
+   *  individual or a group/couple appointment. */
+  primary: `${FRESHA_VENUE}/all-offer?venue=true&pId=${FRESHA_PID}`,
+  /** Signature Head Spa menu (used by the Head Spa section CTA). */
+  headSpa: `${FRESHA_VENUE}/booking?menu=true&share=true&pId=${FRESHA_PID}&dppub=true&cartId=d9914c31-a56f-435c-9710-ffbb4460e710`,
   giftCards: `https://www.fresha.com/book-now/forest-spa-kbi5ew52/gift-cards?share=true&pId=${FRESHA_PID}`,
 } as const;
 
@@ -503,6 +507,8 @@ export const memberships: Membership[] = [
       'Priority booking & rollover of unused visits',
       'Cancel anytime',
     ],
+    joinUrl:
+      'https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro/paid-plans/details?menu=true&pId=2602780&selected=3172024&share=true&skipFirstStep=true',
   },
   {
     name: 'Membership Plus',
@@ -517,6 +523,8 @@ export const memberships: Membership[] = [
       'Best per-minute value we offer',
       'Cancel anytime',
     ],
+    joinUrl:
+      'https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro/paid-plans/details?menu=true&pId=2602780&selected=3172024&share=true&skipFirstStep=true',
     featured: true,
   },
 ];
@@ -575,13 +583,37 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      'The sublime massage technique at Forest Spa was truly transformative — every touch felt expertly tailored to melt away tension and restore balance.',
-    author: 'Verified Guest',
+      'A hidden gem of relaxation! My husband and I had an incredible experience at Forest Spa. From the moment we walked in, we felt completely at ease — a small, quiet, and beautifully clean space that instantly calms you. Our massage was absolutely amazing… so relaxing that I actually fell asleep!',
+    author: 'Sam Trink',
+    source: 'Local Guide · Google',
     rating: 5,
   },
   {
-    quote: 'Amazing service. Very cute, cozy environment. Will definitely come back!',
-    author: 'Verified Guest',
+    quote:
+      'Forest Spa is amazing. I started coming here during my pregnancy and got multiple prenatal massages — it was the only thing that gave my body relief. Now I come postpartum too. The packages are a great price and the variety of services is endless. My husband also came in for cupping and really enjoyed it.',
+    author: 'Sierra Gwinn',
+    source: 'Google',
+    rating: 5,
+  },
+  {
+    quote:
+      'My husband and I got the Scalp Revival and Body Massage package and it was amazing. The body massage had the perfect amount of pressure. The scalp revival gently scrubbed our scalps, and the conditioner with steam left our hair super soft. Totally worth the price — we will be back.',
+    author: 'Sofia Kanusing',
+    source: 'Local Guide · Google',
+    rating: 5,
+  },
+  {
+    quote:
+      'I had my first prenatal massage here and it was the greatest experience I’ve had in a while. I had some hip pain on my right side and instantly felt relief afterward. Definitely coming back during my pregnancy.',
+    author: 'Dr. Helena Yip Nolen',
+    source: 'Local Guide · Google',
+    rating: 5,
+  },
+  {
+    quote:
+      'Hands down one of the best massages I’ve ever had — definitely top 5! The deep tissue work was incredible, and the TMJ massage was exactly what I needed. Really got into the knots and tension. Definitely coming back!',
+    author: 'Tea Shepherd',
+    source: 'Google',
     rating: 5,
   },
 ];

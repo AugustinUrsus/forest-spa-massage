@@ -76,3 +76,30 @@ export function initTracking(): void {
     { capture: true },
   );
 }
+
+/**
+ * Progressive scroll-reveal: fade `.reveal` elements in (once) as they enter the
+ * viewport. The `.js` class on <html> is set by an early inline script so hidden
+ * state applies before paint; this only wires the IntersectionObserver. No-op safe.
+ */
+export function initReveal(): void {
+  if (typeof document === 'undefined') return;
+  const els = Array.from(document.querySelectorAll<HTMLElement>('.reveal'));
+  if (!('IntersectionObserver' in window)) {
+    els.forEach((el) => el.classList.add('in-view'));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { rootMargin: '0px 0px -8% 0px', threshold: 0.04 },
+  );
+  els.forEach((el) => io.observe(el));
+}
+

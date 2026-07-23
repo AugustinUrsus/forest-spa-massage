@@ -43,7 +43,7 @@ export default function TestimonialCarousel({ reviews }: { reviews: Review[] }) 
 
       <blockquote
         key={index}
-        className="display-heading mt-6 min-h-[5.5rem] text-2xl leading-snug text-sand sm:text-3xl"
+        className="display-heading mx-auto mt-6 flex min-h-[8.5rem] max-w-2xl items-center justify-center text-xl leading-relaxed text-sand sm:min-h-[7.5rem] sm:text-2xl"
         style={{ animation: 'reveal-in 0.5s var(--ease-out-soft) both' }}
       >
         {r.quote}

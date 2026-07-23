@@ -1,9 +1,9 @@
 ---
-import { Check, Phone } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { membershipIntro, memberships, business } from '../../data/siteData';
 ---
 
-<section id="membership" class="scroll-mt-24 bg-charcoal text-sand py-[var(--spacing-section)]">
+<section id="membership" class="bg-charcoal text-sand py-[var(--spacing-section)]">
   <div class="container-px reveal">
     <!-- Header -->
     <div class="mx-auto max-w-2xl text-center">
@@ -55,13 +55,15 @@ import { membershipIntro, memberships, business } from '../../data/siteData';
               ))}
             </ul>
 
-            <div class="mt-8 pt-2">
+            <div class="mt-auto pt-8">
               <a
-                href={business.phoneHref}
-                data-call="membership"
+                href={m.joinUrl}
+                target="_blank"
+                rel="noopener"
+                data-book={`membership:${m.name}`}
                 class={m.featured ? 'btn btn-on-dark w-full' : 'btn btn-ghost-dark w-full'}
               >
-                <Phone size={18} strokeWidth={1.8} /> Call to Join
+                Join <ArrowRight size={17} strokeWidth={1.8} />
               </a>
             </div>
           </div>
@@ -71,7 +73,7 @@ import { membershipIntro, memberships, business } from '../../data/siteData';
 
     <!-- Footnote -->
     <p class="mx-auto mt-8 max-w-2xl text-center text-sm text-sand/60">
-      Start your membership in-studio or by phone — {business.phone}.
+      Join online in seconds, or ask us in-studio — {business.phone}.
     </p>
   </div>
 </section>

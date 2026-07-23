@@ -49,8 +49,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* offset in-page anchors for the fixed header */
-    scroll-padding-top: 5.5rem;
+    /* offset in-page anchors for the fixed header (== header height, no gap
+       so the target section sits flush under the header with no sliver of the
+       previous section). This is the ONLY anchor offset — sections must NOT
+       also set scroll-margin-top or the offsets stack. */
+    scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
@@ -203,15 +206,30 @@
   padding-inline: 1.5rem;
 }
 
-.reveal { opacity: 1; }
+/* Scroll reveal. Content is ALWAYS visible by default (no-JS / unsupported safe).
+   When JS adds `.js` to <html>, elements start hidden and fade+rise in once as
+   they enter the viewport (via IntersectionObserver adding `.in-view`), then
+   stay put — so navigating directly to a section never leaves it washed out. */
+.reveal {
+  opacity: 1;
+}
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      animation: reveal-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 22%;
-    }
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s var(--ease-out-soft),
+    transform 0.7s var(--ease-out-soft);
+}
+html.js .reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 

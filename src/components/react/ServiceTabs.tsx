@@ -45,7 +45,7 @@ export default function ServiceTabs({ categories }: Props) {
           role="tablist"
           aria-label="Service categories"
           onKeyDown={onKeyDown}
-          className="inline-flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-full border border-black/10 bg-cloud/70 p-1.5 backdrop-blur-sm"
+          className="flex w-full max-w-[17rem] flex-col gap-1.5 rounded-3xl border border-black/10 bg-cloud/70 p-1.5 backdrop-blur-sm sm:w-auto sm:max-w-none sm:flex-row sm:rounded-full"
         >
           {categories.map((cat, i) => {
             const selected = i === active;
@@ -62,7 +62,7 @@ export default function ServiceTabs({ categories }: Props) {
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setActive(i)}
                 className={[
-                  'rounded-full px-5 py-2.5 text-sm font-semibold tracking-wide transition-colors duration-300 sm:px-7',
+                  'w-full rounded-full px-5 py-2.5 text-center text-sm font-semibold tracking-wide transition-colors duration-300 sm:w-auto sm:px-7',
                   selected ? 'bg-bronze text-cream shadow-sm' : 'text-ink-soft hover:text-bronze',
                 ].join(' ')}
               >
@@ -84,7 +84,7 @@ export default function ServiceTabs({ categories }: Props) {
 
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {category.services.map((s) => (
-            <li className="surface-card group flex flex-col p-6">
+            <li className="surface-card group flex h-full flex-col p-6">
               <div className="mb-3 flex items-baseline justify-between gap-3">
                 <h3 className="display-heading text-lg font-semibold leading-tight">{s.name}</h3>
                 <span className="shrink-0 font-semibold text-bronze">{s.priceLabel}</span>
@@ -94,20 +94,22 @@ export default function ServiceTabs({ categories }: Props) {
                   {s.duration}
                 </p>
               )}
-              <p className="mb-6 flex-1 text-sm leading-relaxed text-ink-soft">{s.description}</p>
-              <a
-                href={s.href}
-                target="_blank"
-                rel="noopener"
-                data-book={`service:${s.name}`}
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-bronze transition-colors hover:text-bronze-deep"
-              >
-                Book
-                <ArrowRight
-                  size={16}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </a>
+              <p className="mb-6 text-sm leading-relaxed text-ink-soft">{s.description}</p>
+              <div className="mt-auto flex justify-end">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener"
+                  data-book={`service:${s.name}`}
+                  className="btn btn-primary"
+                >
+                  Book
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </a>
+              </div>
             </li>
           ))}
         </ul>

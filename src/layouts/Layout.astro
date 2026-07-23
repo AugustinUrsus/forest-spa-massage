@@ -3,6 +3,12 @@ import '@fontsource-variable/inter';
 import '@fontsource-variable/playfair-display/wght.css';
 import '../styles/global.css';
 import { business, booking, analytics, maps, serviceCategories, seo } from '../data/siteData';
+// Brand display face "The Seasons" (subset to un-watermarked glyphs). Imported
+// as assets so Astro hashes the filenames (cache-busting) and applies the base.
+import tsRegularWoff2 from '../assets/fonts/theseasons-regular.woff2';
+import tsRegularWoff from '../assets/fonts/theseasons-regular.woff';
+import tsBoldWoff2 from '../assets/fonts/theseasons-bold.woff2';
+import tsBoldWoff from '../assets/fonts/theseasons-bold.woff';
 
 interface Props {
   title?: string;
@@ -28,14 +34,11 @@ const absUrl = (p: string) => new URL(withBase(p), site).href;
 const canonical = new URL(Astro.url.pathname, site).href;
 const ogImage = /^https?:/.test(image) ? image : absUrl(image);
 
-/**
- * "The Seasons" @font-face (self-hosted, subset to un-watermarked glyphs) is
- * injected here so the url()s carry the base path — Vite does not rebase
- * root-absolute url()s inside CSS files.
- */
+/** "The Seasons" @font-face, built from hashed asset URLs (any character it
+ *  lacks — &, $, -, etc. — falls through the stack to Playfair Display). */
 const fontFaceCss = [
-  `@font-face{font-family:'The Seasons';src:url('${withBase('fonts/theseasons-regular.woff2')}') format('woff2'),url('${withBase('fonts/theseasons-regular.woff')}') format('woff');font-weight:400;font-style:normal;font-display:swap;}`,
-  `@font-face{font-family:'The Seasons';src:url('${withBase('fonts/theseasons-bold.woff2')}') format('woff2'),url('${withBase('fonts/theseasons-bold.woff')}') format('woff');font-weight:600 700;font-style:normal;font-display:swap;}`,
+  `@font-face{font-family:'The Seasons';src:url('${tsRegularWoff2}') format('woff2'),url('${tsRegularWoff}') format('woff');font-weight:400;font-style:normal;font-display:swap;}`,
+  `@font-face{font-family:'The Seasons';src:url('${tsBoldWoff2}') format('woff2'),url('${tsBoldWoff}') format('woff');font-weight:600 700;font-style:normal;font-display:swap;}`,
 ].join('');
 
 /* ---- DaySpa structured data (NAP, hours, geo, service catalog, socials) --- */
@@ -108,6 +111,10 @@ const schema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Mark JS-capable before paint so scroll-reveal hidden state applies without a flash -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -150,7 +157,7 @@ const schema = {
     <link rel="dns-prefetch" href="https://www.google.com" />
     <link
       rel="preload"
-      href={withBase('fonts/theseasons-bold.woff2')}
+      href={tsBoldWoff2}
       as="font"
       type="font/woff2"
       crossorigin
@@ -219,9 +226,10 @@ const schema = {
 
     <slot />
 
-    <!-- Bundled: conversion tracking for booking / call CTAs across the page -->
+    <!-- Bundled: scroll-reveal + conversion tracking for booking / call CTAs -->
     <script>
-      import { initTracking } from '../lib/tracking';
+      import { initTracking, initReveal } from '../lib/tracking';
+      initReveal();
       initTracking();
     </script>
   </body>

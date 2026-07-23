@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Menu, X, Phone, CalendarHeart } from 'lucide-react';
 import type { NavLink } from '../../data/siteData';
 
@@ -11,21 +12,24 @@ interface Props {
 
 export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // While open: lock scroll, trap Tab focus, and make the rest of the page
-  // inert (so keyboard/AT users can't reach content behind the backdrop).
+  useEffect(() => setMounted(true), []);
+
+  // While open: lock scroll, trap Tab focus, and make the rest of the page inert.
   useEffect(() => {
     if (!open) return;
     const panel = panelRef.current;
+    const wrapper = wrapperRef.current;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     document.body.classList.add('drawer-open');
 
-    const header = triggerRef.current?.closest('header');
     const deactivated = Array.from(document.body.children).filter(
-      (el) => el !== header && el.tagName !== 'SCRIPT',
+      (el) => el !== wrapper && el.tagName !== 'SCRIPT',
     );
     deactivated.forEach((el) => el.setAttribute('inert', ''));
 
@@ -58,8 +62,6 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
       }
     };
     document.addEventListener('keydown', onKey);
-
-    // move focus into the panel for keyboard / screen-reader users
     focusables()[0]?.focus();
 
     return () => {
@@ -71,31 +73,19 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
     };
   }, [open]);
 
-  return (
-    <div className="lg:hidden">
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Open menu"
-        aria-expanded={open}
-        aria-controls="mobile-drawer"
-        className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-black/5"
-      >
-        <Menu size={24} strokeWidth={1.75} />
-      </button>
-
+  const overlay = (
+    <div ref={wrapperRef}>
       {/* Backdrop */}
       <div
         onClick={() => setOpen(false)}
         aria-hidden="true"
         className={[
-          'fixed inset-0 z-40 bg-charcoal/70 backdrop-blur-sm transition-opacity duration-300',
+          'fixed inset-0 z-[60] bg-charcoal/70 backdrop-blur-sm transition-opacity duration-300',
           open ? 'opacity-100' : 'pointer-events-none opacity-0',
         ].join(' ')}
       />
 
-      {/* Drawer — opaque white panel, distinct from the sand page background */}
+      {/* Drawer — opaque white panel above everything */}
       <div
         id="mobile-drawer"
         ref={panelRef}
@@ -106,12 +96,12 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
         inert={!open}
         style={{ backgroundColor: 'var(--color-cloud)' }}
         className={[
-          'fixed inset-y-0 right-0 z-50 flex w-[82%] max-w-sm flex-col border-l border-black/10 shadow-2xl transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          'fixed inset-y-0 right-0 z-[70] flex w-[85%] max-w-sm flex-col overflow-y-auto border-l border-black/10 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
           open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
         ].join(' ')}
       >
         <div className="flex items-center justify-between px-6 pb-4 pt-6">
-          <span className="display-heading text-lg font-semibold uppercase tracking-[0.22em]">
+          <span className="display-heading text-lg font-semibold uppercase tracking-[0.22em] text-ink">
             Menu
           </span>
           <button
@@ -124,7 +114,7 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
           </button>
         </div>
 
-        <nav className="flex flex-col px-3">
+        <nav className="flex flex-1 flex-col px-3 py-2">
           {links.map((link) => (
             <a
               key={link.href}
@@ -148,15 +138,29 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
           >
             <CalendarHeart size={18} /> Book Now
           </a>
-          <a
-            href={phoneHref}
-            data-call="mobile-drawer"
-            className="btn btn-outline w-full"
-          >
+          <a href={phoneHref} data-call="mobile-drawer" className="btn btn-outline w-full">
             <Phone size={17} /> {phone}
           </a>
         </div>
       </div>
+    </div>
+  );
+
+  return (
+    <div className="lg:hidden">
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Open menu"
+        aria-expanded={open}
+        aria-controls="mobile-drawer"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-black/5"
+      >
+        <Menu size={24} strokeWidth={1.75} />
+      </button>
+
+      {mounted && createPortal(overlay, document.body)}
     </div>
   );
 }

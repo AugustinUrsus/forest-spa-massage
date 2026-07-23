@@ -1,28 +1,24 @@
 ---
-import {
-  Check,
-  CalendarHeart,
-  Sparkles,
-  Flame,
-  Droplets,
-  Waves,
-  Activity,
-  CircleDot,
-} from 'lucide-react';
 import { packages, bookingUrl } from '../../data/siteData';
+import PackageSelector from '../react/PackageSelector.tsx';
 
-// Map each package's icon name (from siteData) to its lucide component.
-const iconMap = {
-  Sparkles,
-  Flame,
-  Droplets,
-  Waves,
-  Activity,
-  CircleDot,
-} as const;
+// Precompute each tier's Fresha deep link before handing off to the island.
+const data = packages.map((p) => ({
+  name: p.name,
+  icon: p.icon,
+  blurb: p.blurb,
+  tiers: p.tiers.map((t) => ({
+    tier: t.tier,
+    price: t.price,
+    value: t.value,
+    duration: t.duration,
+    inclusions: t.inclusions,
+    href: bookingUrl(t.id),
+  })),
+}));
 ---
 
-<section id="packages" class="scroll-mt-24 bg-cloud py-[var(--spacing-section)]">
+<section id="packages" class="bg-cloud py-[var(--spacing-section)]">
   <div class="container-px reveal">
     <header class="mx-auto mb-16 max-w-2xl text-center">
       <p class="eyebrow mb-4">Packages</p>
@@ -33,85 +29,6 @@ const iconMap = {
       </p>
     </header>
 
-    <div class="space-y-16">
-      {
-        packages.map((pkg, i) => {
-          const Icon = iconMap[pkg.icon as keyof typeof iconMap] ?? Sparkles;
-          const single = pkg.tiers.length === 1;
-          return (
-            <article>
-              {i > 0 && <div class="hair-rule mb-16" aria-hidden="true" />}
-
-              {/* Package header row */}
-              <div class="flex items-start gap-4 sm:gap-5">
-                <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-sage/15 text-sage-deep">
-                  <Icon size={26} strokeWidth={1.6} />
-                </span>
-                <div class="max-w-2xl">
-                  <h3 class="display-heading text-2xl">{pkg.name}</h3>
-                  <p class="mt-2 text-ink-soft">{pkg.blurb}</p>
-                </div>
-              </div>
-
-              {/* Tier grid */}
-              <div
-                class={
-                  single
-                    ? 'mt-8 grid gap-6'
-                    : 'mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3'
-                }
-              >
-                {pkg.tiers.map((tier) => (
-                  <div
-                    class={`surface-card flex flex-col p-7 sm:p-8${single ? ' lg:max-w-2xl' : ''}`}
-                  >
-                    <p class="eyebrow text-bronze-deep">{tier.tier}</p>
-
-                    <div class="mt-4 flex items-baseline gap-2.5">
-                      <span class="text-3xl font-semibold text-bronze">{`$${tier.price}`}</span>
-                      {tier.value && (
-                        <span class="text-lg text-ink-soft/60 line-through">
-                          {`$${tier.value}`}
-                        </span>
-                      )}
-                    </div>
-                    {tier.duration && (
-                      <p class="mt-1.5 text-xs uppercase tracking-widest text-ink-soft/70">
-                        {tier.duration}
-                      </p>
-                    )}
-
-                    <div class="hair-rule my-6" aria-hidden="true" />
-
-                    <ul class="space-y-3">
-                      {tier.inclusions.map((item) => (
-                        <li class="flex items-start gap-3 text-sm text-ink-soft">
-                          <Check
-                            size={17}
-                            strokeWidth={1.8}
-                            className="mt-0.5 shrink-0 text-sage-deep"
-                          />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <a
-                      href={bookingUrl(tier.id)}
-                      target="_blank"
-                      rel="noopener"
-                      data-book={`package:${pkg.name} ${tier.tier}`}
-                      class="btn btn-primary mt-8 w-full"
-                    >
-                      <CalendarHeart size={18} strokeWidth={1.7} /> Book {tier.tier}
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </article>
-          );
-        })
-      }
-    </div>
+    <PackageSelector client:visible packages={data} />
   </div>
 </section>
