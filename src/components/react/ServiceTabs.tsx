@@ -40,12 +40,12 @@ export default function ServiceTabs({ categories }: Props) {
 
   return (
     <div>
-      <div className="mb-12 flex justify-center">
+      <div className="pointer-events-none sticky top-2 z-20 mb-10 flex justify-center lg:static lg:top-auto lg:pointer-events-auto">
         <div
           role="tablist"
           aria-label="Service categories"
           onKeyDown={onKeyDown}
-          className="flex w-full max-w-[17rem] flex-col gap-1.5 rounded-3xl border border-black/10 bg-cloud/70 p-1.5 backdrop-blur-sm sm:w-auto sm:max-w-none sm:flex-row sm:rounded-full"
+          className="pointer-events-auto inline-flex items-center gap-1 rounded-full border border-black/10 bg-cloud/90 p-1.5 shadow-lg shadow-charcoal/10 backdrop-blur"
         >
           {categories.map((cat, i) => {
             const selected = i === active;
@@ -62,7 +62,7 @@ export default function ServiceTabs({ categories }: Props) {
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setActive(i)}
                 className={[
-                  'w-full rounded-full px-5 py-2.5 text-center text-sm font-semibold tracking-wide transition-colors duration-300 sm:w-auto sm:px-7',
+                  'whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold tracking-wide transition-colors duration-300 sm:px-7',
                   selected ? 'bg-bronze text-cream shadow-sm' : 'text-ink-soft hover:text-bronze',
                 ].join(' ')}
               >

@@ -39,19 +39,21 @@ const amenityIcons = {
       </div>
     </div>
 
-    <!-- Amenities grid: 2 cols on mobile → 4 cols on large screens -->
+    <!-- Amenities: one per row on phone → 2 → 4 columns on larger screens -->
     <div class="hair-rule mt-16 lg:mt-20"></div>
-    <ul class="mt-14 grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-4">
+    <ul class="mt-14 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-4">
       {
         amenities.map((amenity) => {
           const Icon = amenityIcons[amenity.icon as keyof typeof amenityIcons];
           return (
-            <li class="flex flex-col items-start">
-              <span class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-full bg-sage/15 text-sage-deep">
+            <li class="flex items-start gap-4 sm:flex-col sm:items-start sm:gap-0">
+              <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-sage/15 text-sage-deep sm:mb-5">
                 <Icon size={24} strokeWidth={1.6} className="text-sage-deep" />
               </span>
-              <h3 class="display-heading text-lg text-ink">{amenity.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-ink-soft">{amenity.description}</p>
+              <div>
+                <h3 class="display-heading text-lg text-ink">{amenity.title}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-ink-soft">{amenity.description}</p>
+              </div>
             </li>
           );
         })

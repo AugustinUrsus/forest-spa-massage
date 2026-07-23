@@ -46,7 +46,6 @@ const redirects = {
   '/book': '/#top',
   '/about-1': '/#story',
   '/pain-expert': '/#services',
-  '/terms-conditions': '/#location',
   '/pricing-plans/list': '/#specials',
 };
 for (const slug of legacyServicePages) {
@@ -63,8 +62,8 @@ export default defineConfig({
   redirects,
   integrations: [
     react(),
-    // Only the real, canonical page belongs in the sitemap — not redirect stubs.
-    sitemap({ filter: (page) => page === homeUrl }),
+    // Only real, canonical pages belong in the sitemap — not redirect stubs.
+    sitemap({ filter: (page) => page === homeUrl || /\/terms-conditions\/?$/.test(page) }),
   ],
   vite: {
     plugins: [tailwindcss()],

@@ -7,7 +7,7 @@ import MobileNav from '../react/MobileNav.tsx';
 
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-30 h-20 border-b border-black/5 bg-sand/85 text-ink backdrop-blur transition-shadow duration-300 data-[scrolled]:shadow-sm"
+  class="fixed inset-x-0 top-0 z-30 h-20 border-b border-black/5 bg-sand/85 text-ink backdrop-blur transition-[transform,box-shadow] duration-300 data-[scrolled]:shadow-sm data-[hidden]:-translate-y-full"
 >
   <div class="container-px flex h-full items-center justify-between gap-6">
     <!-- Brand -->
@@ -65,14 +65,27 @@ import MobileNav from '../react/MobileNav.tsx';
 <script>
   const header = document.getElementById('site-header');
   if (header) {
+    // Hide-on-scroll only on phones/tablets; desktop keeps the header pinned.
+    const mq = window.matchMedia('(max-width: 1023px)');
+    let last = window.scrollY;
     const onScroll = () => {
-      if (window.scrollY > 16) {
-        header.setAttribute('data-scrolled', '');
-      } else {
-        header.removeAttribute('data-scrolled');
+      const y = window.scrollY;
+      if (y > 16) header.setAttribute('data-scrolled', '');
+      else header.removeAttribute('data-scrolled');
+
+      // Don't hide while the mobile drawer is open.
+      const drawerOpen = document.body.classList.contains('drawer-open');
+      if (mq.matches && !drawerOpen && y > 120 && y > last + 6) {
+        header.setAttribute('data-hidden', ''); // scrolling down → hide
+      } else if (y < last - 6 || y < 120 || !mq.matches) {
+        header.removeAttribute('data-hidden'); // scrolling up / near top / desktop → show
       }
+      last = y;
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+    mq.addEventListener('change', () => {
+      if (!mq.matches) header.removeAttribute('data-hidden');
+    });
   }
 </script>

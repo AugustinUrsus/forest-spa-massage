@@ -153,12 +153,12 @@ export const analytics = {
 /* -------------------------------------------------------------------------- */
 
 export const navLinks: NavLink[] = [
-  { label: 'Monthly Special', href: '#specials' },
-  { label: 'Packages', href: '#packages' },
-  { label: 'Services', href: '#services' },
-  { label: 'Head Spa', href: '#head-spa' },
-  { label: 'Membership', href: '#membership' },
-  { label: 'Visit', href: '#location' },
+  { label: 'Monthly Special', href: '/#specials' },
+  { label: 'Packages', href: '/#packages' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Head Spa', href: '/#head-spa' },
+  { label: 'Membership', href: '/#membership' },
+  { label: 'Visit', href: '/#location' },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -637,5 +637,61 @@ export const seo = {
     'massage packages Poway',
     'massage membership Poway',
     'day spa Poway',
+  ],
+} as const;
+
+/* -------------------------------------------------------------------------- */
+/*  Terms & Conditions / Privacy Policy (migrated from the Wix site)          */
+/* -------------------------------------------------------------------------- */
+
+export const legal = {
+  title: 'Terms & Conditions',
+  intro:
+    'Protecting your personal information is our top priority. This Privacy Policy governs data collection and usage for Forest Spa and its website. Unless otherwise stated, all references to Forest Spa include this website. By using the Forest Spa website, you consent to the practices outlined in this policy.',
+  sections: [
+    {
+      heading: 'Collection of Personal Information',
+      body: 'To better serve you, Forest Spa may collect personally identifiable information — including but not limited to your first and last name, email address, and phone number. We only collect personal information when it is voluntarily provided by you, such as when you submit payment details for a purchase. Your information is used primarily to communicate with you about requested services.',
+    },
+    {
+      heading: 'Use of Personal Information',
+      body: 'Forest Spa uses your personal information to operate and deliver requested services, and to inform you of other products or offerings from Forest Spa and its affiliates.',
+    },
+    {
+      heading: 'Sharing Information with Third Parties',
+      body: 'Forest Spa does not sell, rent, or lease customer lists. We may share data with trusted partners for service delivery; these parties are contractually obligated to maintain confidentiality and may only use your data to provide services to Forest Spa. We may disclose personal information if legally required or to help ensure user and public safety.',
+    },
+    {
+      heading: 'Automatically Collected Information',
+      body: 'Technical data such as your IP address, browser type, domain names, access times, and referring websites may be collected automatically. This information helps us maintain service quality and analyze site usage.',
+    },
+    {
+      heading: 'Use of Cookies',
+      body: 'The Forest Spa website uses cookies to enhance your experience. Cookies are small text files stored on your device that streamline processes like billing or registration. You may adjust your browser settings to decline cookies, though some features may be limited.',
+    },
+    {
+      heading: 'External Links',
+      body: 'Our site may link to third-party websites. Forest Spa is not responsible for their content or privacy practices. We encourage you to review the privacy policies of any external sites you visit.',
+    },
+    {
+      heading: 'Right to Deletion',
+      body: 'Upon a verified request, we will delete your personal information unless retention is necessary to enable internal uses reasonably aligned with your expectations or to comply with a legal obligation.',
+    },
+    {
+      heading: 'Children Under Thirteen',
+      body: 'Forest Spa does not knowingly collect information from children under 13. Minors must obtain parental consent before using this site.',
+    },
+    {
+      heading: 'Email Communications',
+      body: 'You may receive emails from us for announcements, promotions, surveys, or updates. To unsubscribe, click the UNSUBSCRIBE link in any email.',
+    },
+    {
+      heading: 'Policy Changes',
+      body: 'Forest Spa reserves the right to update this policy. Significant changes will be communicated via email or a notice on our website. Continued use of our services constitutes acceptance of any modifications.',
+    },
+    {
+      heading: 'Contact Us',
+      body: 'For questions or concerns regarding this policy, please contact us at forestspa206@gmail.com.',
+    },
   ],
 } as const;

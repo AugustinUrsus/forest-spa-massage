@@ -54,6 +54,9 @@
        previous section). This is the ONLY anchor offset — sections must NOT
        also set scroll-margin-top or the offsets stack. */
     scroll-padding-top: 5rem;
+    /* clip (not hidden) prevents horizontal shift from any stray overflow
+       WITHOUT creating a scroll container, so position:sticky still works. */
+    overflow-x: clip;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
@@ -65,7 +68,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-synthesis: none;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4 {
