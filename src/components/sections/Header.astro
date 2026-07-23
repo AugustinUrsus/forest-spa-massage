@@ -14,17 +14,17 @@ import MobileNav from '../react/MobileNav.tsx';
   id="site-header"
   class="fixed inset-x-0 top-0 z-30 bg-sand text-ink pt-[env(safe-area-inset-top)] transition-[translate,box-shadow] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
 >
-  <div class="container-px flex h-16 items-center justify-between gap-6">
+  <div class="container-px flex h-16 items-center justify-between gap-4 xl:gap-6">
     <!-- Brand -->
     <a href={`${baseUrl}#top`} aria-label="Forest Spa home" class="flex items-center">
       <BrandMark variant="horizontal" class="h-12 w-auto sm:h-14" />
     </a>
 
     <!-- Desktop nav -->
-    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-5 xl:gap-7">
+    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-4 xl:gap-6">
       {
         navLinks.map((link) => (
-          <a href={link.href} class="text-sm font-medium text-ink transition-colors hover:text-bronze">
+          <a href={link.href} class="whitespace-nowrap text-sm font-medium text-ink transition-colors hover:text-bronze">
             {link.label}
           </a>
         ))
@@ -36,11 +36,11 @@ import MobileNav from '../react/MobileNav.tsx';
       <a
         href={business.phoneHref}
         data-call="header"
-        class="btn btn-outline"
+        class="btn btn-outline hidden xl:inline-flex"
         aria-label={`Call Forest Spa at ${business.phone}`}
       >
         <Phone size={18} strokeWidth={1.6} />
-        <span class="hidden xl:inline">{business.phone}</span>
+        <span>{business.phone}</span>
       </a>
       <a
         href={booking.primary}
