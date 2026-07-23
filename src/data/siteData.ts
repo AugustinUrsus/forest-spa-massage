@@ -21,6 +21,8 @@ export interface Service {
   priceLabel: string;
   duration: string | null;
   description: string;
+  /** Optional explicit booking URL; overrides the id-based deep link. */
+  url?: string;
 }
 
 export interface ServiceCategory {
@@ -127,7 +129,7 @@ export const booking = {
   primary: `${FRESHA_VENUE}/all-offer?venue=true&pId=${FRESHA_PID}`,
   /** Signature Head Spa menu (used by the Head Spa section CTA). */
   headSpa: `${FRESHA_VENUE}/booking?menu=true&share=true&pId=${FRESHA_PID}&dppub=true&cartId=d9914c31-a56f-435c-9710-ffbb4460e710`,
-  giftCards: `https://www.fresha.com/book-now/forest-spa-kbi5ew52/gift-cards?share=true&pId=${FRESHA_PID}`,
+  giftCards: `${FRESHA_VENUE}/gift-cards?pId=${FRESHA_PID}`,
 } as const;
 
 export const maps = {
@@ -159,12 +161,13 @@ export const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   : `${import.meta.env.BASE_URL}/`;
 
 export const navLinks: NavLink[] = [
-  { label: 'Monthly Special', href: `${baseUrl}#specials` },
-  { label: 'Packages', href: `${baseUrl}#packages` },
   { label: 'Services', href: `${baseUrl}#services` },
+  { label: 'Packages', href: `${baseUrl}#packages` },
+  { label: 'Monthly Special', href: `${baseUrl}#specials` },
   { label: 'Head Spa', href: `${baseUrl}#head-spa` },
   { label: 'Membership', href: `${baseUrl}#membership` },
-  { label: 'Visit', href: `${baseUrl}#location` },
+  { label: 'Gift Cards', href: `${baseUrl}#gift-cards` },
+  { label: 'Directions', href: `${baseUrl}#location` },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -187,7 +190,6 @@ export const monthlySpecial = {
     '30-min foot reflexology with scrub',
     'Warm hot stones',
     'Aromatherapy / essential oil',
-    'Hot towels',
   ],
 } as const;
 
@@ -270,7 +272,6 @@ export const packages: Package[] = [
           '10-min foot reflexology with scrub',
           'Hot stones',
           'Aromatherapy / essential oil',
-          'Hot towels',
         ],
       },
       {
@@ -284,7 +285,6 @@ export const packages: Package[] = [
           '30-min foot reflexology with scrub',
           'Hot stones',
           'Aromatherapy / essential oil',
-          'Hot towels',
         ],
       },
       {
@@ -298,7 +298,6 @@ export const packages: Package[] = [
           '30-min foot reflexology with scrub',
           'Hot stones',
           'Aromatherapy / essential oil',
-          'Hot towels',
         ],
       },
     ],
@@ -341,7 +340,7 @@ export const packages: Package[] = [
           '20-min jaw massage',
           '10-min neck & shoulder massage',
           'Pain-relieving ointment or Tiger Balm',
-          'Eye masks & hot towels',
+          'Eye masks',
         ],
       },
       {
@@ -355,7 +354,7 @@ export const packages: Package[] = [
           '20-min jaw massage',
           '20-min neck & shoulder massage',
           'Pain-relieving ointment or Tiger Balm',
-          'Eye masks & hot towels',
+          'Eye masks',
         ],
       },
     ],
@@ -376,7 +375,6 @@ export const packages: Package[] = [
           '15-min head & neck massage',
           'Hot stones or herbal heat pack',
           'Pain-relieving ointment or Tiger Balm',
-          'Hot towels',
         ],
       },
       {
@@ -390,7 +388,6 @@ export const packages: Package[] = [
           '15-min head & neck massage',
           'Hot stones or herbal heat pack',
           'Pain-relieving ointment or Tiger Balm',
-          'Hot towels',
         ],
       },
     ],
@@ -410,7 +407,6 @@ export const packages: Package[] = [
           '60-min massage (your choice of modality)',
           'Dynamic cupping',
           'Essential oil',
-          'Hot towels',
         ],
       },
       {
@@ -423,7 +419,6 @@ export const packages: Package[] = [
           '90-min massage (your choice of modality)',
           'Dynamic cupping',
           'Essential oil',
-          'Hot towels',
         ],
       },
     ],
@@ -453,6 +448,7 @@ export const serviceCategories: ServiceCategory[] = [
       { name: 'Couples Massage · 60 min', id: 'p:1651755', priceLabel: '$140', duration: '60 min', description: 'Unwind side by side with your partner in a serene, shared setting.' },
       { name: 'Couples Massage · 90 min', id: 'p:1651756', priceLabel: '$210', duration: '90 min', description: 'A longer, intimate escape for two — relaxation shared and doubled.' },
       { name: 'Four Hands Massage · 60 min', id: 'p:1739449', priceLabel: '$140', duration: '60 min', description: 'Two skilled therapists in perfect sync for an immersive, deeply restorative escape.' },
+      { name: 'Four Hands Massage · 90 min', id: 'p:1739449', priceLabel: '$210', duration: '90 min', description: 'A longer four-hands session — two therapists moving in harmony for total surrender.', url: 'https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro/booking?allOffer=true&pId=2602780&cartId=59721975-9437-4504-a094-0bbf72d7e5d6' },
     ],
   },
   {
@@ -464,19 +460,19 @@ export const serviceCategories: ServiceCategory[] = [
       { name: 'Signature Head Spa', id: 's:20874427', priceLabel: 'from $85', duration: '60–90 min', description: 'Scalp revival — cleansing, therapeutic scalp massage, and nourishing treatment that restores calm.' },
       { name: 'Signature Head Spa & Body Massage', id: 's:20874453', priceLabel: 'from $125', duration: '90–120 min', description: 'Our full scalp revival ritual paired with a customized body massage.' },
       { name: 'Headache Relief Add-on', id: 's:21174593', priceLabel: '$25', duration: '15 min', description: 'Acupressure, targeted pressure points, and pain-relieving serum to ease headaches.' },
-      { name: 'TMJ Pain Relief Add-On', id: 's:21174605', priceLabel: 'from $30', duration: '15–30 min', description: 'Head, jaw, and neck work to release clenching and jaw tension.' },
+      { name: 'TMJ Pain Relief Add-On', id: 's:21174605', priceLabel: 'from $30', duration: '15–30 min', description: 'Head & scalp, jaw, and neck & shoulder massage with pain-relieving ointment or Tiger Balm and a soothing eye mask.' },
     ],
   },
   {
     id: 'add-ons',
     label: 'Add-ons',
     icon: 'Flower2',
-    blurb: 'Elevate any treatment with a restorative finishing touch.',
+    blurb: 'Enhance any massage with a finishing touch — most are woven into your session at no extra time. Standalone booking times are shown below.',
     services: [
       { name: 'Hot Stone', id: 's:20891732', priceLabel: '$20', duration: '15 min', description: 'Soothing warmth that melts away tension and eases muscle stiffness.' },
       { name: 'Cupping', id: 's:20891771', priceLabel: '$25', duration: '15 min', description: 'Suction therapy that relieves tightness, boosts circulation, and promotes healing.' },
       { name: 'Aromatherapy', id: 's:20891784', priceLabel: '$20', duration: '15 min', description: 'Essential oils woven into your session to calm the mind and elevate the senses.' },
-      { name: 'Head & TMJ Pain Relief Add-On', id: 's:20888524', priceLabel: 'from $30', duration: '15–30 min', description: 'Head, jaw, and neck massage with pain-relieving ointment and eye masks.' },
+      { name: 'Head & TMJ Pain Relief Add-On', id: 's:20888524', priceLabel: 'from $30', duration: '15–30 min', description: 'Head & scalp, jaw, and neck & shoulder massage with pain-relieving ointment or Tiger Balm and a soothing eye mask.' },
       { name: 'Stretch', id: 's:20891783', priceLabel: '$20', duration: '15 min', description: 'Guided assisted stretching to improve flexibility, mobility, and release.' },
       { name: 'Foot Exfoliation', id: 's:20891750', priceLabel: '$20', duration: '15 min', description: 'Exfoliation and scrub that softens skin, relieves tension, and restores moisture.' },
       { name: 'Back Exfoliation', id: 's:20891751', priceLabel: '$25', duration: '15 min', description: 'Exfoliation and scrub to release tension and smooth the skin on your back.' },
@@ -514,7 +510,7 @@ export const memberships: Membership[] = [
       'Cancel anytime',
     ],
     joinUrl:
-      'https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro/paid-plans/details?menu=true&pId=2602780&selected=3172024&share=true&skipFirstStep=true',
+      'https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro/paid-plans/details?pId=2602780',
   },
   {
     name: 'Membership Plus',
@@ -552,6 +548,24 @@ export const headSpa = {
     'Induces deep calm through rhythmic massage techniques',
   ],
   closer: 'It’s not just self-care — it’s smart hair care with instant relaxation benefits.',
+  services: [
+    {
+      name: 'The Signature Head Spa',
+      id: 's:20874427',
+      priceLabel: 'from $85',
+      duration: '60–90 min',
+      description:
+        'A relaxing head, neck & shoulder massage, deep-cleansing scalp exfoliation, nourishing treatment, keratin conditioner with steam, and a soothing halo water-ring rinse.',
+    },
+    {
+      name: 'Signature Head Spa & Body Massage',
+      id: 's:20874453',
+      priceLabel: 'from $125',
+      duration: '90–120 min',
+      description:
+        'Our full scalp revival ritual paired with a customized full-body massage and warm hot-stone therapy — a complete head-to-body reset.',
+    },
+  ],
 } as const;
 
 /* -------------------------------------------------------------------------- */
@@ -590,35 +604,35 @@ export const testimonials: Testimonial[] = [
   {
     quote:
       'A hidden gem of relaxation! My husband and I had an incredible experience at Forest Spa. From the moment we walked in, we felt completely at ease — a small, quiet, and beautifully clean space that instantly calms you. Our massage was absolutely amazing… so relaxing that I actually fell asleep!',
-    author: 'Sam Trink',
+    author: 'Sam T.',
     source: 'Local Guide · Google',
     rating: 5,
   },
   {
     quote:
       'Forest Spa is amazing. I started coming here during my pregnancy and got multiple prenatal massages — it was the only thing that gave my body relief. Now I come postpartum too. The packages are a great price and the variety of services is endless. My husband also came in for cupping and really enjoyed it.',
-    author: 'Sierra Gwinn',
+    author: 'Sierra G.',
     source: 'Google',
     rating: 5,
   },
   {
     quote:
       'My husband and I got the Scalp Revival and Body Massage package and it was amazing. The body massage had the perfect amount of pressure. The scalp revival gently scrubbed our scalps, and the conditioner with steam left our hair super soft. Totally worth the price — we will be back.',
-    author: 'Sofia Kanusing',
+    author: 'Sofia K.',
     source: 'Local Guide · Google',
     rating: 5,
   },
   {
     quote:
       'I had my first prenatal massage here and it was the greatest experience I’ve had in a while. I had some hip pain on my right side and instantly felt relief afterward. Definitely coming back during my pregnancy.',
-    author: 'Dr. Helena Yip Nolen',
+    author: 'Helena Y.',
     source: 'Local Guide · Google',
     rating: 5,
   },
   {
     quote:
       'Hands down one of the best massages I’ve ever had — definitely top 5! The deep tissue work was incredible, and the TMJ massage was exactly what I needed. Really got into the knots and tension. Definitely coming back!',
-    author: 'Tea Shepherd',
+    author: 'Tea S.',
     source: 'Google',
     rating: 5,
   },

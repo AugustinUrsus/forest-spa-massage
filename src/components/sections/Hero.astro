@@ -1,37 +1,29 @@
 ---
 import { Image } from 'astro:assets';
-import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, CircleParking, HeartHandshake, Clock } from 'lucide-react';
+import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, Gift } from 'lucide-react';
 import { business, booking, monthlySpecial } from '../../data/siteData';
 import heroImg from '../../assets/images/hero-ambiance.jpg';
-
-const chips = [
-  { icon: CircleParking, label: 'Free Parking' },
-  { icon: HeartHandshake, label: 'LGBTQ-Friendly' },
-  { icon: Clock, label: 'Open 7 Days · 9–9' },
-];
 ---
 
 <section
   id="top"
   class="relative flex min-h-[92svh] items-center overflow-hidden bg-charcoal text-sand"
 >
-  <!-- Background photo (LCP) -->
+  <!-- Background photo (LCP). On mobile the focal point shifts right so the
+       candles show; text sits over the darkened left. -->
   <Image
     src={heroImg}
     alt=""
     aria-hidden="true"
-    class="absolute inset-0 h-full w-full object-cover object-center"
+    class="absolute inset-0 h-full w-full object-cover object-[64%_center] sm:object-center"
     widths={[768, 1280, 1920, 2600]}
     sizes="100vw"
     loading="eager"
     fetchpriority="high"
   />
   <!-- Legibility overlays -->
-  <div
-    class="absolute inset-0 bg-gradient-to-r from-charcoal-deep/85 via-charcoal/70 to-charcoal/30"
-  >
-  </div>
-  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-charcoal"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-charcoal-deep/85 via-charcoal/65 to-charcoal/25"></div>
+  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-sand-deep"></div>
 
   <div class="container-px relative z-10 py-28 lg:py-32">
     <div class="max-w-2xl">
@@ -53,7 +45,8 @@ const chips = [
         {business.headline}
       </h1>
 
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-sand/85 sm:text-xl">
+      <!-- Subhead: hidden on mobile, shown from sm up -->
+      <p class="mt-6 hidden max-w-xl text-lg leading-relaxed text-sand/85 sm:block sm:text-xl">
         {business.subhead}
       </p>
 
@@ -70,18 +63,16 @@ const chips = [
         <a href="#services" class="btn btn-ghost-dark">
           Explore Services <ArrowDown size={17} />
         </a>
+        <a
+          href={booking.giftCards}
+          target="_blank"
+          rel="noopener"
+          data-book="hero-giftcard"
+          class="btn btn-ghost-dark"
+        >
+          <Gift size={17} /> Gift Cards
+        </a>
       </div>
-
-      <ul class="mt-12 flex flex-wrap gap-x-7 gap-y-3 text-sm text-sand/80">
-        {
-          chips.map(({ icon: Icon, label }) => (
-            <li class="inline-flex items-center gap-2">
-              <Icon size={18} strokeWidth={1.6} className="text-sage" />
-              {label}
-            </li>
-          ))
-        }
-      </ul>
     </div>
   </div>
 </section>

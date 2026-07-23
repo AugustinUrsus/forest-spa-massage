@@ -62,14 +62,17 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
       }
     };
     document.addEventListener('keydown', onKey);
-    focusables()[0]?.focus();
+    // preventScroll: focusing while the panel is still translated off-screen would
+    // make the browser scroll the viewport to reveal it, then snap back as the
+    // slide finishes — the "slide over and back" glitch. Focus without scrolling.
+    focusables()[0]?.focus({ preventScroll: true });
 
     return () => {
       document.body.style.overflow = prevOverflow;
       document.body.classList.remove('drawer-open');
       deactivated.forEach((el) => el.removeAttribute('inert'));
       document.removeEventListener('keydown', onKey);
-      triggerRef.current?.focus();
+      triggerRef.current?.focus({ preventScroll: true });
     };
   }, [open]);
 
@@ -84,7 +87,7 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
         onClick={() => setOpen(false)}
         aria-hidden="true"
         className={[
-          'absolute inset-0 bg-charcoal/70 backdrop-blur-sm transition-opacity duration-300',
+          'absolute inset-0 bg-charcoal/60 backdrop-blur-sm transition-opacity duration-[400ms] ease-out',
           open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         ].join(' ')}
       />
@@ -100,8 +103,8 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
         inert={!open}
         style={{ backgroundColor: 'var(--color-cloud)' }}
         className={[
-          'absolute inset-y-0 right-0 flex w-[85%] max-w-sm flex-col overflow-y-auto border-l border-black/10 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
-          open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
+          'absolute inset-y-0 right-0 flex w-[85%] max-w-sm flex-col overflow-y-auto border-l border-black/10 shadow-2xl transition-[translate] duration-[420ms] ease-[cubic-bezier(0.4,0,0.2,1)]',
+          open ? 'pointer-events-auto translate-x-0' : 'pointer-events-none translate-x-full',
         ].join(' ')}
       >
         <div className="flex items-center justify-between px-6 pb-4 pt-6">

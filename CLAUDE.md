@@ -8,6 +8,28 @@ Static marketing site for **Forest Spa** (Poway, CA), migrated from Wix to **Ast
 - **Astro 5** (SSG, zero-JS by default) · **Tailwind CSS v4** (CSS-first `@theme` in `src/styles/global.css`, via `@tailwindcss/vite`) · **React 19** islands (`@astrojs/react`) · **lucide-react** icons (static-rendered in `.astro`, hydrated in islands) · `@astrojs/sitemap` · `sharp` image optimization · **Inter** body font (`@fontsource-variable/inter`) + self-hosted **"The Seasons"** display font.
 - Build: `npm run build` → static HTML in `dist/`. Dev: `npm run dev`.
 
+## Page structure & component map
+Single page: `src/pages/index.astro` composes sections in this **exact order** (each `<section>` id is the in-page anchor target). Order is intentional and was set by the owner — don't reshuffle casually:
+`Header` → `Hero` (`#top`) → `Services` (`#services`) → `Packages` (`#packages`) → `MonthlySpecial` (`#specials`) → `HeadSpa` (`#head-spa`) → `Membership` (`#membership`) → `Story` (`#story`) → `Testimonials` → `GiftCard` (`#gift-cards`) → `Location` (`#location`) → `Footer` → `StickyMobileBar`.
+- All section components live in `src/components/sections/*.astro`; React islands in `src/components/react/*.tsx` (`ServiceTabs`, `Packages` uses none, `TestimonialCarousel`, `MobileNav`). `navLinks` in `siteData.ts` drives header + drawer and must stay in sync with the section ids above.
+- **Section background rhythm** alternates light/dark: Hero (charcoal) → Services (`bg-sand-deep`) → Packages → MonthlySpecial (charcoal) → HeadSpa (`bg-cloud`) → … → GiftCard (charcoal) → Location. Hero's bottom fade (`to-sand-deep`) must match whatever section follows it.
+- **Hero mobile vs desktop:** subhead is `hidden sm:block` (hidden on phones per owner); hero image uses `object-[64%_center] sm:object-center` so the candles show on mobile without colliding with text. Hero has three CTAs: Book Appointment (`booking.primary`), Explore Services (`#services`), Gift Cards (`booking.giftCards`).
+- **HeadSpa** renders the intro/benefits column + image, then a 2-up card grid from `headSpa.services` (each card books via `bookingUrl(s.id)`). The big "Book Head Spa" CTA uses `booking.headSpa`.
+
+## Booking-link conventions (how CTAs are built)
+Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts`:
+- `bookingUrl(offerId)` → `${FRESHA_VENUE}/booking?offerItemId=<id>&share=true&pId=2602780&dppub=true`. Default for à-la-carte services, packages, head-spa cards, monthly special.
+- **Per-item `url?` override on `Service`**: some items open a prebuilt Fresha *cart* instead of the offer picker (owner supplies these `cartId=…` links). If `Service.url` is set, `Services.astro` uses `s.url ?? bookingUrl(s.id)`. Currently only **Four Hands · 90 min** overrides (its own `cartId`).
+- Named booking targets on the `booking` object: `primary` (all-offer, `?allOffer`/`venue=true`), `headSpa` (signature head-spa cart), `giftCards` (`${FRESHA_VENUE}/gift-cards?pId=2602780`). `FRESHA_VENUE` = `https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro`, `FRESHA_PID` = `2602780`.
+- **Membership join links** (`memberships[].joinUrl`) point to Fresha `paid-plans/details`: $68 = `…/paid-plans/details?pId=2602780`; $98 Plus = same with `&selected=3172024&share=true&skipFirstStep=true` (that `selected` id targets the specific plan).
+
+## Data-content rules (owner-enforced)
+- **No "hot towels"** anywhere in descriptions/inclusions (owner removed them). "Hot stones"/"herbal heat pack" are fine.
+- **Add-ons**: most are woven into a massage at no extra time; category blurb says so, and standalone booking durations are still shown per item.
+- **TMJ add-ons** must mention the eye mask + the other included items in their description.
+- **Testimonials**: real 5-star reviews only, authors as first-name + initial (e.g. `Sam T.`). Never fabricate.
+
+
 ## Business facts (NAP)
 - **Name:** Forest Spa — Massage Spa & Head Spa Sanctuary
 - **Address:** 14168 Poway Rd, Ste 206, Poway, CA 92064  ·  geo ≈ 32.95595, -117.03555

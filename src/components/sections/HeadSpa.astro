@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import { Check, Droplets } from 'lucide-react';
-import { headSpa, booking } from '../../data/siteData';
+import { Check, Droplets, ArrowRight } from 'lucide-react';
+import { headSpa, booking, bookingUrl } from '../../data/siteData';
 import headImg from '../../assets/images/head-spa.jpg';
 ---
 
@@ -61,6 +61,37 @@ import headImg from '../../assets/images/head-spa.jpg';
           </a>
         </div>
       </div>
+    </div>
+
+    <!-- Head Spa menu cards -->
+    <div class="mt-16 grid gap-6 sm:grid-cols-2">
+      {
+        headSpa.services.map((s) => (
+          <div class="surface-card flex h-full flex-col p-7">
+            <div class="mb-2 flex items-baseline justify-between gap-3">
+              <h3 class="display-heading text-lg font-semibold leading-tight text-ink">
+                {s.name}
+              </h3>
+              <span class="shrink-0 font-semibold text-bronze">{s.priceLabel}</span>
+            </div>
+            <p class="mb-3 text-xs font-medium uppercase tracking-widest text-ink-soft/70">
+              {s.duration}
+            </p>
+            <p class="mb-6 text-sm leading-relaxed text-ink-soft">{s.description}</p>
+            <div class="mt-auto flex justify-end">
+              <a
+                href={bookingUrl(s.id)}
+                target="_blank"
+                rel="noopener"
+                data-book={`head-spa:${s.name}`}
+                class="btn btn-primary"
+              >
+                Book <ArrowRight size={16} />
+              </a>
+            </div>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>

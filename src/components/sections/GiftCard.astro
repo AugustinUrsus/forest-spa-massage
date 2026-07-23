@@ -1,0 +1,42 @@
+---
+import { Gift, ArrowRight } from 'lucide-react';
+import { booking } from '../../data/siteData';
+---
+
+<section id="gift-cards" class="bg-charcoal text-sand py-[var(--spacing-section)]">
+  <div class="container-px reveal">
+    <div
+      class="mx-auto flex max-w-3xl flex-col items-center rounded-[var(--radius-card)] border border-gold/30 bg-charcoal-deep/60 px-8 py-12 text-center sm:px-12 sm:py-16"
+    >
+      <span
+        class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gold/15 text-gold"
+      >
+        <Gift size={26} strokeWidth={1.6} />
+      </span>
+
+      <p class="eyebrow mb-4 mt-6 text-gold">The Gift of Calm</p>
+
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+        Forest Spa Gift Cards
+      </h2>
+
+      <p class="mt-5 max-w-xl text-lg leading-relaxed text-sand/80">
+        Give someone the gift of true relaxation. Digital gift cards are delivered
+        instantly and can be redeemed toward any massage, head spa, or treatment.
+      </p>
+
+      <div class="mt-9">
+        <a
+          href={booking.giftCards}
+          target="_blank"
+          rel="noopener"
+          data-book="gift-cards"
+          class="btn btn-on-dark"
+        >
+          <Gift size={19} strokeWidth={1.6} /> Buy a Gift Card
+          <ArrowRight size={17} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

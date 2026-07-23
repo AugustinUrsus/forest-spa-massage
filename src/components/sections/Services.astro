@@ -12,7 +12,7 @@ const categories = serviceCategories.map((c) => ({
     priceLabel: s.priceLabel,
     duration: s.duration,
     description: s.description,
-    href: bookingUrl(s.id),
+    href: s.url ?? bookingUrl(s.id),
   })),
 }));
 ---

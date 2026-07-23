@@ -262,11 +262,11 @@ body.drawer-open #mobile-sticky-bar {
   pointer-events: none;
 }
 
-/* On phones the header hides as you scroll, so anchor jumps only need to clear
-   the safe-area (not the header height) — otherwise a sliver of the previous
-   section shows above the target. Desktop keeps the full header offset. */
+/* On phones the header hides as you scroll (and a menu tap scrolls down, hiding
+   it), so jumped-to sections should land flush at the very top — no header
+   offset, or a sliver of the previous section shows. Desktop keeps the offset. */
 @media (max-width: 1023px) {
   html {
-    scroll-padding-top: calc(env(safe-area-inset-top) + 0.5rem);
+    scroll-padding-top: 0;
   }
 }
