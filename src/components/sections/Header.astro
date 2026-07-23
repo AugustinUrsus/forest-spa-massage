@@ -5,88 +5,111 @@ import BrandMark from '../BrandMark.astro';
 import MobileNav from '../react/MobileNav.tsx';
 ---
 
+<!--
+  Outer <header> is transparent and only pads the safe-area (behind the dynamic
+  island / status bar stays see-through, edge-to-edge). The inner bar is the
+  opaque banner (logo + menu). Translating the whole header hides the opaque bar
+  and leaves the notch area transparent.
+-->
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-30 h-16 bg-sand/55 text-ink backdrop-blur-md transition-shadow duration-300 will-change-transform data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
+  class="fixed inset-x-0 top-0 z-30 pt-[env(safe-area-inset-top)] will-change-transform"
 >
-  <div class="container-px flex h-full items-center justify-between gap-6">
-    <!-- Brand -->
-    <a href={`${baseUrl}#top`} aria-label="Forest Spa home" class="flex items-center">
-      <BrandMark variant="horizontal" class="h-12 w-auto sm:h-14" />
-    </a>
-
-    <!-- Desktop nav -->
-    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-5 xl:gap-7">
-      {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-sm font-medium text-ink transition-colors hover:text-bronze"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-    </nav>
-
-    <!-- Desktop CTAs -->
-    <div class="hidden lg:flex lg:items-center lg:gap-3">
-      <a
-        href={business.phoneHref}
-        data-call="header"
-        class="btn btn-outline"
-        aria-label={`Call Forest Spa at ${business.phone}`}
-      >
-        <Phone size={18} strokeWidth={1.6} />
-        <span class="hidden xl:inline">{business.phone}</span>
+  <div
+    id="site-header-bar"
+    class="border-b border-black/5 bg-sand text-ink transition-shadow duration-300 data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
+  >
+    <div class="container-px flex h-16 items-center justify-between gap-6">
+      <!-- Brand -->
+      <a href={`${baseUrl}#top`} aria-label="Forest Spa home" class="flex items-center">
+        <BrandMark variant="horizontal" class="h-12 w-auto sm:h-14" />
       </a>
-      <a
-        href={booking.primary}
-        target="_blank"
-        rel="noopener"
-        data-book="header"
-        class="btn btn-primary"
-      >
-        <CalendarHeart size={18} strokeWidth={1.6} /> Book Now
-      </a>
+
+      <!-- Desktop nav -->
+      <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-5 xl:gap-7">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-sm font-medium text-ink transition-colors hover:text-bronze"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <!-- Desktop CTAs -->
+      <div class="hidden lg:flex lg:items-center lg:gap-3">
+        <a
+          href={business.phoneHref}
+          data-call="header"
+          class="btn btn-outline"
+          aria-label={`Call Forest Spa at ${business.phone}`}
+        >
+          <Phone size={18} strokeWidth={1.6} />
+          <span class="hidden xl:inline">{business.phone}</span>
+        </a>
+        <a
+          href={booking.primary}
+          target="_blank"
+          rel="noopener"
+          data-book="header"
+          class="btn btn-primary"
+        >
+          <CalendarHeart size={18} strokeWidth={1.6} /> Book Now
+        </a>
+      </div>
+
+      <!-- Mobile nav island (renders its own lg:hidden wrapper + drawer; only hydrates below lg) -->
+      <MobileNav
+        client:media="(max-width: 1023px)"
+        links={navLinks}
+        bookUrl={booking.primary}
+        phone={business.phone}
+        phoneHref={business.phoneHref}
+      />
     </div>
-
-    <!-- Mobile nav island (renders its own lg:hidden wrapper + drawer; only hydrates below lg) -->
-    <MobileNav
-      client:media="(max-width: 1023px)"
-      links={navLinks}
-      bookUrl={booking.primary}
-      phone={business.phone}
-      phoneHref={business.phoneHref}
-    />
   </div>
 </header>
 
 <script>
   const header = document.getElementById('site-header');
-  if (header) {
-    // Phones/tablets: the header translates with the scroll gesture (enters/exits
-    // in step with the swipe) rather than snapping. Desktop keeps it pinned.
+  const bar = document.getElementById('site-header-bar');
+  if (header && bar) {
+    // Phones/tablets: the header slides in step with the scroll gesture. Updates
+    // are batched into a requestAnimationFrame so the motion is smooth (not the
+    // per-event jank of writing transforms straight from the scroll handler).
     const mq = window.matchMedia('(max-width: 1023px)');
     let lastY = Math.max(0, window.scrollY);
-    let translate = 0; // 0 = fully shown · H = fully hidden (slid up)
-    const onScroll = () => {
+    let translate = 0; // 0 = fully shown · offsetHeight = fully hidden (slid up)
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
       const y = Math.max(0, window.scrollY);
-      const h = header.offsetHeight;
-      if (y > 8) header.setAttribute('data-scrolled', '');
-      else header.removeAttribute('data-scrolled');
+      if (y > 8) bar.setAttribute('data-scrolled', '');
+      else bar.removeAttribute('data-scrolled');
 
       if (mq.matches && !document.body.classList.contains('drawer-open')) {
-        translate = Math.min(h, Math.max(0, translate + (y - lastY)));
+        const max = header.offsetHeight; // includes safe-area padding + bar height
+        translate = Math.min(max, Math.max(0, translate + (y - lastY)));
         if (y <= 4) translate = 0; // always fully reveal at the very top
-        header.style.transform = `translateY(${-translate}px)`;
+        header.style.transform = `translate3d(0, ${-translate}px, 0)`;
       } else {
         header.style.transform = '';
         translate = 0;
       }
       lastY = y;
     };
-    onScroll();
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    update();
     window.addEventListener('scroll', onScroll, { passive: true });
     mq.addEventListener('change', () => {
       if (!mq.matches) header.style.transform = '';

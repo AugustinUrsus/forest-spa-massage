@@ -53,7 +53,7 @@
        so the target section sits flush under the header with no sliver of the
        previous section). This is the ONLY anchor offset — sections must NOT
        also set scroll-margin-top or the offsets stack. */
-    scroll-padding-top: 4rem;
+    scroll-padding-top: calc(env(safe-area-inset-top) + 4.5rem);
     /* clip (not hidden) prevents horizontal shift from any stray overflow
        WITHOUT creating a scroll container, so position:sticky still works. */
     overflow-x: clip;
