@@ -12,7 +12,7 @@ import MobileNav from '../react/MobileNav.tsx';
 -->
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-30 bg-sand text-ink pt-[env(safe-area-inset-top)] transition-[translate,box-shadow] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
+  class="fixed inset-x-0 top-0 z-30 bg-sand/80 backdrop-blur-lg backdrop-saturate-150 border-b border-black/5 text-ink pt-[env(safe-area-inset-top)] transition-[translate,box-shadow,background-color] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5 data-[scrolled]:bg-sand/90"
 >
   <div class="container-px flex h-16 items-center justify-between gap-4 xl:gap-6">
     <!-- Brand -->
@@ -91,21 +91,14 @@ import MobileNav from '../react/MobileNav.tsx';
         header.removeAttribute('data-hidden');
       }
 
-      // Option A: retint <html>/<body> + theme-color to the section under the
-      // viewport, so the iOS safe-area bars match the content, not a fixed sand frame.
-      if (themeMeta && sections.length) {
-        const mid = window.innerHeight / 2;
+      // Active section scroll-spy for nav links
+      if (sections.length) {
+        const mid = window.innerHeight / 3;
         let currentId = '';
         for (const el of sections) {
           const r = el.getBoundingClientRect();
           if (r.top <= mid && r.bottom > mid) {
             currentId = el.id;
-            const bg = getComputedStyle(el).backgroundColor;
-            if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
-              document.documentElement.style.backgroundColor = bg;
-              document.body.style.backgroundColor = bg;
-              themeMeta.setAttribute('content', bg);
-            }
             break;
           }
         }
