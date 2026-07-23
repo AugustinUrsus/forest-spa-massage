@@ -28,6 +28,16 @@ const absUrl = (p: string) => new URL(withBase(p), site).href;
 const canonical = new URL(Astro.url.pathname, site).href;
 const ogImage = /^https?:/.test(image) ? image : absUrl(image);
 
+/**
+ * "The Seasons" @font-face (self-hosted, subset to un-watermarked glyphs) is
+ * injected here so the url()s carry the base path — Vite does not rebase
+ * root-absolute url()s inside CSS files.
+ */
+const fontFaceCss = [
+  `@font-face{font-family:'The Seasons';src:url('${withBase('fonts/theseasons-regular.woff2')}') format('woff2'),url('${withBase('fonts/theseasons-regular.woff')}') format('woff');font-weight:400;font-style:normal;font-display:swap;}`,
+  `@font-face{font-family:'The Seasons';src:url('${withBase('fonts/theseasons-bold.woff2')}') format('woff2'),url('${withBase('fonts/theseasons-bold.woff')}') format('woff');font-weight:600 700;font-style:normal;font-display:swap;}`,
+].join('');
+
 /* ---- DaySpa structured data (NAP, hours, geo, service catalog, socials) --- */
 const schema = {
   '@context': 'https://schema.org',
@@ -107,6 +117,9 @@ const schema = {
     <meta name="theme-color" content="#2e2e2b" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Brand display face "The Seasons" (base-aware @font-face) -->
+    <style is:inline set:html={fontFaceCss}></style>
+
     <!-- Icons / PWA -->
     <link rel="icon" href={withBase('favicon.ico')} sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href={withBase('favicon-32.png')} />
@@ -131,10 +144,17 @@ const schema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Performance: preconnect to booking + map hosts -->
+    <!-- Performance: preconnect to booking + map hosts, preload the above-the-fold brand face -->
     <link rel="preconnect" href="https://www.fresha.com" />
     <link rel="preconnect" href="https://maps.google.com" />
     <link rel="dns-prefetch" href="https://www.google.com" />
+    <link
+      rel="preload"
+      href={withBase('fonts/theseasons-bold.woff2')}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <!-- Structured data -->
     <script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />

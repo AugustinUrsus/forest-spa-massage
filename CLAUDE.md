@@ -29,7 +29,15 @@ Static marketing site for **Forest Spa** (Poway, CA), migrated from Wix to **Ast
 - Facebook: https://www.facebook.com/profile.php?id=61577147368576
 - TikTok: present on Wix but unconfigured (generic link) — omit until a real URL exists.
 
-## Services (grouped into 3 tabs — see `src/data/siteData.ts`)
+## Services & booking (Fresha) — mirror the live menu
+The full catalog lives in `src/data/siteData.ts`, extracted from the Fresha venue's `__NEXT_DATA__`. Every booking link is a per-item deep link built by **`bookingUrl(offerId)`** → `…/booking?offerItemId=<id>&share=true&pId=2602780&dppub=true` (e.g. Hot Stone `s:20891732`, Swedish `s:20874160`, packages use `s:…`/`p:…` ids). Structures:
+- `serviceCategories` — à-la-carte: **Massage** (12), **Head Spa** (4), **Add-ons** (11), each item `{name,id,priceLabel,duration,description}`. Rendered by the `ServiceTabs` island (`#services`).
+- `packages` — 6 combos with 2–3 tiers each (Preferred/Premier/Prestige), `{tier,id,price,value,duration,inclusions[]}`. Rendered by `Packages.astro` (`#packages`) — the highest-value page.
+- `monthlySpecial` + `standingOffers` — **update `monthlySpecial` every month** (name/price/value/duration/inclusions/id). Rendered prominently by `MonthlySpecial.astro` (`#specials`) + a hero ribbon.
+- `memberships` — two tiers ($68 / $98 Plus), `Membership.astro` (`#membership`); "join" = phone/in-studio.
+- `testimonials` — real, name-free 5-star reviews only (never fabricate); `Testimonials.astro` uses the `TestimonialCarousel` island. To refresh the Fresha data, re-run the `__NEXT_DATA__` extraction from `https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro`.
+
+## Original Wix service groupings (historical)
 - **Signature Treatments:** Head Spa & Scalp Therapy, TMJ Therapy, Four Hands Massage
 - **Massage Therapies:** Deep Tissue, Swedish, Thai, Sports, Prenatal, Reflexology
 - **Add-ons & Wellness:** Aromatherapy, Cupping
@@ -37,8 +45,8 @@ Static marketing site for **Forest Spa** (Poway, CA), migrated from Wix to **Ast
 
 ## Brand system
 - **Palette:** sand `#E5DDD0` (base) · sand-deep `#DCD2C2` · cloud `#FFFFFF` · ink `#000000` · ink-soft `#4A463D` · **bronze `#6B5C35`** (CTA) · bronze-deep `#574A2A` · charcoal `#2E2E2B` (dark sections) · sage `#8FA58F` (emblem) · gold `#B7A57E` (on-dark accent). Sage/gold/charcoal sampled from the real logo.
-- **Fonts:** display = **"The Seasons"** (the Wix logo/hero face — `orig_fsp_demo_the_seasons`), self-hosted in `public/fonts/` (woff2+woff, ~6KB each, full 95-glyph ASCII). Body = Inter. Stack falls back to Playfair Display → Georgia per-glyph.
-- **Logo:** rebuilt as scalable markup in `src/components/BrandMark.astro` (inline SVG pine emblem + "Forest Spa" wordmark). Original raster logo kept at `src/assets/images/logo-horizontal.png`.
+- **Fonts:** headings = **Playfair Display** (`@fontsource-variable/playfair-display`, `--font-display`), body = **Inter**. The Wix "The Seasons" file is an unlicensed **DEMO** (stamps "DEMO" on glyphs like `&`) so it is NOT used as a webfont — the real "The Seasons" wordmark survives only inside the logo artwork (images). If a licensed "The Seasons" font is provided, swap `--font-display` in `global.css`.
+- **Logos:** real brand artwork from `/Users/xixiong/Documents/Forest_Spa/Artwork/Logos`, rendered via `src/components/BrandMark.astro` (variant `horizontal` = dark, light bg; `stacked-light` = sage/gold, dark bg). Sources: `Forest Spa - 3.png` → `src/assets/images/logo-horizontal.png`; `Forest Spa - 5.png` → `logo-stacked-light.png`; favicons/OG from the charcoal+gold badge `Forest Spa - 4.png`. Do NOT hand-draw the logo.
 
 ## Assets (reused from the Wix CDN, re-optimized)
 Source Wix host: `static.wixstatic.com/media/`. Local optimized copies:

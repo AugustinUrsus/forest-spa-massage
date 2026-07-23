@@ -7,10 +7,11 @@
 
 @import 'tailwindcss';
 
-/* Display face is Playfair Display (imported in Layout.astro via @fontsource).
-   The brand "The Seasons" wordmark lives in the logo artwork (BrandMark images),
-   not as a webfont — the freely-available "The Seasons" file is a watermarked
-   demo, so it is intentionally NOT used for live text. */
+/* Display face is the brand's "The Seasons" (self-hosted, @font-face injected
+   from Layout.astro so url()s carry the base path). The freely-available file
+   is a DEMO that watermarks most punctuation, so it is SUBSET to keep only the
+   clean glyphs (A–Z a–z 0–9 , . : ; ?); any other character (& - / etc.) falls
+   through to Playfair Display, the next font in the stack. */
 
 @theme {
   /* Brand palette --------------------------------------------------------- */
@@ -29,8 +30,8 @@
   --color-cream: #f7f2e7; /* text on bronze buttons / active tab */
 
   /* Typography ------------------------------------------------------------ */
-  --font-display: 'Playfair Display Variable', 'Playfair Display', Georgia,
-    'Times New Roman', serif;
+  --font-display: 'The Seasons', 'Playfair Display Variable', 'Playfair Display',
+    Georgia, serif;
   --font-body: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system,
     'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
