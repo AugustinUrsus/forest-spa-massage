@@ -152,13 +152,19 @@ export const analytics = {
 /*  Navigation                                                                */
 /* -------------------------------------------------------------------------- */
 
+/** Base-aware internal links (works under a project base path or a custom domain).
+ *  BASE_URL may or may not carry a trailing slash depending on config, so normalize. */
+export const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
 export const navLinks: NavLink[] = [
-  { label: 'Monthly Special', href: '/#specials' },
-  { label: 'Packages', href: '/#packages' },
-  { label: 'Services', href: '/#services' },
-  { label: 'Head Spa', href: '/#head-spa' },
-  { label: 'Membership', href: '/#membership' },
-  { label: 'Visit', href: '/#location' },
+  { label: 'Monthly Special', href: `${baseUrl}#specials` },
+  { label: 'Packages', href: `${baseUrl}#packages` },
+  { label: 'Services', href: `${baseUrl}#services` },
+  { label: 'Head Spa', href: `${baseUrl}#head-spa` },
+  { label: 'Membership', href: `${baseUrl}#membership` },
+  { label: 'Visit', href: `${baseUrl}#location` },
 ];
 
 /* -------------------------------------------------------------------------- */

@@ -1,7 +1,7 @@
 ---
 import { Instagram, Facebook, MapPin, Phone, Mail, CalendarHeart } from 'lucide-react';
 import BrandMark from '../BrandMark.astro';
-import { business, booking, navLinks } from '../../data/siteData';
+import { business, booking, navLinks, baseUrl } from '../../data/siteData';
 
 const year = new Date().getFullYear();
 ---
@@ -107,7 +107,7 @@ const year = new Date().getFullYear();
     <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-sand/60">
       <p>&copy; {year} Forest Spa. All rights reserved.</p>
       <p>Cash discount available at checkout.</p>
-      <a href="/terms-conditions" class="transition-colors duration-300 hover:text-gold">
+      <a href={`${baseUrl}terms-conditions`} class="transition-colors duration-300 hover:text-gold">
         Terms &amp; Conditions
       </a>
     </div>
