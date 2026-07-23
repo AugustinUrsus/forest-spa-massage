@@ -11,12 +11,12 @@ import MobileNav from '../react/MobileNav.tsx';
 >
   <div class="container-px flex h-full items-center justify-between gap-6">
     <!-- Brand -->
-    <a href="#top" aria-label="Forest Spa home" class="text-sage-deep">
-      <BrandMark size={38} />
+    <a href="#top" aria-label="Forest Spa home" class="flex items-center">
+      <BrandMark variant="horizontal" class="h-9 w-auto sm:h-10" />
     </a>
 
     <!-- Desktop nav -->
-    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-9">
+    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-5 xl:gap-7">
       {
         navLinks.map((link) => (
           <a

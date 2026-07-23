@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import { CalendarHeart, ArrowDown, CircleParking, HeartHandshake, Clock } from 'lucide-react';
-import { business, booking } from '../../data/siteData';
+import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, CircleParking, HeartHandshake, Clock } from 'lucide-react';
+import { business, booking, monthlySpecial } from '../../data/siteData';
 import heroImg from '../../assets/images/hero-ambiance.jpg';
 
 const chips = [
@@ -31,10 +31,22 @@ const chips = [
     class="absolute inset-0 bg-gradient-to-r from-charcoal-deep/85 via-charcoal/70 to-charcoal/30"
   >
   </div>
-  <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-sand/95"></div>
+  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-charcoal"></div>
 
   <div class="container-px relative z-10 py-28 lg:py-32">
     <div class="max-w-2xl">
+      <a
+        href="#specials"
+        class="group mb-6 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 py-1.5 pl-4 pr-3 text-sm font-medium text-gold backdrop-blur transition-colors hover:bg-gold/20"
+      >
+        <Sparkles size={15} />
+        <span>
+          {monthlySpecial.month} · {monthlySpecial.name} — ${monthlySpecial.price}
+          <span class="text-gold/60 line-through">${monthlySpecial.value}</span>
+        </span>
+        <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+      </a>
+
       <p class="eyebrow mb-5 text-gold">{business.tagline}</p>
 
       <h1 class="display-heading text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">

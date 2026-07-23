@@ -1,21 +1,33 @@
 ---
-import { serviceCategories, booking } from '../../data/siteData';
+import { serviceCategories, bookingUrl } from '../../data/siteData';
 import ServiceTabs from '../react/ServiceTabs.tsx';
+
+// Attach the exact Fresha deep link to each service before handing off to the island.
+const categories = serviceCategories.map((c) => ({
+  id: c.id,
+  label: c.label,
+  blurb: c.blurb,
+  services: c.services.map((s) => ({
+    name: s.name,
+    priceLabel: s.priceLabel,
+    duration: s.duration,
+    description: s.description,
+    href: bookingUrl(s.id),
+  })),
+}));
 ---
 
-<section id="services" class="scroll-mt-24 py-[var(--spacing-section)]">
+<section id="services" class="scroll-mt-24 bg-sand-deep py-[var(--spacing-section)]">
   <div class="container-px reveal">
     <header class="mx-auto mb-14 max-w-2xl text-center">
-      <p class="eyebrow mb-4">Our Services</p>
-      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
-        Therapies tailored to you
-      </h2>
+      <p class="eyebrow mb-4">The Menu</p>
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">Every therapy, à la carte</h2>
       <p class="mt-5 text-lg text-ink-soft">
-        From signature head spa rituals to deep therapeutic bodywork — every session is
-        shaped around how you want to feel when you leave.
+        Book any treatment on its own, or add a finishing touch to your session. Tap a
+        service to reserve it directly.
       </p>
     </header>
 
-    <ServiceTabs client:visible categories={serviceCategories} bookUrl={booking.services} />
+    <ServiceTabs client:visible categories={categories} />
   </div>
 </section>

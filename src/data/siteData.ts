@@ -1,46 +1,65 @@
 /**
  * Forest Spa — single source of truth for site content.
  *
- * Everything a non-developer might want to edit (copy, services, hours,
- * booking links, analytics IDs) lives here. Components import from this file;
- * nothing is hard-coded in markup.
+ * Service catalog, packages, monthly special, and memberships mirror the live
+ * Fresha menu (venue slug `forest-spa-poway-14168-poway-road-msk4ljro`,
+ * pId 2602780). Every booking link deep-links to the exact item via its Fresha
+ * offer id, e.g. `s:20891732` (Hot Stone) → …/booking?offerItemId=s:20891732.
+ *
+ * ── To update the MONTHLY SPECIAL each month: edit the `monthlySpecial` object
+ *    below (name, price, value, duration, inclusions, and the Fresha `id`).
  */
 
 /* -------------------------------------------------------------------------- */
 /*  Types                                                                     */
 /* -------------------------------------------------------------------------- */
 
-export interface NavLink {
-  label: string;
-  href: string;
-}
-
-/** Icon names map to lucide-react components (see ServiceTabs / icon maps). */
 export interface Service {
   name: string;
+  /** Fresha offer id (e.g. "s:20874160" or "p:1651755") → deep booking link. */
+  id: string;
+  priceLabel: string;
+  duration: string | null;
   description: string;
-  icon: string;
-  /** Optional Fresha deep link; falls back to the services booking URL. */
-  bookUrl?: string;
 }
 
 export interface ServiceCategory {
   id: string;
   label: string;
   blurb: string;
+  icon: string;
   services: Service[];
 }
 
-export interface Promotion {
-  icon: string;
-  title: string;
-  description: string;
+export interface PackageTier {
+  tier: string;
+  id: string;
+  price: number;
+  value: number | null;
+  duration: string | null;
+  inclusions: string[];
 }
 
-export interface Amenity {
+export interface Package {
+  name: string;
   icon: string;
-  title: string;
+  blurb: string;
+  tiers: PackageTier[];
+}
+
+export interface Membership {
+  name: string;
+  price: string;
+  cadence: string;
+  tagline: string;
   description: string;
+  perks: string[];
+  featured?: boolean;
+}
+
+export interface NavLink {
+  label: string;
+  href: string;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -76,7 +95,6 @@ export const business = {
 
   geo: { lat: 32.95595, lng: -117.03555 },
 
-  /** Uniform daily hours — Mon through Sun, 9:00 AM to 9:00 PM. */
   hours: {
     display: 'Mon – Sun · 9:00 AM – 9:00 PM',
     openTime: '09:00',
@@ -91,21 +109,23 @@ export const business = {
 } as const;
 
 /* -------------------------------------------------------------------------- */
-/*  Booking (Fresha)                                                          */
+/*  Booking (Fresha) — deep links per item                                    */
 /* -------------------------------------------------------------------------- */
 
+const FRESHA_VENUE = 'https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro';
+const FRESHA_PID = '2602780';
+
+/** Deep link that pre-selects a specific Fresha offer by its id. */
+export function bookingUrl(offerId: string): string {
+  return `${FRESHA_VENUE}/booking?offerItemId=${offerId}&share=true&pId=${FRESHA_PID}&dppub=true`;
+}
+
 export const booking = {
-  /** Primary "Book Now" destination — all offers. */
-  primary:
-    'https://www.fresha.com/book-now/forest-spa-kbi5ew52/all-offer?share=true&pId=2602780',
-  /** Service picker — used by per-service "Book this service" buttons. */
-  services: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?share=true&pId=2602780',
-  /** Gift cards. */
-  giftCards:
-    'https://www.fresha.com/book-now/forest-spa-kbi5ew52/gift-cards?share=true&pId=2602780',
+  /** Full booking menu — used by the generic "Book Now" CTAs. */
+  primary: `${FRESHA_VENUE}/booking?menu=true&share=true&pId=${FRESHA_PID}&dppub=true`,
+  giftCards: `https://www.fresha.com/book-now/forest-spa-kbi5ew52/gift-cards?share=true&pId=${FRESHA_PID}`,
 } as const;
 
-/** Google Maps directions + keyless embed for the location section. */
 export const maps = {
   directions:
     'https://www.google.com/maps/dir/?api=1&destination=Forest+Spa+14168+Poway+Rd+Ste+206+Poway+CA+92064',
@@ -114,16 +134,13 @@ export const maps = {
 } as const;
 
 /* -------------------------------------------------------------------------- */
-/*  Analytics — populated from env at build time (PUBLIC_ vars are inlined).  */
-/*  Leave unset to disable; the tags simply won't render.                     */
+/*  Analytics — env-gated (PUBLIC_ vars inlined at build)                     */
 /* -------------------------------------------------------------------------- */
 
 export const analytics = {
   ga4Id: import.meta.env.PUBLIC_GA4_ID ?? '',
   metaPixelId: import.meta.env.PUBLIC_META_PIXEL_ID ?? '',
-  /** Google Ads conversion ID, e.g. "AW-123456789". */
   googleAdsId: import.meta.env.PUBLIC_GOOGLE_ADS_ID ?? '',
-  /** Google Ads "book" conversion label (the part after the slash in send_to). */
   adsBookingLabel: import.meta.env.PUBLIC_GOOGLE_ADS_BOOKING_LABEL ?? '',
 } as const;
 
@@ -132,126 +149,380 @@ export const analytics = {
 /* -------------------------------------------------------------------------- */
 
 export const navLinks: NavLink[] = [
+  { label: 'Monthly Special', href: '#specials' },
+  { label: 'Packages', href: '#packages' },
   { label: 'Services', href: '#services' },
   { label: 'Head Spa', href: '#head-spa' },
-  { label: 'Specials', href: '#specials' },
-  { label: 'Story', href: '#story' },
-  { label: 'Location', href: '#location' },
+  { label: 'Membership', href: '#membership' },
+  { label: 'Visit', href: '#location' },
 ];
 
 /* -------------------------------------------------------------------------- */
-/*  Promotions & offers                                                       */
+/*  Monthly Special — THE headline offer. Update this each month.             */
 /* -------------------------------------------------------------------------- */
 
-export const promotions: Promotion[] = [
+export const monthlySpecial = {
+  /** Short month label shown in the eyebrow, e.g. "July". */
+  month: 'This Month',
+  headline: 'The Monthly Special',
+  name: 'Stone & Scent Combo · Premier',
+  id: 's:24804390',
+  price: 120,
+  value: 150,
+  duration: '90 min',
+  summary:
+    'Our most-loved seasonal escape — a full-body ritual of massage, warm stones, foot reflexology, and aromatherapy at a limited-time price.',
+  inclusions: [
+    '60-min body massage — Swedish, Sports, Thai, Deep Tissue, or Lomi Lomi',
+    '30-min foot reflexology with scrub',
+    'Warm hot stones',
+    'Aromatherapy / essential oil',
+    'Hot towels',
+  ],
+} as const;
+
+/** Standing offers that run alongside the monthly special. */
+export const standingOffers = [
+  {
+    icon: 'Coins',
+    title: 'Cash Discount at Checkout',
+    description: 'Pay with cash and enjoy a free hot stone or essential oil add-on with your service.',
+    id: 's:22810448',
+  },
+  {
+    icon: 'Sunrise',
+    title: 'Early Bird — 10% Off',
+    description: 'Mon–Thu before 11:30 am. Cannot be combined with other promotions.',
+    id: 's:22684381',
+  },
   {
     icon: 'Users',
-    title: '10% OFF Couple Sessions',
+    title: '10% Off Couple Sessions',
     description: 'Share the calm — book any session for two and save together.',
+    id: 'p:1651755',
+  },
+] as const;
+
+/* -------------------------------------------------------------------------- */
+/*  Packages (combos with tiers) — the signature value offering               */
+/* -------------------------------------------------------------------------- */
+
+export const packages: Package[] = [
+  {
+    name: 'Head-to-Toe Retreat',
+    icon: 'Sparkles',
+    blurb: 'Our most complete escape — full-body massage plus scalp, hand, and foot rituals.',
+    tiers: [
+      {
+        tier: 'Premier',
+        id: 's:20888388',
+        price: 135,
+        value: 170,
+        duration: '90 min',
+        inclusions: [
+          '45-min body massage',
+          '20-min head, scalp & TMJ massage with eye mask',
+          '10-min hand massage with hand mask',
+          '15-min foot massage with foot scrub',
+          'Aromatherapy',
+        ],
+      },
+      {
+        tier: 'Prestige',
+        id: 's:20888407',
+        price: 160,
+        value: 220,
+        duration: '120 min',
+        inclusions: [
+          '60-min body massage',
+          '20-min head, scalp & TMJ massage with eye mask',
+          '10-min hand massage with hand mask',
+          '20-min foot massage with foot scrub',
+          '10-min stretching',
+          'Aromatherapy',
+        ],
+      },
+    ],
   },
   {
-    icon: 'BadgeDollarSign',
-    title: 'Cash Discount at Checkout',
-    description: 'Prefer to pay with cash? Enjoy a special discount in-studio.',
+    name: 'Stone & Scent Combo',
+    icon: 'Flame',
+    blurb: 'Warm stones, foot reflexology, and aromatherapy layered over a full-body massage.',
+    tiers: [
+      {
+        tier: 'Preferred',
+        id: 's:20888277',
+        price: 90,
+        value: 110,
+        duration: '60 min',
+        inclusions: [
+          '50-min body massage (your choice of modality)',
+          '10-min foot reflexology with scrub',
+          'Hot stones',
+          'Aromatherapy / essential oil',
+          'Hot towels',
+        ],
+      },
+      {
+        tier: 'Premier',
+        id: 's:20888346',
+        price: 125,
+        value: 150,
+        duration: '90 min',
+        inclusions: [
+          '60-min body massage (your choice of modality)',
+          '30-min foot reflexology with scrub',
+          'Hot stones',
+          'Aromatherapy / essential oil',
+          'Hot towels',
+        ],
+      },
+      {
+        tier: 'Prestige',
+        id: 's:20888368',
+        price: 155,
+        value: 185,
+        duration: '120 min',
+        inclusions: [
+          '90-min body massage (your choice of modality)',
+          '30-min foot reflexology with scrub',
+          'Hot stones',
+          'Aromatherapy / essential oil',
+          'Hot towels',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Signature Head Spa & Body',
+    icon: 'Droplets',
+    blurb: 'Our signature scalp revival paired with a customized body massage.',
+    tiers: [
+      {
+        tier: 'Signature',
+        id: 's:20891638',
+        price: 125,
+        value: 185,
+        duration: '90–120 min',
+        inclusions: [
+          'Relaxing head, neck & shoulder massage',
+          'Scalp exfoliation & nourishing cleanse',
+          'Keratin-infused conditioner + halo water ring treatment',
+          'Steam therapy with optional herbal treatment',
+          'Argan-oil scalp care & calming aromatherapy',
+          'Customized body massage with hot stone therapy',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Head & TMJ Pain Relief',
+    icon: 'Waves',
+    blurb: 'Targeted work for jaw tension, clenching, and the headaches they cause.',
+    tiers: [
+      {
+        tier: 'Preferred',
+        id: 's:20888530',
+        price: 75,
+        value: 95,
+        duration: '45 min',
+        inclusions: [
+          '15-min head & scalp massage',
+          '20-min jaw massage',
+          '10-min neck & shoulder massage',
+          'Pain-relieving ointment or Tiger Balm',
+          'Eye masks & hot towels',
+        ],
+      },
+      {
+        tier: 'Premier',
+        id: 's:20888564',
+        price: 95,
+        value: 125,
+        duration: '60 min',
+        inclusions: [
+          '20-min head & scalp massage',
+          '20-min jaw massage',
+          '20-min neck & shoulder massage',
+          'Pain-relieving ointment or Tiger Balm',
+          'Eye masks & hot towels',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Upper Body Tension Release',
+    icon: 'Activity',
+    blurb: 'Focused relief for tight shoulders, upper back, and neck.',
+    tiers: [
+      {
+        tier: 'Preferred',
+        id: 's:20888504',
+        price: 70,
+        value: 85,
+        duration: '45 min',
+        inclusions: [
+          '30-min shoulder, upper & lower back massage',
+          '15-min head & neck massage',
+          'Hot stones or herbal heat pack',
+          'Pain-relieving ointment or Tiger Balm',
+          'Hot towels',
+        ],
+      },
+      {
+        tier: 'Premier',
+        id: 's:20888511',
+        price: 90,
+        value: 110,
+        duration: '60 min',
+        inclusions: [
+          '45-min shoulder, upper & lower back massage',
+          '15-min head & neck massage',
+          'Hot stones or herbal heat pack',
+          'Pain-relieving ointment or Tiger Balm',
+          'Hot towels',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Cupping Harmony',
+    icon: 'CircleDot',
+    blurb: 'Dynamic cupping and essential oils over a full-body massage.',
+    tiers: [
+      {
+        tier: 'Preferred',
+        id: 's:20888494',
+        price: 90,
+        value: 105,
+        duration: '60 min',
+        inclusions: [
+          '60-min massage (your choice of modality)',
+          'Dynamic cupping',
+          'Essential oil',
+          'Hot towels',
+        ],
+      },
+      {
+        tier: 'Premier',
+        id: 's:20888499',
+        price: 125,
+        value: 140,
+        duration: '90 min',
+        inclusions: [
+          '90-min massage (your choice of modality)',
+          'Dynamic cupping',
+          'Essential oil',
+          'Hot towels',
+        ],
+      },
+    ],
   },
 ];
 
 /* -------------------------------------------------------------------------- */
-/*  Services (grouped into three tabs)                                        */
+/*  À-la-carte service catalog (grouped as on Fresha)                         */
 /* -------------------------------------------------------------------------- */
 
 export const serviceCategories: ServiceCategory[] = [
   {
-    id: 'signature',
-    label: 'Signature Treatments',
-    blurb: 'Our most distinctive therapies — designed for a deeper kind of reset.',
-    services: [
-      {
-        name: 'Head Spa & Scalp Therapy',
-        icon: 'Droplets',
-        description:
-          'A full reset for your scalp and nervous system — deep cleansing, therapeutic scalp massage, and nourishing treatment that relieves tension, boosts circulation, and restores calm.',
-      },
-      {
-        name: 'TMJ Therapy',
-        icon: 'Waves',
-        description:
-          'Targeted release for jaw tension, clenching, and the headaches they cause, through precise facial and cranial work.',
-      },
-      {
-        name: 'Four Hands Massage',
-        icon: 'HeartHandshake',
-        description:
-          'Two therapists moving in perfect synchrony — an immersive, deeply restorative escape for total surrender.',
-      },
-    ],
-  },
-  {
     id: 'massage',
-    label: 'Massage Therapies',
-    blurb: 'Every session is tailored to your body, from gentle relief to deep therapeutic work.',
+    label: 'Massage',
+    icon: 'Leaf',
+    blurb: 'Every session is tailored to your body — from gentle relief to deep therapeutic work.',
     services: [
-      {
-        name: 'Deep Tissue Massage',
-        icon: 'Activity',
-        description:
-          'Firm, focused pressure that unwinds chronic knots and stubborn muscle tension.',
-      },
-      {
-        name: 'Swedish Massage',
-        icon: 'Leaf',
-        description:
-          'Long, flowing strokes that melt away stress and leave the whole body at ease.',
-      },
-      {
-        name: 'Thai Massage',
-        icon: 'Wind',
-        description:
-          'Assisted stretching and rhythmic pressure to restore flexibility and energy flow.',
-      },
-      {
-        name: 'Sports Massage',
-        icon: 'Dumbbell',
-        description:
-          'Performance-focused work to speed recovery, prevent injury, and loosen tight muscle groups.',
-      },
-      {
-        name: 'Prenatal Massage',
-        icon: 'Baby',
-        description:
-          'Gentle, nurturing care thoughtfully tailored to the comfort of expecting mothers.',
-      },
-      {
-        name: 'Reflexology',
-        icon: 'Footprints',
-        description:
-          'Precise pressure-point work on the feet to relieve tension and rebalance the whole body.',
-      },
+      { name: 'Swedish Massage', id: 's:20874160', priceLabel: 'from $75', duration: '60–120 min', description: 'Gentle, flowing strokes that relax muscles, improve circulation, and melt away stress.' },
+      { name: 'Deep Tissue Massage', id: 's:20874167', priceLabel: 'from $80', duration: '60–120 min', description: 'Firm, deliberate pressure that reaches deeper muscle to relieve chronic tension.' },
+      { name: 'Sports Massage', id: 's:20874176', priceLabel: 'from $75', duration: '60–120 min', description: 'Targeted techniques that boost flexibility, circulation, and muscle recovery.' },
+      { name: 'Thai Massage', id: 's:20874194', priceLabel: 'from $80', duration: '60–90 min', description: 'Acupressure, assisted stretches, and rhythmic compression to restore energy flow.' },
+      { name: 'Prenatal Massage', id: 's:20874198', priceLabel: 'from $80', duration: '60–90 min', description: 'Gentle, soothing relief thoughtfully tailored to the comfort of expecting mothers.' },
+      { name: 'Lomi Lomi Massage', id: 's:20874314', priceLabel: 'from $80', duration: '60–90 min', description: 'Rooted in Hawaiian tradition — rhythmic, flowing strokes that embrace and heal.' },
+      { name: 'Lymphatic Massage', id: 's:20986382', priceLabel: 'from $80', duration: '60–90 min', description: 'Gentle drainage that reduces swelling and encourages the body to release trapped fluid.' },
+      { name: 'Foot Massage', id: 's:20874333', priceLabel: 'from $60', duration: '60–90 min', description: 'Relieves tension, improves circulation, and refreshes you from the ground up.' },
+      { name: 'Upper Body Massage', id: 's:20874242', priceLabel: 'from $80', duration: '60–120 min', description: 'Focused relief for tight shoulders, neck stiffness, and upper-back discomfort.' },
+      { name: 'Couples Massage · 60 min', id: 'p:1651755', priceLabel: '$140', duration: '60 min', description: 'Unwind side by side with your partner in a serene, shared setting.' },
+      { name: 'Couples Massage · 90 min', id: 'p:1651756', priceLabel: '$210', duration: '90 min', description: 'A longer, intimate escape for two — relaxation shared and doubled.' },
+      { name: 'Four Hands Massage · 60 min', id: 'p:1739449', priceLabel: '$140', duration: '60 min', description: 'Two skilled therapists in perfect sync for an immersive, deeply restorative escape.' },
     ],
   },
   {
-    id: 'wellness',
-    label: 'Add-ons & Wellness',
+    id: 'head-spa',
+    label: 'Head Spa',
+    icon: 'Droplets',
+    blurb: 'A full reset for your scalp and nervous system — our signature specialty.',
+    services: [
+      { name: 'Signature Head Spa', id: 's:20874427', priceLabel: 'from $85', duration: '60–90 min', description: 'Scalp revival — cleansing, therapeutic scalp massage, and nourishing treatment that restores calm.' },
+      { name: 'Signature Head Spa & Body Massage', id: 's:20874453', priceLabel: 'from $125', duration: '90–120 min', description: 'Our full scalp revival ritual paired with a customized body massage.' },
+      { name: 'Headache Relief Add-on', id: 's:21174593', priceLabel: '$25', duration: '15 min', description: 'Acupressure, targeted pressure points, and pain-relieving serum to ease headaches.' },
+      { name: 'TMJ Pain Relief Add-On', id: 's:21174605', priceLabel: 'from $30', duration: '15–30 min', description: 'Head, jaw, and neck work to release clenching and jaw tension.' },
+    ],
+  },
+  {
+    id: 'add-ons',
+    label: 'Add-ons',
+    icon: 'Flower2',
     blurb: 'Elevate any treatment with a restorative finishing touch.',
     services: [
-      {
-        name: 'Aromatherapy',
-        icon: 'Flower2',
-        description:
-          'Botanical essential oils woven into your session to calm the mind and elevate the senses.',
-      },
-      {
-        name: 'Cupping',
-        icon: 'CircleDot',
-        description:
-          'Traditional suction therapy that eases tension, boosts circulation, and releases fascia.',
-      },
+      { name: 'Hot Stone', id: 's:20891732', priceLabel: '$20', duration: '15 min', description: 'Soothing warmth that melts away tension and eases muscle stiffness.' },
+      { name: 'Cupping', id: 's:20891771', priceLabel: '$25', duration: '15 min', description: 'Suction therapy that relieves tightness, boosts circulation, and promotes healing.' },
+      { name: 'Aromatherapy', id: 's:20891784', priceLabel: '$20', duration: '15 min', description: 'Essential oils woven into your session to calm the mind and elevate the senses.' },
+      { name: 'Head & TMJ Pain Relief Add-On', id: 's:20888524', priceLabel: 'from $30', duration: '15–30 min', description: 'Head, jaw, and neck massage with pain-relieving ointment and eye masks.' },
+      { name: 'Stretch', id: 's:20891783', priceLabel: '$20', duration: '15 min', description: 'Guided assisted stretching to improve flexibility, mobility, and release.' },
+      { name: 'Foot Exfoliation', id: 's:20891750', priceLabel: '$20', duration: '15 min', description: 'Exfoliation and scrub that softens skin, relieves tension, and restores moisture.' },
+      { name: 'Back Exfoliation', id: 's:20891751', priceLabel: '$25', duration: '15 min', description: 'Exfoliation and scrub to release tension and smooth the skin on your back.' },
+      { name: 'Hand Exfoliation', id: 's:21012158', priceLabel: '$20', duration: '15 min', description: 'A nourishing cream buffs away dryness for soft, renewed hands.' },
+      { name: 'Hand Mask', id: 's:20891745', priceLabel: '$25', duration: '15 min', description: 'A hydrating, rejuvenating mask that leaves hands silky and refreshed.' },
+      { name: 'Jade Cooling Eye Mask', id: 's:20891794', priceLabel: '$20', duration: '15 min', description: 'A cooling jade mask to reduce puffiness and soothe tired eyes.' },
+      { name: 'Pain Relief Ointment', id: 's:20891789', priceLabel: '$20', duration: '15 min', description: 'A fast-acting formula that eases muscle soreness and joint stiffness.' },
     ],
   },
 ];
 
 /* -------------------------------------------------------------------------- */
-/*  Head Spa feature (signature story)                                        */
+/*  Memberships                                                               */
+/* -------------------------------------------------------------------------- */
+
+export const membershipIntro = {
+  eyebrow: 'Membership',
+  title: 'Relax monthly — your membership covers itself',
+  description:
+    'Our members turn self-care into a habit and let their monthly massage more than pay for the membership. Start today and feel the difference from day one.',
+} as const;
+
+export const memberships: Membership[] = [
+  {
+    name: 'Membership',
+    price: '$68',
+    cadence: '/ month',
+    tagline: 'Your membership covers it',
+    description:
+      'Your first 60-minute massage each month is completely free — so your membership pays for itself, and every other perk is a bonus.',
+    perks: [
+      'One free 60-min massage every month',
+      'Member pricing on additional services',
+      'Priority booking & rollover of unused visits',
+      'Cancel anytime',
+    ],
+  },
+  {
+    name: 'Membership Plus',
+    price: '$98',
+    cadence: '/ month',
+    tagline: 'Your monthly dose of luxury',
+    description:
+      'Enjoy a luxurious 90-minute massage each month for just $98 — a $115 value — plus every member benefit at no extra cost.',
+    perks: [
+      'One 90-min massage every month ($115 value)',
+      'All standard member benefits',
+      'Best per-minute value we offer',
+      'Cancel anytime',
+    ],
+    featured: true,
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/*  Head Spa feature                                                          */
 /* -------------------------------------------------------------------------- */
 
 export const headSpa = {
@@ -282,40 +553,38 @@ export const story = {
   ],
 } as const;
 
-export const amenities: Amenity[] = [
-  {
-    icon: 'CircleParking',
-    title: 'Free Parking',
-    description: 'Complimentary on-site and street parking, every visit.',
-  },
-  {
-    icon: 'HeartHandshake',
-    title: 'LGBTQ-Friendly',
-    description: 'An inclusive, transgender-safe space where everyone is welcome.',
-  },
-  {
-    icon: 'Users',
-    title: 'Couples Suite',
-    description: 'A private room for two — perfect for a shared escape.',
-  },
-  {
-    icon: 'Clock',
-    title: 'Open 7 Days',
-    description: 'Morning to night, 9:00 AM – 9:00 PM, every day of the week.',
-  },
-];
+export const amenities = [
+  { icon: 'CircleParking', title: 'Free Parking', description: 'Complimentary on-site and street parking, every visit.' },
+  { icon: 'HeartHandshake', title: 'LGBTQ-Friendly', description: 'An inclusive, transgender-safe space where everyone is welcome.' },
+  { icon: 'Users', title: 'Couples Suite', description: 'A private room for two — perfect for a shared escape.' },
+  { icon: 'Clock', title: 'Open 7 Days', description: 'Morning to night, 9:00 AM – 9:00 PM, every day of the week.' },
+] as const;
 
 /* -------------------------------------------------------------------------- */
-/*  Testimonials (authentic — do not fabricate)                               */
+/*  Testimonials (authentic only — never fabricate). Add real 5-star reviews  */
+/*  here (Google / Fresha). Keep them free of individual therapist names.     */
 /* -------------------------------------------------------------------------- */
 
-export const testimonials = [
+export interface Testimonial {
+  quote: string;
+  author: string;
+  source?: string;
+  rating?: number;
+}
+
+export const testimonials: Testimonial[] = [
   {
     quote:
       'The sublime massage technique at Forest Spa was truly transformative — every touch felt expertly tailored to melt away tension and restore balance.',
     author: 'Verified Guest',
+    rating: 5,
   },
-] as const;
+  {
+    quote: 'Amazing service. Very cute, cozy environment. Will definitely come back!',
+    author: 'Verified Guest',
+    rating: 5,
+  },
+];
 
 /* -------------------------------------------------------------------------- */
 /*  SEO defaults                                                              */
@@ -324,7 +593,7 @@ export const testimonials = [
 export const seo = {
   title: 'Forest Spa | Best Massage & Head Spa in Poway, San Diego',
   description:
-    'Experience the best massage therapy in Poway, San Diego at Forest Spa. Restorative massage and specialized head spa therapies to rejuvenate your mind, body & soul.',
+    'Experience the best massage therapy in Poway, San Diego at Forest Spa. Restorative massage, specialized head spa therapies, packages, and memberships to rejuvenate your mind, body & soul.',
   ogImage: '/og-image.jpg',
   keywords: [
     'massage Poway',
@@ -333,6 +602,8 @@ export const seo = {
     'scalp treatment Poway',
     'deep tissue massage Poway',
     'couples massage Poway',
+    'massage packages Poway',
+    'massage membership Poway',
     'day spa Poway',
   ],
 } as const;

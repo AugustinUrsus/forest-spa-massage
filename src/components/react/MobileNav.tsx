@@ -90,12 +90,12 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
         onClick={() => setOpen(false)}
         aria-hidden="true"
         className={[
-          'fixed inset-0 z-40 bg-charcoal/50 backdrop-blur-sm transition-opacity duration-300',
+          'fixed inset-0 z-40 bg-charcoal/70 backdrop-blur-sm transition-opacity duration-300',
           open ? 'opacity-100' : 'pointer-events-none opacity-0',
         ].join(' ')}
       />
 
-      {/* Drawer */}
+      {/* Drawer — opaque white panel, distinct from the sand page background */}
       <div
         id="mobile-drawer"
         ref={panelRef}
@@ -104,8 +104,9 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
         aria-label="Site menu"
         aria-hidden={!open}
         inert={!open}
+        style={{ backgroundColor: 'var(--color-cloud)' }}
         className={[
-          'fixed inset-y-0 right-0 z-50 flex w-[82%] max-w-sm flex-col bg-sand shadow-2xl transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          'fixed inset-y-0 right-0 z-50 flex w-[82%] max-w-sm flex-col border-l border-black/10 shadow-2xl transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
           open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
         ].join(' ')}
       >

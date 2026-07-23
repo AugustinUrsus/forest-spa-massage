@@ -1,0 +1,101 @@
+---
+import { Coins, Sunrise, Users, Check, CalendarHeart } from 'lucide-react';
+import { monthlySpecial, standingOffers, bookingUrl } from '../../data/siteData';
+
+const save = monthlySpecial.value - monthlySpecial.price;
+
+const offerIcons = { Coins, Sunrise, Users } as const;
+---
+
+<section id="specials" class="scroll-mt-24 bg-charcoal text-sand py-[var(--spacing-section)]">
+  <div class="container-px reveal">
+    <!-- Header -->
+    <div class="max-w-2xl">
+      <p class="eyebrow mb-4 text-gold">{monthlySpecial.month} · Limited Time</p>
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+        {monthlySpecial.headline}
+      </h2>
+    </div>
+
+    <!-- Feature card -->
+    <div
+      class="mt-12 rounded-[var(--radius-card)] border border-gold/30 bg-charcoal-deep/60 p-8 sm:p-10 lg:p-12"
+    >
+      <div class="grid gap-10 lg:grid-cols-2 lg:gap-14">
+        <!-- Left: name, price, summary, CTA -->
+        <div>
+          <h3 class="display-heading text-3xl leading-tight text-sand sm:text-4xl">
+            {monthlySpecial.name}
+          </h3>
+
+          <!-- Price row -->
+          <div class="mt-6 flex flex-wrap items-end gap-x-4 gap-y-3">
+            <span class="font-display text-5xl font-semibold leading-none text-gold sm:text-6xl">
+              ${monthlySpecial.price}
+            </span>
+            <span class="text-xl leading-none text-sand/50 line-through">
+              ${monthlySpecial.value}
+            </span>
+            <span
+              class="inline-flex items-center rounded-full bg-gold px-3 py-1 text-sm font-semibold text-charcoal"
+            >
+              Save ${save}
+            </span>
+            <span class="text-sm text-sand/70">· {monthlySpecial.duration}</span>
+          </div>
+
+          <p class="mt-6 max-w-md text-lg leading-relaxed text-sand/80">
+            {monthlySpecial.summary}
+          </p>
+
+          <div class="mt-9">
+            <a
+              href={bookingUrl(monthlySpecial.id)}
+              target="_blank"
+              rel="noopener"
+              data-book="monthly-special"
+              class="btn btn-on-dark"
+            >
+              <CalendarHeart size={19} strokeWidth={1.6} /> Book the Special
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: inclusions checklist -->
+        <div class="lg:border-l lg:border-sand/10 lg:pl-14">
+          <p class="eyebrow mb-5 text-gold">What's Included</p>
+          <ul class="space-y-4">
+            {
+              monthlySpecial.inclusions.map((inclusion) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold">
+                    <Check size={16} strokeWidth={2} />
+                  </span>
+                  <span class="text-sand/90">{inclusion}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standing offers -->
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        standingOffers.map((offer) => {
+          const Icon = offerIcons[offer.icon];
+          return (
+            <div class="rounded-[var(--radius-card)] border border-sand/10 bg-charcoal-deep/40 p-7">
+              <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-sand/10 text-gold">
+                <Icon size={22} strokeWidth={1.6} />
+              </span>
+              <h3 class="display-heading mt-5 text-lg text-sand">{offer.title}</h3>
+              <p class="mt-2 leading-relaxed text-sand/80">{offer.description}</p>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
