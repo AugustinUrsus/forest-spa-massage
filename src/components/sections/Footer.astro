@@ -1,5 +1,7 @@
 ---
-import { Instagram, Facebook, MapPin, Phone, Mail, CalendarHeart } from 'lucide-react';
+import { MapPin, Phone, Mail, CalendarHeart } from 'lucide-react';
+import Instagram from '../icons/Instagram.astro';
+import Facebook from '../icons/Facebook.astro';
 import BrandMark from '../BrandMark.astro';
 import { business, booking, navLinks, baseUrl } from '../../data/siteData';
 
@@ -76,7 +78,7 @@ const year = new Date().getFullYear();
             aria-label="Forest Spa on Instagram"
             class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sand/20 text-sand/80 transition-colors duration-300 hover:border-gold hover:text-gold"
           >
-            <Instagram size={20} strokeWidth={1.6} />
+            <Instagram size={20} />
           </a>
           <a
             href={business.social.facebook}
@@ -85,7 +87,7 @@ const year = new Date().getFullYear();
             aria-label="Forest Spa on Facebook"
             class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sand/20 text-sand/80 transition-colors duration-300 hover:border-gold hover:text-gold"
           >
-            <Facebook size={20} strokeWidth={1.6} />
+            <Facebook size={20} />
           </a>
         </div>
         <a

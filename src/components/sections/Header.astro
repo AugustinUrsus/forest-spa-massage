@@ -24,7 +24,11 @@ import MobileNav from '../react/MobileNav.tsx';
     <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-4 xl:gap-5">
       {
         navLinks.map((link) => (
-          <a href={link.href} class="whitespace-nowrap text-sm font-medium text-ink transition-colors hover:text-bronze">
+          <a
+            href={link.href}
+            data-nav-link
+            class="whitespace-nowrap text-sm font-medium text-ink transition-colors hover:text-bronze data-[active]:font-semibold data-[active]:text-bronze"
+          >
             {link.label}
           </a>
         ))
@@ -91,9 +95,11 @@ import MobileNav from '../react/MobileNav.tsx';
       // viewport, so the iOS safe-area bars match the content, not a fixed sand frame.
       if (themeMeta && sections.length) {
         const mid = window.innerHeight / 2;
+        let currentId = '';
         for (const el of sections) {
           const r = el.getBoundingClientRect();
           if (r.top <= mid && r.bottom > mid) {
+            currentId = el.id;
             const bg = getComputedStyle(el).backgroundColor;
             if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
               document.documentElement.style.backgroundColor = bg;
@@ -102,6 +108,13 @@ import MobileNav from '../react/MobileNav.tsx';
             }
             break;
           }
+        }
+        if (currentId) {
+          const navLinksEls = header.querySelectorAll<HTMLAnchorElement>('a[data-nav-link]');
+          navLinksEls.forEach((link) => {
+            if (link.hash === `#${currentId}`) link.setAttribute('data-active', '');
+            else link.removeAttribute('data-active');
+          });
         }
       }
       lastY = y;
