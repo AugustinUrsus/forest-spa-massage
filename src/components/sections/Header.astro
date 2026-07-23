@@ -6,13 +6,13 @@ import MobileNav from '../react/MobileNav.tsx';
 ---
 
 <!--
-  Translucent frosted header (alpha bg + backdrop blur incl. the -webkit- prefix),
-  padding the safe-area so it also frosts the status-bar region. Content runs
-  edge-to-edge (viewport-fit=cover) and blurs underneath it.
+  Solid header banner. On phones it hides/shows with a GPU-composited transform
+  transition (smooth at any refresh rate, incl. 120Hz) toggled by scroll
+  direction. Pads the safe-area so the logo clears the status bar.
 -->
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-30 border-b border-black/5 bg-sand/70 text-ink backdrop-blur-md [-webkit-backdrop-filter:blur(14px)] pt-[env(safe-area-inset-top)] transition-shadow duration-300 will-change-transform data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
+  class="fixed inset-x-0 top-0 z-30 border-b border-black/5 bg-sand text-ink pt-[env(safe-area-inset-top)] transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
 >
   <div class="container-px flex h-16 items-center justify-between gap-6">
     <!-- Brand -->
@@ -71,7 +71,6 @@ import MobileNav from '../react/MobileNav.tsx';
   if (header) {
     const mq = window.matchMedia('(max-width: 1023px)');
     let lastY = Math.max(0, window.scrollY);
-    let translate = 0; // 0 = shown · offsetHeight = hidden (slid up), tracks the swipe
     let ticking = false;
 
     const frame = () => {
@@ -80,19 +79,16 @@ import MobileNav from '../react/MobileNav.tsx';
       if (y > 8) header.setAttribute('data-scrolled', '');
       else header.removeAttribute('data-scrolled');
 
-      // Header follows the scroll gesture on phones (enters/exits with the swipe).
+      // Smooth compositor-driven hide/show, toggled by scroll direction (phones).
       if (mq.matches && !document.body.classList.contains('drawer-open')) {
-        const max = header.offsetHeight;
-        translate = Math.min(max, Math.max(0, translate + (y - lastY)));
-        if (y <= 4) translate = 0;
-        header.style.transform = `translate3d(0, ${-translate}px, 0)`;
+        if (y > lastY + 4 && y > 90) header.setAttribute('data-hidden', ''); // down → hide
+        else if (y < lastY - 4 || y < 90) header.removeAttribute('data-hidden'); // up / top → show
       } else {
-        header.style.transform = '';
-        translate = 0;
+        header.removeAttribute('data-hidden');
       }
 
-      // Option A: retint the page background + theme-color to the section under the
-      // viewport, so the iOS safe-area bars (behind the island / URL bar) match it.
+      // Option A: retint <html>/<body> + theme-color to the section under the
+      // viewport, so the iOS safe-area bars match the content, not a fixed sand frame.
       if (themeMeta && sections.length) {
         const mid = window.innerHeight / 2;
         for (const el of sections) {
