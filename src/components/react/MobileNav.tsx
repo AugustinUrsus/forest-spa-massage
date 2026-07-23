@@ -74,14 +74,18 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
   }, [open]);
 
   const overlay = (
-    <div ref={wrapperRef}>
-      {/* Backdrop */}
+    <div
+      ref={wrapperRef}
+      className="pointer-events-none fixed inset-0 z-[55] overflow-hidden"
+    >
+      {/* Backdrop (absolute within the clipped wrapper so the off-screen closed
+          drawer can't create horizontal page overflow) */}
       <div
         onClick={() => setOpen(false)}
         aria-hidden="true"
         className={[
-          'fixed inset-0 z-[60] bg-charcoal/70 backdrop-blur-sm transition-opacity duration-300',
-          open ? 'opacity-100' : 'pointer-events-none opacity-0',
+          'absolute inset-0 bg-charcoal/70 backdrop-blur-sm transition-opacity duration-300',
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         ].join(' ')}
       />
 
@@ -96,7 +100,7 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
         inert={!open}
         style={{ backgroundColor: 'var(--color-cloud)' }}
         className={[
-          'fixed inset-y-0 right-0 z-[70] flex w-[85%] max-w-sm flex-col overflow-y-auto border-l border-black/10 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          'absolute inset-y-0 right-0 flex w-[85%] max-w-sm flex-col overflow-y-auto border-l border-black/10 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
           open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
         ].join(' ')}
       >
