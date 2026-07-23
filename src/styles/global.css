@@ -59,7 +59,6 @@
     overflow-x: clip;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
-    background-color: var(--color-charcoal);
   }
 
   body {
@@ -205,14 +204,6 @@
       color-mix(in srgb, var(--color-bronze) 45%, transparent),
       transparent
     );
-  }
-
-  /* Adaptive Header logo for dark section background */
-  #site-header .header-logo {
-    transition: filter 0.4s ease;
-  }
-  #site-header[data-dark] .header-logo {
-    filter: brightness(0) invert(0.92);
   }
 }
 
