@@ -162,7 +162,7 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
         aria-label="Open menu"
         aria-expanded={open}
         aria-controls="mobile-drawer"
-        className="inline-flex h-11 w-11 items-center justify-center rounded-full text-current transition-colors hover:bg-current/10"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-black/5"
       >
         <Menu size={24} strokeWidth={1.75} />
       </button>

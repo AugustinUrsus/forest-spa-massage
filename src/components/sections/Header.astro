@@ -6,18 +6,17 @@ import MobileNav from '../react/MobileNav.tsx';
 ---
 
 <!--
-  Translucent glass header banner. On phones it hides/shows with a GPU-composited transform
-  transition. Adapts dynamically to light/dark sections below it so system UI (Dynamic Island,
-  status bar, Safari bottom bar) seamlessly blends edge-to-edge.
+  Header banner. Translucent glass overlay on mobile/desktop, with smooth scroll hide/show
+  on mobile and active nav link tracking.
 -->
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-30 bg-sand/80 text-ink border-b border-black/5 pt-[env(safe-area-inset-top)] transition-[translate,box-shadow,background-color,color,border-color] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5 backdrop-blur-lg backdrop-saturate-150 data-[dark]:bg-charcoal/85 data-[dark]:text-sand data-[dark]:border-white/10"
+  class="fixed inset-x-0 top-0 z-30 bg-sand/85 text-ink border-b border-black/5 pt-[env(safe-area-inset-top)] transition-[translate,box-shadow] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5 backdrop-blur-md"
 >
   <div class="container-px flex h-16 items-center justify-between gap-4 xl:gap-6">
     <!-- Brand -->
     <a href={`${baseUrl}#top`} aria-label="Forest Spa home" class="flex items-center">
-      <BrandMark variant="horizontal" class="h-12 w-auto sm:h-14 header-logo" />
+      <BrandMark variant="horizontal" class="h-12 w-auto sm:h-14" />
     </a>
 
     <!-- Desktop nav -->
@@ -27,7 +26,7 @@ import MobileNav from '../react/MobileNav.tsx';
           <a
             href={link.href}
             data-nav-link
-            class="whitespace-nowrap text-sm font-medium text-current transition-colors hover:text-bronze data-[active]:font-semibold data-[active]:text-gold"
+            class="whitespace-nowrap text-sm font-medium text-ink transition-colors hover:text-bronze data-[active]:font-semibold data-[active]:text-bronze"
           >
             {link.label}
           </a>
@@ -40,7 +39,7 @@ import MobileNav from '../react/MobileNav.tsx';
       <a
         href={business.phoneHref}
         data-call="header"
-        class="btn btn-outline hidden px-5 py-2.5 text-sm xl:inline-flex border-current text-current"
+        class="btn btn-outline hidden px-5 py-2.5 text-sm xl:inline-flex"
         aria-label={`Call Forest Spa at ${business.phone}`}
       >
         <Phone size={17} strokeWidth={1.6} />
@@ -70,17 +69,7 @@ import MobileNav from '../react/MobileNav.tsx';
 
 <script>
   const header = document.getElementById('site-header');
-  const themeMeta = document.querySelector('meta[name="theme-color"]');
   const sections = Array.from(document.querySelectorAll('section, footer'));
-
-  const isDarkColor = (rgbStr: string) => {
-    if (!rgbStr) return false;
-    const match = rgbStr.match(/\d+/g);
-    if (!match || match.length < 3) return false;
-    const [r, g, b] = match.map(Number);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness < 128;
-  };
 
   if (header) {
     const mq = window.matchMedia('(max-width: 1023px)');
@@ -101,41 +90,22 @@ import MobileNav from '../react/MobileNav.tsx';
         header.removeAttribute('data-hidden');
       }
 
-      // Dynamic Section Background & System Theme-Color Synchronization
+      // Active section scroll-spy for nav links
       if (sections.length) {
-        const headerRect = header.getBoundingClientRect();
-        const checkY = headerRect.bottom + 10;
-        let activeSection = null;
-        let activeId = '';
-
+        const mid = window.innerHeight / 3;
+        let currentId = '';
         for (const el of sections) {
           const r = el.getBoundingClientRect();
-          if (r.top <= checkY && r.bottom > checkY) {
-            activeSection = el;
-            activeId = el.id;
+          if (r.top <= mid && r.bottom > mid) {
+            currentId = el.id;
             break;
           }
         }
 
-        if (activeSection) {
-          const bg = getComputedStyle(activeSection).backgroundColor;
-          if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
-            document.documentElement.style.backgroundColor = bg;
-            document.body.style.backgroundColor = bg;
-            if (themeMeta) themeMeta.setAttribute('content', bg);
-
-            if (isDarkColor(bg)) {
-              header.setAttribute('data-dark', '');
-            } else {
-              header.removeAttribute('data-dark');
-            }
-          }
-        }
-
-        if (activeId) {
+        if (currentId) {
           const navLinksEls = header.querySelectorAll<HTMLAnchorElement>('a[data-nav-link]');
           navLinksEls.forEach((link) => {
-            if (link.hash === `#${activeId}`) link.setAttribute('data-active', '');
+            if (link.hash === `#${currentId}`) link.setAttribute('data-active', '');
             else link.removeAttribute('data-active');
           });
         }
