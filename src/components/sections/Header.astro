@@ -13,7 +13,7 @@ import MobileNav from '../react/MobileNav.tsx';
 -->
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-30 pt-[env(safe-area-inset-top)] will-change-transform"
+  class="fixed inset-x-0 top-0 z-30 pt-[env(safe-area-inset-top)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform data-[hidden]:-translate-y-full"
 >
   <div
     id="site-header-bar"
@@ -76,29 +76,43 @@ import MobileNav from '../react/MobileNav.tsx';
 <script>
   const header = document.getElementById('site-header');
   const bar = document.getElementById('site-header-bar');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
   if (header && bar) {
-    // Phones/tablets: the header slides in step with the scroll gesture. Updates
-    // are batched into a requestAnimationFrame so the motion is smooth (not the
-    // per-event jank of writing transforms straight from the scroll handler).
+    // Smoothness on iOS (incl. 120Hz ProMotion): moving a fixed element per-scroll
+    // is composited separately from the native scroll and always stutters. Instead
+    // we toggle a GPU-composited CSS transform transition based on scroll direction —
+    // the slide is driven by the compositor, so it stays buttery at any refresh rate.
     const mq = window.matchMedia('(max-width: 1023px)');
+    const themed = Array.from(document.querySelectorAll('section, footer'));
     let lastY = Math.max(0, window.scrollY);
-    let translate = 0; // 0 = fully shown · offsetHeight = fully hidden (slid up)
     let ticking = false;
 
-    const update = () => {
+    const frame = () => {
       ticking = false;
       const y = Math.max(0, window.scrollY);
       if (y > 8) bar.setAttribute('data-scrolled', '');
       else bar.removeAttribute('data-scrolled');
 
       if (mq.matches && !document.body.classList.contains('drawer-open')) {
-        const max = header.offsetHeight; // includes safe-area padding + bar height
-        translate = Math.min(max, Math.max(0, translate + (y - lastY)));
-        if (y <= 4) translate = 0; // always fully reveal at the very top
-        header.style.transform = `translate3d(0, ${-translate}px, 0)`;
+        if (y > lastY + 4 && y > 90) header.setAttribute('data-hidden', ''); // down → hide
+        else if (y < lastY - 4 || y < 90) header.removeAttribute('data-hidden'); // up / top → show
       } else {
-        header.style.transform = '';
-        translate = 0;
+        header.removeAttribute('data-hidden');
+      }
+
+      // Tint the iOS status bar / URL bar to match the section under it, so the
+      // safe areas blend into the content instead of showing a solid sand frame.
+      if (themeMeta) {
+        for (const el of themed) {
+          const r = el.getBoundingClientRect();
+          if (r.top <= 1 && r.bottom > 1) {
+            const bg = getComputedStyle(el).backgroundColor;
+            if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+              themeMeta.setAttribute('content', bg);
+            }
+            break;
+          }
+        }
       }
       lastY = y;
     };
@@ -106,13 +120,11 @@ import MobileNav from '../react/MobileNav.tsx';
     const onScroll = () => {
       if (!ticking) {
         ticking = true;
-        requestAnimationFrame(update);
+        requestAnimationFrame(frame);
       }
     };
-    update();
+    frame();
     window.addEventListener('scroll', onScroll, { passive: true });
-    mq.addEventListener('change', () => {
-      if (!mq.matches) header.style.transform = '';
-    });
+    mq.addEventListener('change', frame);
   }
 </script>
