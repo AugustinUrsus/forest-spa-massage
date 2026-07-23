@@ -62,13 +62,20 @@
   }
 
   body {
-    background-color: transparent;
+    background-color: var(--color-sand);
     color: var(--color-ink);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-synthesis: none;
     overflow-x: clip;
+    /* JS retints body/html to the section under the viewport so the iOS safe-area
+       bars (behind the dynamic island / URL bar) match the content; crossfade it. */
+    transition: background-color 0.4s ease;
+  }
+
+  html {
+    transition: background-color 0.4s ease;
   }
 
   h1, h2, h3, h4 {
