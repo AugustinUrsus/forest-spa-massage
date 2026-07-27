@@ -8,6 +8,8 @@ import {
   Waves,
   Activity,
   CircleDot,
+  Monitor,
+  Footprints,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -33,6 +35,8 @@ const ICONS: Record<string, LucideIcon> = {
   Waves,
   Activity,
   CircleDot,
+  Monitor,
+  Footprints,
 };
 
 function TierCard({ tier, pkgName }: { tier: Tier; pkgName: string }) {

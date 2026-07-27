@@ -40,6 +40,8 @@ export interface PackageTier {
   value: number | null;
   duration: string | null;
   inclusions: string[];
+  /** Optional explicit booking URL; overrides the id-based deep link. */
+  url?: string;
 }
 
 export interface Package {
@@ -433,6 +435,94 @@ export const packages: Package[] = [
           '90-min massage (your choice of modality)',
           'Dynamic cupping',
           'Essential oil or Pain relief oil',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Computer Relief',
+    icon: 'Monitor',
+    blurb: 'Targeted relief for the back, shoulders, and arms — ideal for desk- and screen-bound tension.',
+    tiers: [
+      {
+        tier: 'Preferred',
+        id: '',
+        url: booking.primary,
+        price: 90,
+        value: 105,
+        duration: '60 min',
+        inclusions: [
+          '30-min shoulders, arms, wrist & hands targeted massage',
+          '30-min deep tissue or Thai body massage',
+          'Pain-relieving ointment or Tiger Balm',
+          'Herbal heat pack or hot stones',
+        ],
+      },
+      {
+        tier: 'Premier',
+        id: '',
+        url: booking.primary,
+        price: 120,
+        value: 140,
+        duration: '90 min',
+        inclusions: [
+          '45-min shoulders, arms, wrist & hands targeted massage',
+          '45-min deep tissue or Thai body massage',
+          'Pain-relieving ointment or Tiger Balm',
+          'Herbal heat pack or hot stones',
+        ],
+      },
+      {
+        tier: 'Prestige',
+        id: '',
+        url: booking.primary,
+        price: 150,
+        value: 180,
+        duration: '120 min',
+        inclusions: [
+          '45-min shoulders, arms, wrist & hands targeted massage',
+          '30-min upper back or TMJ tension relief',
+          '45-min deep tissue or Thai body massage',
+          'Herbal heat pack or hot stones',
+          'Pain-relieving ointment or Tiger Balm',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Runner Rescue',
+    icon: 'Footprints',
+    blurb: 'Built for active legs — leg-focused work, stretch, and recovery for runners and athletes.',
+    tiers: [
+      {
+        tier: 'Preferred',
+        id: '',
+        url: booking.primary,
+        price: 90,
+        value: 110,
+        duration: '60 min',
+        inclusions: [
+          '25-min body massage (Swedish, Sports, or Deep Tissue)',
+          '25-min leg-focused massage (quads, hamstrings, glutes, IT bands & calves)',
+          '10-min body stretch',
+          'Hot stones',
+          'Pain-relieving ointment or Tiger Balm',
+        ],
+      },
+      {
+        tier: 'Premier',
+        id: '',
+        url: booking.primary,
+        price: 125,
+        value: 145,
+        duration: '90 min',
+        inclusions: [
+          '30-min body massage (Swedish, Sports, or Deep Tissue)',
+          '40-min leg-focused massage (quads, hamstrings, glutes, IT bands & calves)',
+          '10-min foot reflexology',
+          '10-min body stretch',
+          'Hot stones',
+          'Pain-relieving ointment or Tiger Balm',
         ],
       },
     ],

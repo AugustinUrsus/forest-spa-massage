@@ -13,7 +13,7 @@ const data = packages.map((p) => ({
     value: t.value,
     duration: t.duration,
     inclusions: t.inclusions,
-    href: bookingUrl(t.id),
+    href: t.url ?? bookingUrl(t.id),
   })),
 }));
 ---
