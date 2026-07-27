@@ -22,7 +22,7 @@ export default function HeadSpaCarousel({ slides }: { slides: Slide[] }) {
     if (reduce) return;
     const id = window.setInterval(() => {
       if (!paused.current) setIndex((p) => (p + 1) % n);
-    }, 5000);
+    }, 4000);
     return () => window.clearInterval(id);
   }, [n]);
 
