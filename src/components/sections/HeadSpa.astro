@@ -1,23 +1,40 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import { Check, Droplets, ArrowRight } from 'lucide-react';
 import { headSpa, booking, bookingUrl } from '../../data/siteData';
-import headImg from '../../assets/images/head-spa.jpg';
+import HeadSpaCarousel from '../react/HeadSpaCarousel.tsx';
+import headSpa1 from '../../assets/images/head-spa-1.jpg';
+import headSpa2 from '../../assets/images/head-spa-2.jpg';
+import headSpa3 from '../../assets/images/head-spa-3.jpg';
+import headSpa4 from '../../assets/images/head-spa-4.jpg';
+
+// Optimize each carousel image (webp, responsive widths) at build time, then
+// hand the resulting src/srcset to the React island.
+const carousel = [
+  { src: headSpa1, alt: 'Soothing scalp and head massage during a Forest Spa head spa treatment' },
+  { src: headSpa2, alt: 'Relaxing head and face massage wrapped in a warm towel at Forest Spa' },
+  { src: headSpa3, alt: 'Nourishing scalp cleanse and lather in the head spa basin' },
+  { src: headSpa4, alt: 'Guest enjoying a calming scalp treatment at Forest Spa' },
+];
+const slides = await Promise.all(
+  carousel.map(async ({ src, alt }) => {
+    const img = await getImage({
+      src,
+      widths: [480, 768, 1000, 1400],
+      sizes: '(min-width:1024px) 50vw, 100vw',
+      format: 'webp',
+    });
+    return { src: img.src, srcset: img.srcSet.attribute, alt };
+  }),
+);
 ---
 
 <section id="head-spa" class="bg-cloud py-[var(--spacing-section)]">
   <div class="container-px reveal">
     <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <!-- Image column (right on desktop, first on mobile) -->
-      <div class="lg:order-2 lg:h-full">
-        <Image
-          src={headImg}
-          alt="Forest Spa head spa station with a gold waterfall basin and fresh flowers"
-          class="rounded-[var(--radius-card)] shadow-xl w-full h-full object-cover"
-          widths={[480, 768, 1000]}
-          sizes="(min-width:1024px) 50vw, 100vw"
-          loading="lazy"
-        />
+      <div class="lg:order-2">
+        <HeadSpaCarousel client:visible slides={slides} />
       </div>
 
       <!-- Text column -->

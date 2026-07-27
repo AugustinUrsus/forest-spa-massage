@@ -11,10 +11,10 @@ Static marketing site for **Forest Spa** (Poway, CA), migrated from Wix to **Ast
 ## Page structure & component map
 Single page: `src/pages/index.astro` composes sections in this **exact order** (each `<section>` id is the in-page anchor target). Order is intentional and was set by the owner — don't reshuffle casually:
 `Header` → `Hero` (`#top`) → `Services` (`#services`) → `Packages` (`#packages`) → `MonthlySpecial` (`#specials`) → `HeadSpa` (`#head-spa`) → `Membership` (`#membership`) → `Story` (`#story`) → `Testimonials` → `GiftCard` (`#gift-cards`) → `Location` (`#location`) → `Footer` → `StickyMobileBar`.
-- All section components live in `src/components/sections/*.astro`; React islands in `src/components/react/*.tsx` (`ServiceTabs`, `Packages` uses none, `TestimonialCarousel`, `MobileNav`). `navLinks` in `siteData.ts` drives header + drawer and must stay in sync with the section ids above.
+- All section components live in `src/components/sections/*.astro`; React islands in `src/components/react/*.tsx` (`ServiceTabs`, `PackageSelector`, `TestimonialCarousel`, `MobileNav`, `HeadSpaCarousel`). `navLinks` in `siteData.ts` drives header + drawer and must stay in sync with the section ids above.
 - **Section background rhythm** alternates light/dark: Hero (charcoal) → Services (`bg-sand-deep`) → Packages → MonthlySpecial (charcoal) → HeadSpa (`bg-cloud`) → … → GiftCard (charcoal) → Location. Hero's bottom fade (`to-sand-deep`) must match whatever section follows it.
 - **Hero mobile vs desktop:** subhead is `hidden sm:block` (hidden on phones per owner); hero image uses `object-[64%_center] sm:object-center` so the candles show on mobile without colliding with text. Hero has three CTAs: Book Appointment (`booking.primary`), Explore Services (`#services`), Gift Cards (`booking.giftCards`).
-- **HeadSpa** renders the intro/benefits column + image, then a 2-up card grid from `headSpa.services` (each card books via `bookingUrl(s.id)`). The big "Book Head Spa" CTA uses `booking.headSpa`.
+- **HeadSpa** renders the intro/benefits column + a rotating image carousel (`HeadSpaCarousel` island — crossfades 4 photos, auto-advances, pauses on hover, reduced-motion-safe; sources optimized at build via `getImage`), then a 2-up card grid from `headSpa.services` (each card books via `bookingUrl(s.id)`). The big "Book Head Spa" CTA uses `booking.headSpa`.
 
 ## Booking-link conventions (how CTAs are built)
 Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts`:
@@ -73,7 +73,8 @@ The full catalog lives in `src/data/siteData.ts`, extracted from the Fresha venu
 ## Assets (reused from the Wix CDN, re-optimized)
 Source Wix host: `static.wixstatic.com/media/`. Local optimized copies:
 - `src/assets/images/hero-ambiance.jpg` ← `f042476f…` (candles/diffuser — hero bg)
-- `src/assets/images/head-spa.jpg` ← `f815ad0c…` (head-spa basin — Head Spa section)
+- `src/assets/images/head-spa.jpg` ← `f815ad0c…` (head-spa basin — now unused; superseded by the carousel)
+- `src/assets/images/head-spa-{1..4}.jpg` ← photos from the Wix `/head-spa` page (scalp massage, head/face massage, scalp wash, scalp treatment — the Head Spa carousel)
 - `src/assets/images/couples-room.jpg` ← `a58ec307…` (couples room w/ sage linens — Story/Location; original was a 29MB PNG, downscaled)
 - `public/*` favicons + `og-image.jpg` (1200×630, dark brand lockup) ← emblem `81438fb…` and OG lockup `c64c2bdc…`
 - Fonts pulled from `static.wixstatic.com/ufonts/24f85d_3d335c6…` (bold) & `…a02d4bfb…` (regular).
