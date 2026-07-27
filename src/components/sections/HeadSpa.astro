@@ -3,18 +3,18 @@ import { getImage } from 'astro:assets';
 import { Check, Droplets, ArrowRight } from 'lucide-react';
 import { headSpa, booking, bookingUrl } from '../../data/siteData';
 import HeadSpaCarousel from '../react/HeadSpaCarousel.tsx';
+import headBasin from '../../assets/images/head-spa.jpg';
 import headSpa1 from '../../assets/images/head-spa-1.jpg';
 import headSpa2 from '../../assets/images/head-spa-2.jpg';
 import headSpa3 from '../../assets/images/head-spa-3.jpg';
-import headSpa4 from '../../assets/images/head-spa-4.jpg';
 
 // Optimize each carousel image (webp, responsive widths) at build time, then
 // hand the resulting src/srcset to the React island.
 const carousel = [
+  { src: headSpa3, alt: 'Nourishing scalp cleanse and lather in the head spa basin' },
   { src: headSpa1, alt: 'Soothing scalp and head massage during a Forest Spa head spa treatment' },
   { src: headSpa2, alt: 'Relaxing head and face massage wrapped in a warm towel at Forest Spa' },
-  { src: headSpa3, alt: 'Nourishing scalp cleanse and lather in the head spa basin' },
-  { src: headSpa4, alt: 'Guest enjoying a calming scalp treatment at Forest Spa' },
+  { src: headBasin, alt: 'Forest Spa head spa station with a gold waterfall basin and fresh flowers' },
 ];
 const slides = await Promise.all(
   carousel.map(async ({ src, alt }) => {

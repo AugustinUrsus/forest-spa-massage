@@ -73,8 +73,8 @@ The full catalog lives in `src/data/siteData.ts`, extracted from the Fresha venu
 ## Assets (reused from the Wix CDN, re-optimized)
 Source Wix host: `static.wixstatic.com/media/`. Local optimized copies:
 - `src/assets/images/hero-ambiance.jpg` ← `f042476f…` (candles/diffuser — hero bg)
-- `src/assets/images/head-spa.jpg` ← `f815ad0c…` (head-spa basin — now unused; superseded by the carousel)
-- `src/assets/images/head-spa-{1..4}.jpg` ← photos from the Wix `/head-spa` page (scalp massage, head/face massage, scalp wash, scalp treatment — the Head Spa carousel)
+- `src/assets/images/head-spa.jpg` ← `f815ad0c…` (gold basin — the final slide of the Head Spa carousel)
+- `src/assets/images/head-spa-{1..3}.jpg` ← photos from the Wix `/head-spa` page (scalp wash, scalp massage, head/face massage — the first three Head Spa carousel slides); `head-spa-4.jpg` is currently unused
 - `src/assets/images/couples-room.jpg` ← `a58ec307…` (couples room w/ sage linens — Story/Location; original was a 29MB PNG, downscaled)
 - `public/*` favicons + `og-image.jpg` (1200×630, dark brand lockup) ← emblem `81438fb…` and OG lockup `c64c2bdc…`
 - Fonts pulled from `static.wixstatic.com/ufonts/24f85d_3d335c6…` (bold) & `…a02d4bfb…` (regular).
