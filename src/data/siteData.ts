@@ -420,7 +420,7 @@ export const packages: Package[] = [
         inclusions: [
           '60-min massage (your choice of modality)',
           'Dynamic cupping',
-          'Pain relief oil',
+          'Essential oil or Pain relief oil',
         ],
       },
       {
@@ -432,7 +432,7 @@ export const packages: Package[] = [
         inclusions: [
           '90-min massage (your choice of modality)',
           'Dynamic cupping',
-          'Pain relief oil',
+          'Essential oil or Pain relief oil',
         ],
       },
     ],
