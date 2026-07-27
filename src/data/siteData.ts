@@ -250,7 +250,6 @@ export const packages: Package[] = [
           '20-min head, scalp & TMJ massage with eye mask',
           '10-min hand massage with hand mask',
           '20-min foot massage with foot scrub',
-          '10-min stretching',
           'Aromatherapy',
         ],
       },
@@ -421,7 +420,7 @@ export const packages: Package[] = [
         inclusions: [
           '60-min massage (your choice of modality)',
           'Dynamic cupping',
-          'Essential oil',
+          'Pain relief oil',
         ],
       },
       {
@@ -433,7 +432,7 @@ export const packages: Package[] = [
         inclusions: [
           '90-min massage (your choice of modality)',
           'Dynamic cupping',
-          'Essential oil',
+          'Pain relief oil',
         ],
       },
     ],
