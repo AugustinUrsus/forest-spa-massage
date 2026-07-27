@@ -447,7 +447,7 @@ export const packages: Package[] = [
       {
         tier: 'Preferred',
         id: '',
-        url: booking.primary,
+        url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A23950414&share=true&pId=2602780',
         price: 90,
         value: 105,
         duration: '60 min',
@@ -461,7 +461,7 @@ export const packages: Package[] = [
       {
         tier: 'Premier',
         id: '',
-        url: booking.primary,
+        url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A23950422&share=true&pId=2602780',
         price: 120,
         value: 140,
         duration: '90 min',
@@ -475,7 +475,7 @@ export const packages: Package[] = [
       {
         tier: 'Prestige',
         id: '',
-        url: booking.primary,
+        url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A23950438&share=true&pId=2602780',
         price: 150,
         value: 180,
         duration: '120 min',
@@ -497,7 +497,7 @@ export const packages: Package[] = [
       {
         tier: 'Preferred',
         id: '',
-        url: booking.primary,
+        url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A23950454&share=true&pId=2602780',
         price: 90,
         value: 110,
         duration: '60 min',
@@ -512,7 +512,7 @@ export const packages: Package[] = [
       {
         tier: 'Premier',
         id: '',
-        url: booking.primary,
+        url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A23950466&share=true&pId=2602780',
         price: 125,
         value: 145,
         duration: '90 min',
