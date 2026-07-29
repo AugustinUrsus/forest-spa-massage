@@ -584,7 +584,7 @@ export const serviceCategories: ServiceCategory[] = [
       { name: 'Hand Mask', id: 's:20891745', priceLabel: '$25', duration: '15 min', description: 'A hydrating, rejuvenating mask that leaves hands silky and refreshed.' },
       { name: 'Jade Cooling Eye Mask', id: 's:20891794', priceLabel: '$20', duration: '15 min', description: 'A cooling jade mask to reduce puffiness and soothe tired eyes.' },
       { name: 'Pain Relief Ointment', id: 's:20891789', priceLabel: '$20', duration: '15 min', description: 'A fast-acting formula that eases muscle soreness and joint stiffness.' },
-      { name: 'Herbal Detox Heat Pad', id: '', url: booking.primary, priceLabel: '$15', duration: null, description: 'A soothing blend of mugwort (traditional warming herb) and minerals, heated to melt away toxins and boost circulation.' },
+      { name: 'Herbal Detox Heat Pad', id: '', url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A28584824&share=true&pId=2602780', priceLabel: '$15', duration: null, description: 'A soothing blend of mugwort (traditional warming herb) and minerals, heated to melt away toxins and boost circulation.' },
     ],
   },
 ];
