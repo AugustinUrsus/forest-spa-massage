@@ -94,8 +94,11 @@ export default function ServiceTabs({ categories }: Props) {
               </div>
               {s.inSessionPrice ? (
                 <p className="mb-3 text-xs leading-relaxed text-ink-soft/70">
-                  Added to a massage · or {s.priceLabel}
-                  {s.duration ? ` for ${s.duration}` : ''} on its own
+                  <span className="block">Added to a massage</span>
+                  <span className="block">
+                    or {s.priceLabel}
+                    {s.duration ? ` for ${s.duration}` : ''} on its own
+                  </span>
                 </p>
               ) : (
                 s.duration && (

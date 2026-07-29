@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { MouseEvent as ReactMouseEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { Menu, X, Phone, CalendarHeart } from 'lucide-react';
 import type { NavLink } from '../../data/siteData';
@@ -76,6 +77,26 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
     };
   }, [open]);
 
+  // In-page hash links can't scroll while the drawer has the body scroll-locked
+  // (and <main> is inert), so close the drawer first, then scroll to the target
+  // on the next frames once scrolling is unlocked and the target is interactive.
+  const goToLink = (e: ReactMouseEvent<HTMLAnchorElement>, href: string) => {
+    const hashIndex = href.indexOf('#');
+    const target = hashIndex >= 0 ? document.getElementById(href.slice(hashIndex + 1)) : null;
+    if (!target) {
+      setOpen(false);
+      return;
+    }
+    e.preventDefault();
+    setOpen(false);
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: 'smooth' });
+        history.pushState(null, '', href);
+      }),
+    );
+  };
+
   const overlay = (
     <div
       ref={wrapperRef}
@@ -126,7 +147,7 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
             <a
               key={link.href}
               href={link.href}
-              onClick={() => setOpen(false)}
+              onClick={(e) => goToLink(e, link.href)}
               className="display-heading rounded-2xl px-3 py-3.5 text-2xl font-semibold tracking-wide text-ink transition-colors hover:text-bronze"
             >
               {link.label}
