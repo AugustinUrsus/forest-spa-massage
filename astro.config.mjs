@@ -62,8 +62,12 @@ export default defineConfig({
   redirects,
   integrations: [
     react(),
-    // Only real, canonical pages belong in the sitemap — not redirect stubs.
-    sitemap({ filter: (page) => page === homeUrl || /\/terms-conditions\/?$/.test(page) }),
+    // Only the homepage is indexable (terms-conditions is noindex; redirect stubs
+    // aren't real pages). Stamp each entry with a build-time lastmod for crawlers.
+    sitemap({
+      filter: (page) => page === homeUrl,
+      serialize: (item) => ({ ...item, lastmod: new Date().toISOString() }),
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],

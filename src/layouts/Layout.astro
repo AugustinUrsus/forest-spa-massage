@@ -16,12 +16,15 @@ interface Props {
   description?: string;
   /** Path (relative to site) or absolute URL of the social share image. */
   image?: string;
+  /** Keep this page out of the search index (e.g. legal pages). */
+  noindex?: boolean;
 }
 
 const {
   title = seo.title,
   description = seo.description,
   image = seo.ogImage,
+  noindex = false,
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL; // "/" (custom domain) or "/forest-spa-massage/"
@@ -119,7 +122,7 @@ const schema = {
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     <meta name="author" content={business.name} />
     <link rel="canonical" href={canonical} />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,26 +197,37 @@ const schema = {
     <!-- Meta Pixel (only when configured) -->
     {
       analytics.metaPixelId && (
-        <script is:inline define:vars={{ pixelId: analytics.metaPixelId }}>
-          !(function (f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function () {
-              n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s);
-          })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', pixelId);
-          fbq('track', 'PageView');
-        </script>
+        <>
+          <script is:inline define:vars={{ pixelId: analytics.metaPixelId }}>
+            !(function (f, b, e, v, n, t, s) {
+              if (f.fbq) return;
+              n = f.fbq = function () {
+                n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+              };
+              if (!f._fbq) f._fbq = n;
+              n.push = n;
+              n.loaded = !0;
+              n.version = '2.0';
+              n.queue = [];
+              t = b.createElement(e);
+              t.async = !0;
+              t.src = v;
+              s = b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t, s);
+            })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', pixelId);
+            fbq('track', 'PageView');
+          </script>
+          <noscript>
+            <img
+              height="1"
+              width="1"
+              style="display:none"
+              src={`https://www.facebook.com/tr?id=${analytics.metaPixelId}&ev=PageView&noscript=1`}
+              alt=""
+            />
+          </noscript>
+        </>
       )
     }
   </head>
