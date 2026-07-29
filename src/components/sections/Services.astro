@@ -10,6 +10,7 @@ const categories = serviceCategories.map((c) => ({
   services: c.services.map((s) => ({
     name: s.name,
     priceLabel: s.priceLabel,
+    inSessionPrice: s.inSessionPrice ?? null,
     duration: s.duration,
     description: s.description,
     href: s.url ?? bookingUrl(s.id),

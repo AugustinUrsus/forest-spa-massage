@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 interface Item {
   name: string;
   priceLabel: string;
+  inSessionPrice?: string | null;
   duration: string | null;
   description: string;
   href: string;
@@ -87,12 +88,21 @@ export default function ServiceTabs({ categories }: Props) {
             <li className="surface-card group flex h-full flex-col p-6">
               <div className="mb-3 flex items-baseline justify-between gap-3">
                 <h3 className="display-heading text-lg font-semibold leading-tight">{s.name}</h3>
-                <span className="shrink-0 font-semibold text-bronze">{s.priceLabel}</span>
+                <span className="shrink-0 font-semibold text-bronze">
+                  {s.inSessionPrice ?? s.priceLabel}
+                </span>
               </div>
-              {s.duration && (
-                <p className="mb-3 text-xs font-medium uppercase tracking-widest text-ink-soft/70">
-                  {s.duration}
+              {s.inSessionPrice ? (
+                <p className="mb-3 text-xs leading-relaxed text-ink-soft/70">
+                  Added to a massage · or {s.priceLabel}
+                  {s.duration ? ` for ${s.duration}` : ''} on its own
                 </p>
+              ) : (
+                s.duration && (
+                  <p className="mb-3 text-xs font-medium uppercase tracking-widest text-ink-soft/70">
+                    {s.duration}
+                  </p>
+                )
               )}
               <p className="mb-6 text-sm leading-relaxed text-ink-soft">{s.description}</p>
               <div className="mt-auto flex justify-end">

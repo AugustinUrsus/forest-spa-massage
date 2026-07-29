@@ -23,6 +23,9 @@ export interface Service {
   description: string;
   /** Optional explicit booking URL; overrides the id-based deep link. */
   url?: string;
+  /** Add-ons only: price when woven into a massage at no added time. The
+   *  standalone `priceLabel` (with its `duration`) runs about $10 more. */
+  inSessionPrice?: string;
 }
 
 export interface ServiceCategory {
@@ -571,19 +574,19 @@ export const serviceCategories: ServiceCategory[] = [
     id: 'add-ons',
     label: 'Add-ons',
     icon: 'Flower2',
-    blurb: 'Enhance any massage with a finishing touch — most are woven into your session at no extra time. Standalone booking times are shown below.',
+    blurb: 'Enhance any massage with a finishing touch. Each add-on comes two ways — woven into your massage at no extra time, or booked on its own with its own time (about $10 more).',
     services: [
-      { name: 'Hot Stone', id: 's:20891732', priceLabel: '$20', duration: '15 min', description: 'Soothing warmth that melts away tension and eases muscle stiffness.' },
-      { name: 'Cupping', id: 's:20891771', priceLabel: '$25', duration: '15 min', description: 'Suction therapy that relieves tightness, boosts circulation, and promotes healing.' },
-      { name: 'Aromatherapy', id: 's:20891784', priceLabel: '$20', duration: '15 min', description: 'Essential oils woven into your session to calm the mind and elevate the senses.' },
-      { name: 'Head & TMJ Pain Relief Add-On', id: 's:20888524', priceLabel: 'from $30', duration: '15–30 min', description: 'Head & scalp, jaw, and neck & shoulder massage with pain-relieving ointment or Tiger Balm and a soothing eye mask.' },
-      { name: 'Stretch', id: 's:20891783', priceLabel: '$20', duration: '15 min', description: 'Guided assisted stretching to improve flexibility, mobility, and release.' },
-      { name: 'Foot Exfoliation', id: 's:20891750', priceLabel: '$20', duration: '15 min', description: 'Exfoliation and scrub that softens skin, relieves tension, and restores moisture.' },
-      { name: 'Back Exfoliation', id: 's:20891751', priceLabel: '$25', duration: '15 min', description: 'Exfoliation and scrub to release tension and smooth the skin on your back.' },
-      { name: 'Hand Exfoliation', id: 's:21012158', priceLabel: '$20', duration: '15 min', description: 'A nourishing cream buffs away dryness for soft, renewed hands.' },
-      { name: 'Hand Mask', id: 's:20891745', priceLabel: '$25', duration: '15 min', description: 'A hydrating, rejuvenating mask that leaves hands silky and refreshed.' },
-      { name: 'Jade Cooling Eye Mask', id: 's:20891794', priceLabel: '$20', duration: '15 min', description: 'A cooling jade mask to reduce puffiness and soothe tired eyes.' },
-      { name: 'Pain Relief Ointment', id: 's:20891789', priceLabel: '$20', duration: '15 min', description: 'A fast-acting formula that eases muscle soreness and joint stiffness.' },
+      { name: 'Hot Stone', id: 's:20891732', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'Soothing warmth that melts away tension and eases muscle stiffness.' },
+      { name: 'Cupping', id: 's:20891771', priceLabel: '$25', inSessionPrice: '$15', duration: '15 min', description: 'Suction therapy that relieves tightness, boosts circulation, and promotes healing.' },
+      { name: 'Aromatherapy', id: 's:20891784', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'Essential oils woven into your session to calm the mind and elevate the senses.' },
+      { name: 'Head & TMJ Pain Relief Add-On', id: 's:20888524', priceLabel: 'from $30', inSessionPrice: 'from $20', duration: '15–30 min', description: 'Head & scalp, jaw, and neck & shoulder massage with pain-relieving ointment or Tiger Balm and a soothing eye mask.' },
+      { name: 'Stretch', id: 's:20891783', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'Guided assisted stretching to improve flexibility, mobility, and release.' },
+      { name: 'Foot Exfoliation', id: 's:20891750', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'Exfoliation and scrub that softens skin, relieves tension, and restores moisture.' },
+      { name: 'Back Exfoliation', id: 's:20891751', priceLabel: '$25', inSessionPrice: '$15', duration: '15 min', description: 'Exfoliation and scrub to release tension and smooth the skin on your back.' },
+      { name: 'Hand Exfoliation', id: 's:21012158', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'A nourishing cream buffs away dryness for soft, renewed hands.' },
+      { name: 'Hand Mask', id: 's:20891745', priceLabel: '$25', inSessionPrice: '$15', duration: '15 min', description: 'A hydrating, rejuvenating mask that leaves hands silky and refreshed.' },
+      { name: 'Jade Cooling Eye Mask', id: 's:20891794', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'A cooling jade mask to reduce puffiness and soothe tired eyes.' },
+      { name: 'Pain Relief Ointment', id: 's:20891789', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'A fast-acting formula that eases muscle soreness and joint stiffness.' },
       { name: 'Herbal Detox Heat Pad', id: '', url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A28584824&share=true&pId=2602780', priceLabel: '$15', duration: null, description: 'A soothing blend of mugwort (traditional warming herb) and minerals, heated to melt away toxins and boost circulation.' },
     ],
   },
