@@ -1,6 +1,6 @@
 ---
 import { getImage } from 'astro:assets';
-import { CircleParking, HeartHandshake, Users, Clock } from 'lucide-react';
+import { CircleParking, Users, Clock } from 'lucide-react';
 import { story, amenities } from '../../data/siteData';
 import ImageCarousel from '../react/ImageCarousel.tsx';
 import couplesImg from '../../assets/images/couples-room.jpg';
@@ -10,7 +10,6 @@ import sanctuary2 from '../../assets/images/sanctuary-2.jpg';
 /** Map amenity.icon names (from siteData) to their lucide-react components. */
 const amenityIcons = {
   CircleParking,
-  HeartHandshake,
   Users,
   Clock,
 } as const;
@@ -62,7 +61,7 @@ const slides = await Promise.all(
 
     <!-- Amenities: one per row on phone → 2 → 4 columns on larger screens -->
     <div class="hair-rule mt-16 lg:mt-20"></div>
-    <ul class="mt-14 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-4">
+    <ul class="mt-14 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3">
       {
         amenities.map((amenity) => {
           const Icon = amenityIcons[amenity.icon as keyof typeof amenityIcons];

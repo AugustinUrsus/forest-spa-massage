@@ -37,7 +37,7 @@ Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts
 - **Phone:** (858) 288-2600  ·  tel:+18582882600
 - **Email:** forestspa206@gmail.com
 - **Hours:** Mon–Sun, 9:00 AM – 9:00 PM (uniform daily)
-- **Attributes:** Free on-site + street parking · LGBTQ-friendly · Transgender safe space · Couples suite
+- **Attributes:** Free on-site + street parking · Couples suite · Open 7 days (the LGBTQ-friendly / transgender-safe-space amenity card was removed by the owner — don't re-add it)
 - **Offers:** 10% off couple sessions · Cash discount at checkout
 - **Taglines:** "Unwind. Recharge. Revive." / "Experience the best massage therapy in Poway, San Diego."
 

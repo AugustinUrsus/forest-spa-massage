@@ -691,7 +691,6 @@ export const story = {
 
 export const amenities = [
   { icon: 'CircleParking', title: 'Free Parking', description: 'Complimentary on-site and street parking, every visit.' },
-  { icon: 'HeartHandshake', title: 'LGBTQ-Friendly', description: 'An inclusive, transgender-safe space where everyone is welcome.' },
   { icon: 'Users', title: 'Couples Suite', description: 'A private room for two — perfect for a shared escape.' },
   { icon: 'Clock', title: 'Open 7 Days', description: 'Morning to night, 9:00 AM – 9:00 PM, every day of the week.' },
 ] as const;
