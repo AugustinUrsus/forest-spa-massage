@@ -3,6 +3,7 @@ import { getImage } from 'astro:assets';
 import { CircleParking, HeartHandshake, Users, Clock } from 'lucide-react';
 import { story, amenities } from '../../data/siteData';
 import ImageCarousel from '../react/ImageCarousel.tsx';
+import couplesImg from '../../assets/images/couples-room.jpg';
 import sanctuary1 from '../../assets/images/sanctuary-1.jpg';
 import sanctuary2 from '../../assets/images/sanctuary-2.jpg';
 
@@ -15,9 +16,10 @@ const amenityIcons = {
 } as const;
 
 // Treatment-room photos, optimized at build time then handed to the island.
-// Both are 16:9 originals; the carousel frames them at 3:2 so the beds stay
-// centered without the wide crop losing the room around them.
+// The original couples-room shot leads (4:3), followed by two 16:9 photos; the
+// carousel frames them all at 3:2 so the beds stay centered in every slide.
 const carousel = [
+  { src: couplesImg, alt: 'Forest Spa couples treatment room with two massage tables in sage-green linens' },
   { src: sanctuary1, alt: 'Forest Spa couples suite with two massage tables dressed in sage-green linens' },
   { src: sanctuary2, alt: 'Private Forest Spa treatment room with a single massage table and soft natural light' },
 ];
