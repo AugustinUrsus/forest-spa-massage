@@ -24,7 +24,7 @@ export interface Service {
   /** Optional explicit booking URL; overrides the id-based deep link. */
   url?: string;
   /** Add-ons only: price when woven into a massage at no added time. The
-   *  standalone `priceLabel` (with its `duration`) runs about $10 more. */
+   *  standalone `priceLabel` (with its `duration`) runs $10 more. */
   inSessionPrice?: string;
 }
 
@@ -574,7 +574,7 @@ export const serviceCategories: ServiceCategory[] = [
     id: 'add-ons',
     label: 'Add-ons',
     icon: 'Flower2',
-    blurb: 'Enhance any massage with a finishing touch. Each add-on comes two ways — woven into your massage at no extra time, or booked on its own with its own time (about $10 more).',
+    blurb: 'Enhance any massage with a finishing touch. Each add-on comes two ways — woven into your massage at no extra time, or booked on its own with its own time (for $10 more).',
     services: [
       { name: 'Hot Stone', id: 's:20891732', priceLabel: '$20', inSessionPrice: '$10', duration: '15 min', description: 'Soothing warmth that melts away tension and eases muscle stiffness.' },
       { name: 'Cupping', id: 's:20891771', priceLabel: '$25', inSessionPrice: '$15', duration: '15 min', description: 'Suction therapy that relieves tightness, boosts circulation, and promotes healing.' },
