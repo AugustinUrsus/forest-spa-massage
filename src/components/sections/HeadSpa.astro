@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import { Check, Droplets, ArrowRight } from 'lucide-react';
 import { headSpa, booking, bookingUrl } from '../../data/siteData';
-import HeadSpaCarousel from '../react/HeadSpaCarousel.tsx';
+import ImageCarousel from '../react/ImageCarousel.tsx';
 import headBasin from '../../assets/images/head-spa.jpg';
 import headSpa1 from '../../assets/images/head-spa-1.jpg';
 import headSpa2 from '../../assets/images/head-spa-2.jpg';
@@ -34,7 +34,7 @@ const slides = await Promise.all(
     <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <!-- Image column (right on desktop, first on mobile) -->
       <div class="lg:order-2">
-        <HeadSpaCarousel client:visible slides={slides} />
+        <ImageCarousel client:visible slides={slides} label="Head spa treatments" />
       </div>
 
       <!-- Text column -->

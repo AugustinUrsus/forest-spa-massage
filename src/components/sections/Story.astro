@@ -1,8 +1,10 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import { CircleParking, HeartHandshake, Users, Clock } from 'lucide-react';
 import { story, amenities } from '../../data/siteData';
-import couplesImg from '../../assets/images/couples-room.jpg';
+import ImageCarousel from '../react/ImageCarousel.tsx';
+import sanctuary1 from '../../assets/images/sanctuary-1.jpg';
+import sanctuary2 from '../../assets/images/sanctuary-2.jpg';
 
 /** Map amenity.icon names (from siteData) to their lucide-react components. */
 const amenityIcons = {
@@ -11,19 +13,36 @@ const amenityIcons = {
   Users,
   Clock,
 } as const;
+
+// Treatment-room photos, optimized at build time then handed to the island.
+// Both are 16:9 originals; the carousel frames them at 3:2 so the beds stay
+// centered without the wide crop losing the room around them.
+const carousel = [
+  { src: sanctuary1, alt: 'Forest Spa couples suite with two massage tables dressed in sage-green linens' },
+  { src: sanctuary2, alt: 'Private Forest Spa treatment room with a single massage table and soft natural light' },
+];
+const slides = await Promise.all(
+  carousel.map(async ({ src, alt }) => {
+    const img = await getImage({
+      src,
+      widths: [480, 768, 1000, 1400],
+      sizes: '(min-width:1024px) 50vw, 100vw',
+      format: 'webp',
+    });
+    return { src: img.src, srcset: img.srcSet.attribute, alt };
+  }),
+);
 ---
 
 <section id="story" class="bg-sand py-[var(--spacing-section)]">
   <div class="container-px reveal">
-    <!-- Two-column: image on the left, story text on the right -->
+    <!-- Two-column: image carousel on the left, story text on the right -->
     <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <Image
-        src={couplesImg}
-        alt="Forest Spa couples treatment room with sage-green linens"
-        class="w-full rounded-[var(--radius-card)] object-cover shadow-xl"
-        widths={[480, 768, 1100]}
-        sizes="(min-width:1024px) 50vw, 100vw"
-        loading="lazy"
+      <ImageCarousel
+        client:visible
+        slides={slides}
+        label="Forest Spa treatment rooms"
+        aspectClass="aspect-[3/2]"
       />
 
       <div class="max-w-xl">

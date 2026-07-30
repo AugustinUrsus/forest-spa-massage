@@ -22,7 +22,7 @@ export default function TestimonialCarousel({ reviews }: { reviews: Review[] }) 
     if (reduce) return;
     const id = window.setInterval(() => {
       if (!paused.current) setIndex((p) => (p + 1) % n);
-    }, 7000);
+    }, 2000);
     return () => window.clearInterval(id);
   }, [n]);
 
