@@ -7,7 +7,8 @@
  * offer id, e.g. `s:20891732` (Hot Stone) → …/booking?offerItemId=s:20891732.
  *
  * ── To update the MONTHLY SPECIAL each month: edit the `monthlySpecial` object
- *    below (name, price, value, duration, inclusions, and the Fresha `id`).
+ *    below (month, headline, name/shortName, `options` price tiers, validity,
+ *    inclusions, and the Fresha `url`).
  */
 
 /* -------------------------------------------------------------------------- */
@@ -79,7 +80,7 @@ export const business = {
   legalName: 'Forest Spa',
   category: 'Massage Spa & Head Spa Sanctuary',
   tagline: 'Unwind. Recharge. Revive.',
-  headline: 'Experience the best massage therapy in Poway, San Diego.',
+  headline: 'Experience The Best Massage Therapy In Poway, San Diego.',
   subhead:
     'Rejuvenate your mind, body & soul in our nature-inspired sanctuary — restorative massage and specialized head spa therapies for total mind-body renewal.',
   description:
@@ -180,21 +181,25 @@ export const navLinks: NavLink[] = [
 /* -------------------------------------------------------------------------- */
 
 export const monthlySpecial = {
-  /** Short month label shown in the eyebrow, e.g. "July". */
-  month: 'This Month',
-  headline: 'The Monthly Special',
-  name: 'Stone & Scent Combo · Premier',
-  id: 's:24804390',
-  price: 120,
-  value: 150,
-  duration: '90 min',
+  /** Short month label shown in the eyebrow + hero ribbon, e.g. "August". */
+  month: 'August',
+  headline: 'The August Special',
+  name: 'Summer Cooling Head Spa + Foot Massage Combo',
+  /** Condensed name for the hero ribbon, where the full name is too long. */
+  shortName: 'Head Spa + Foot Massage Combo',
+  /** Prebuilt Fresha link for this special (owner-supplied; no offerItemId). */
+  url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A28631565&share=true&pId=2602780',
+  /** Duration tiers. First entry is the headline price (hero ribbon, "from"). */
+  options: [
+    { duration: '90 min', price: 110, value: 125 },
+    { duration: '120 min', price: 130, value: 145 },
+  ],
+  validity: 'Valid August 1 – August 31 only.',
   summary:
-    'Our most-loved seasonal escape — a full-body ritual of massage, warm stones, foot reflexology, and aromatherapy at a limited-time price.',
+    'A cooling summer reset — our signature scalp ritual paired with a restorative foot massage that eases heat, swelling, and end-of-day fatigue.',
   inclusions: [
-    '60-min body massage — Swedish, Sports, Thai, Deep Tissue, or Lomi Lomi',
-    '30-min foot reflexology with scrub',
-    'Warm hot stones',
-    'Aromatherapy / essential oil',
+    '60-min Signature Head Spa — deep scalp cleansing with a soothing head and neck massage to relieve tension, eye pressure, and summer tiredness',
+    '30-min or 60-min restorative foot massage — targeted pressure points to boost circulation, relieve swollen legs, and promote deep, restful sleep',
   ],
 } as const;
 
@@ -202,7 +207,7 @@ export const monthlySpecial = {
 export const standingOffers = [
   {
     icon: 'Coins',
-    title: 'Cash Discount at Checkout',
+    title: 'Cash Discount At Checkout',
     description: 'Pay with cash and enjoy a free hot stone or essential oil add-on with your service.',
     id: 's:22810448',
   },
@@ -599,7 +604,7 @@ export const serviceCategories: ServiceCategory[] = [
 
 export const membershipIntro = {
   eyebrow: 'Membership',
-  title: 'Relax monthly — your membership covers itself',
+  title: 'Relax Monthly — Your Membership Covers Itself',
   description:
     'Our members turn self-care into a habit and let their monthly massage more than pay for the membership. Start today and feel the difference from day one.',
 } as const;
@@ -646,7 +651,7 @@ export const memberships: Membership[] = [
 
 export const headSpa = {
   eyebrow: 'Signature Head Spa',
-  title: 'Refresh your mind with our signature Head Spa',
+  title: 'Refresh Your Mind With Our Signature Head Spa',
   intro:
     'Your scalp works harder than you think. Daily stress, pollution, and product buildup lead to tension, dryness, and lackluster hair. Our head spa treatments go beyond basic massage — they are a full reset for your scalp and nervous system.',
   benefits: [
@@ -683,7 +688,7 @@ export const headSpa = {
 
 export const story = {
   eyebrow: 'Our Sanctuary',
-  title: 'A biophilic retreat in the heart of Poway',
+  title: 'A Biophilic Retreat In The Heart Of Poway',
   paragraphs: [
     'Forest Spa was created as an oasis of biophilic healing — a warm, nature-inspired space where the pace of the outside world falls away the moment you step inside.',
     'Our skilled therapists tailor every session to your unique wellness needs, bringing you the luxury of true relaxation without the luxury price tag. Discover the art of healing in our serene retreat, and let nature and nurture work their magic.',
@@ -751,7 +756,7 @@ export const testimonials: Testimonial[] = [
 /* -------------------------------------------------------------------------- */
 
 export const seo = {
-  title: 'Forest Spa | Best Massage & Head Spa in Poway, San Diego',
+  title: 'Forest Spa | Best Massage & Head Spa In Poway, San Diego',
   description:
     'Experience the best massage therapy in Poway, San Diego at Forest Spa. Restorative massage, specialized head spa therapies, packages, and memberships to rejuvenate your mind, body & soul.',
   ogImage: '/og-image.jpg',
@@ -778,15 +783,15 @@ export const legal = {
     'Protecting your personal information is our top priority. This Privacy Policy governs data collection and usage for Forest Spa and its website. Unless otherwise stated, all references to Forest Spa include this website. By using the Forest Spa website, you consent to the practices outlined in this policy.',
   sections: [
     {
-      heading: 'Collection of Personal Information',
+      heading: 'Collection Of Personal Information',
       body: 'To better serve you, Forest Spa may collect personally identifiable information — including but not limited to your first and last name, email address, and phone number. We only collect personal information when it is voluntarily provided by you, such as when you submit payment details for a purchase. Your information is used primarily to communicate with you about requested services.',
     },
     {
-      heading: 'Use of Personal Information',
+      heading: 'Use Of Personal Information',
       body: 'Forest Spa uses your personal information to operate and deliver requested services, and to inform you of other products or offerings from Forest Spa and its affiliates.',
     },
     {
-      heading: 'Sharing Information with Third Parties',
+      heading: 'Sharing Information With Third Parties',
       body: 'Forest Spa does not sell, rent, or lease customer lists. We may share data with trusted partners for service delivery; these parties are contractually obligated to maintain confidentiality and may only use your data to provide services to Forest Spa. We may disclose personal information if legally required or to help ensure user and public safety.',
     },
     {
@@ -794,7 +799,7 @@ export const legal = {
       body: 'Technical data such as your IP address, browser type, domain names, access times, and referring websites may be collected automatically. This information helps us maintain service quality and analyze site usage.',
     },
     {
-      heading: 'Use of Cookies',
+      heading: 'Use Of Cookies',
       body: 'The Forest Spa website uses cookies to enhance your experience. Cookies are small text files stored on your device that streamline processes like billing or registration. You may adjust your browser settings to decline cookies, though some features may be limited.',
     },
     {
@@ -802,7 +807,7 @@ export const legal = {
       body: 'Our site may link to third-party websites. Forest Spa is not responsible for their content or privacy practices. We encourage you to review the privacy policies of any external sites you visit.',
     },
     {
-      heading: 'Right to Deletion',
+      heading: 'Right To Deletion',
       body: 'Upon a verified request, we will delete your personal information unless retention is necessary to enable internal uses reasonably aligned with your expectations or to comply with a legal obligation.',
     },
     {

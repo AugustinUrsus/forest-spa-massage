@@ -1,8 +1,6 @@
 ---
 import { Coins, Sunrise, Users, Check, CalendarHeart } from 'lucide-react';
-import { monthlySpecial, standingOffers, bookingUrl } from '../../data/siteData';
-
-const save = monthlySpecial.value - monthlySpecial.price;
+import { monthlySpecial, standingOffers } from '../../data/siteData';
 
 const offerIcons = { Coins, Sunrise, Users } as const;
 ---
@@ -28,35 +26,43 @@ const offerIcons = { Coins, Sunrise, Users } as const;
             {monthlySpecial.name}
           </h3>
 
-          <!-- Price row -->
-          <div class="mt-6 flex flex-wrap items-end gap-x-4 gap-y-3">
-            <span class="font-display text-5xl font-semibold leading-none text-gold sm:text-6xl">
-              ${monthlySpecial.price}
-            </span>
-            <span class="text-xl leading-none text-sand/50 line-through">
-              ${monthlySpecial.value}
-            </span>
-            <span
-              class="inline-flex items-center rounded-full bg-gold px-3 py-1 text-sm font-semibold text-charcoal"
-            >
-              Save ${save}
-            </span>
-            <span class="text-sm text-sand/70">· {monthlySpecial.duration}</span>
+          <!-- Price rows: one per duration tier -->
+          <div class="mt-6 space-y-4">
+            {
+              monthlySpecial.options.map((option) => (
+                <div class="flex flex-wrap items-end gap-x-4 gap-y-2">
+                  <span class="font-display text-4xl font-semibold leading-none text-gold sm:text-5xl">
+                    ${option.price}
+                  </span>
+                  <span class="text-lg leading-none text-sand/50 line-through">
+                    ${option.value}
+                  </span>
+                  <span
+                    class="inline-flex items-center rounded-full bg-gold px-3 py-1 text-sm font-semibold text-charcoal"
+                  >
+                    Save ${option.value - option.price}
+                  </span>
+                  <span class="text-sm text-sand/70">· {option.duration}</span>
+                </div>
+              ))
+            }
           </div>
 
           <p class="mt-6 max-w-md text-lg leading-relaxed text-sand/80">
             {monthlySpecial.summary}
           </p>
 
+          <p class="mt-4 text-sm text-sand/60">{monthlySpecial.validity}</p>
+
           <div class="mt-9">
             <a
-              href={bookingUrl(monthlySpecial.id)}
+              href={monthlySpecial.url}
               target="_blank"
               rel="noopener"
               data-book="monthly-special"
               class="btn btn-on-dark"
             >
-              <CalendarHeart size={19} strokeWidth={1.6} /> Book the Special
+              <CalendarHeart size={19} strokeWidth={1.6} /> Book The Special
             </a>
           </div>
         </div>
