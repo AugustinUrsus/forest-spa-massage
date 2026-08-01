@@ -55,7 +55,7 @@ Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts
 ## Services & booking (Fresha) — mirror the live menu
 The full catalog lives in `src/data/siteData.ts`, extracted from the Fresha venue's `__NEXT_DATA__`. Every booking link is a per-item deep link built by **`bookingUrl(offerId)`** → `…/booking?offerItemId=<id>&share=true&pId=2602780&dppub=true` (e.g. Hot Stone `s:20891732`, Swedish `s:20874160`, packages use `s:…`/`p:…` ids). Structures:
 - `serviceCategories` — à-la-carte: **Massage** (12), **Head Spa** (4), **Add-ons** (11), each item `{name,id,priceLabel,duration,description}`. Rendered by the `ServiceTabs` island (`#services`).
-- `packages` — 6 combos with 2–3 tiers each (Preferred/Premier/Prestige), `{tier,id,price,value,duration,inclusions[]}`. Rendered by `Packages.astro` (`#packages`) — the highest-value page.
+- `packages` — 8 combos with 2–3 tiers each (Preferred/Premier/Prestige), `{tier,id,price,value,duration,inclusions[]}`. Rendered by `Packages.astro` (`#packages`) — the highest-value page. Chinese staff-facing cheat sheet: `docs/packages-staff-zh.txt` (keep it in sync when package contents or prices change).
 - `monthlySpecial` + `standingOffers` — **update `monthlySpecial` every month** (name/price/value/duration/inclusions/id). Rendered prominently by `MonthlySpecial.astro` (`#specials`) + a hero ribbon.
 - `memberships` — two tiers ($68 / $98 Plus), `Membership.astro` (`#membership`); "join" = phone/in-studio.
 - `testimonials` — real, name-free 5-star reviews only (never fabricate); `Testimonials.astro` uses the `TestimonialCarousel` island. To refresh the Fresha data, re-run the `__NEXT_DATA__` extraction from `https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro`.
