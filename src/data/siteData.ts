@@ -215,7 +215,8 @@ export const standingOffers = [
   {
     icon: 'Users',
     title: '10% Off Couple Sessions',
-    description: 'Share the calm — book any session for two and save together.',
+    description:
+      'Share the calm — book a massage for two and save together. Regular massage services only; not valid on packages or discounted specials.',
     id: 'p:1651755',
   },
 ] as const;

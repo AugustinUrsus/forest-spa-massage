@@ -38,7 +38,7 @@ Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts
 - **Email:** forestspa206@gmail.com
 - **Hours:** Mon–Sun, 9:00 AM – 9:00 PM (uniform daily)
 - **Attributes:** Free on-site + street parking · Couples suite · Open 7 days (the LGBTQ-friendly / transgender-safe-space amenity card was removed by the owner — don't re-add it)
-- **Offers:** 10% off couple sessions · Cash discount at checkout
+- **Offers:** 10% off couple sessions (**regular massage services only — not valid on packages or discounted specials**) · Cash discount at checkout
 - **Taglines:** "Unwind. Recharge. Revive." / "Experience the best massage therapy in Poway, San Diego."
 
 ## Booking — Fresha (all CTAs point here)
