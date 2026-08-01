@@ -1,8 +1,8 @@
 ---
-import { Coins, Sunrise, Users, Check, CalendarHeart } from 'lucide-react';
+import { Coins, Sunrise, Check, CalendarHeart } from 'lucide-react';
 import { monthlySpecial, standingOffers } from '../../data/siteData';
 
-const offerIcons = { Coins, Sunrise, Users } as const;
+const offerIcons = { Coins, Sunrise } as const;
 ---
 
 <section id="specials" class="bg-charcoal text-sand py-[var(--spacing-section)]">
@@ -87,7 +87,7 @@ const offerIcons = { Coins, Sunrise, Users } as const;
     </div>
 
     <!-- Standing offers -->
-    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-8 grid gap-5 sm:grid-cols-2">
       {
         standingOffers.map((offer) => {
           const Icon = offerIcons[offer.icon];

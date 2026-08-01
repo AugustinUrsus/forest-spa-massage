@@ -217,13 +217,6 @@ export const standingOffers = [
     description: 'Mon–Thu before 11:30 am. Cannot be combined with other promotions.',
     id: 's:22684381',
   },
-  {
-    icon: 'Users',
-    title: '10% Off Couple Sessions',
-    description:
-      'Share the calm — book a massage for two and save together. Regular massage services only; not valid on packages or discounted specials.',
-    id: 'p:1651755',
-  },
 ] as const;
 
 /* -------------------------------------------------------------------------- */
@@ -313,7 +306,7 @@ export const packages: Package[] = [
     ],
   },
   {
-    name: 'Signature Head Spa & Body',
+    name: 'Signature Head Spa & Body Massage',
     icon: 'Droplets',
     blurb: 'Our signature scalp revival paired with a customized body massage.',
     tiers: [

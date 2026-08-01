@@ -30,7 +30,8 @@ Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts
 - **TMJ add-ons** must mention the eye mask + the other included items in their description.
 - **Testimonials**: real 5-star reviews only, authors as first-name + initial (e.g. `Sam T.`). Never fabricate.
 - **Headings are Title Case with EVERY word capitalized** (owner's preference, incl. short words: "Every Therapy, À La Carte", "A Biophilic Retreat In The Heart Of Poway", "Use Of Cookies"). Applies to the h1, section h2s, card h3s, eyebrows, the `<title>`, and the terms-page headings. Body copy, summaries, and inclusions stay sentence case.
-- **Couples 10% off** applies to **regular massage services only** — not packages, not the monthly/discounted specials. Keep that caveat in the offer copy.
+- **No couples discount**: the couples 10% off was removed from the site (Aug 2026, owner). Only two standing offers remain — cash discount and Early Bird.
+- **Staff cheat sheet** (`docs/packages-staff-zh.txt`) is deliberately **one page, package contents only** — no prices, no specials, no promo terms. Tiers are merged per package with `45 / 60`-style duration lists; keep every line ≤80 display columns so it prints on one sheet.
 
 
 ## Business facts (NAP)
@@ -40,7 +41,7 @@ Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts
 - **Email:** forestspa206@gmail.com
 - **Hours:** Mon–Sun, 9:00 AM – 9:00 PM (uniform daily)
 - **Attributes:** Free on-site + street parking · Couples suite · Open 7 days (the LGBTQ-friendly / transgender-safe-space amenity card was removed by the owner — don't re-add it)
-- **Offers:** 10% off couple sessions (**regular massage services only — not valid on packages or discounted specials**) · Cash discount at checkout
+- **Offers:** Cash discount at checkout · Early Bird 10% off (Mon–Thu before 11:30 am). The **couples 10% off was removed** by the owner (Aug 2026) — don't re-add it to `standingOffers` or anywhere else.
 - **Taglines:** "Unwind. Recharge. Revive." / "Experience the best massage therapy in Poway, San Diego."
 
 ## Booking — Fresha (all CTAs point here)
