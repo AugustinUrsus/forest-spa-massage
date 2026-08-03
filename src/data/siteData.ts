@@ -253,7 +253,7 @@ export const packages: Package[] = [
           '60-min body massage',
           '20-min head, scalp & TMJ massage with eye mask',
           '10-min hand massage with hand mask',
-          '20-min foot massage with foot scrub',
+          '30-min foot massage with foot scrub',
           'Aromatherapy',
         ],
       },
