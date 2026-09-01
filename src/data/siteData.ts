@@ -193,12 +193,12 @@ export const monthlySpecial = {
   options: [{ duration: '90 min', price: 125, value: 175 }],
   validity: 'Valid September 1 – September 30 only.',
   summary:
-    'A full 90-minute reset for the long weekend — a head-to-toe full body massage layered with targeted jaw, neck, and shoulder work for anyone who carries the week in their face and shoulders.',
+    'A full 90-minute reset for the long weekend — a customized full body massage layered with targeted jaw, neck, and shoulder work for anyone who carries the week in their face and shoulders.',
   inclusions: [
-    '60-min full body massage — head-to-toe pressure tailored to you, easing overall tension and fatigue',
-    '10-min head and scalp massage — releases pressure behind the eyes and quiets a busy mind',
-    '10-min jaw massage — targeted TMJ relief for clenching, grinding, and jaw tightness',
-    '10-min neck and shoulder massage — unwinds desk-and-screen tension at the base of the skull',
+    '60-min full body massage — pressure tailored to you, easing overall tension and fatigue',
+    'Head and scalp massage — releases pressure behind the eyes and quiets a busy mind',
+    'Jaw massage — targeted TMJ relief for clenching, grinding, and jaw tightness',
+    'Neck and shoulder massage — unwinds desk-and-screen tension at the base of the skull',
     'Pain relieving ointment or Tiger Balm applied to the areas that need it most',
     'Eye mask for a fully restful, light-free session',
   ],
