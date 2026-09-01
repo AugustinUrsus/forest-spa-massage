@@ -27,7 +27,7 @@ Every per-item CTA is a **Fresha deep link**. Two shapes coexist in `siteData.ts
 ## Data-content rules (owner-enforced)
 - **No "hot towels"** anywhere in descriptions/inclusions (owner removed them). "Hot stones"/"herbal heat pack" are fine.
 - **Add-ons**: most are woven into a massage at no extra time; category blurb says so, and standalone booking durations are still shown per item.
-- **TMJ add-ons** must mention the eye mask + the other included items in their description.
+- **TMJ add-ons** must mention the eye mask + the other included items in their description. The **Head & TMJ Pain Relief Add-On** deliberately has **no `inSessionPrice`** (owner, Aug 2026) — it shows only `from $30` + the `15–30 min` duration line, not the "Added to a massage / or … on its own" note.
 - **Testimonials**: real 5-star reviews only, authors as first-name + initial (e.g. `Sam T.`). Never fabricate.
 - **Headings are Title Case with EVERY word capitalized** (owner's preference, incl. short words: "Every Therapy, À La Carte", "A Biophilic Retreat In The Heart Of Poway", "Use Of Cookies"). Applies to the h1, section h2s, card h3s, eyebrows, the `<title>`, and the terms-page headings. Body copy, summaries, and inclusions stay sentence case.
 - **No couples discount**: the couples 10% off was removed from the site (Aug 2026, owner). Only two standing offers remain — cash discount and Early Bird.
