@@ -33,7 +33,9 @@ import heroImg from '../../assets/images/hero-ambiance.jpg';
       >
         <Sparkles size={15} />
         <span>
-          {monthlySpecial.month} · {monthlySpecial.shortName} — from ${monthlySpecial.options[0].price}
+          {monthlySpecial.month} · {monthlySpecial.shortName} — {
+            monthlySpecial.options.length > 1 ? 'from ' : ''
+          }${monthlySpecial.options[0].price}
           <span class="text-gold/60 line-through">${monthlySpecial.options[0].value}</span>
         </span>
         <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />

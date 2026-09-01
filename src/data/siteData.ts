@@ -182,24 +182,25 @@ export const navLinks: NavLink[] = [
 
 export const monthlySpecial = {
   /** Short month label shown in the eyebrow + hero ribbon, e.g. "August". */
-  month: 'August',
-  headline: 'The August Special',
-  name: 'Summer Cooling Head Spa + Foot Massage Combo',
+  month: 'September',
+  headline: 'The Labor Day Special',
+  name: 'Labor Day Reset: 90-Min Full Body & TMJ Relief Combo',
   /** Condensed name for the hero ribbon, where the full name is too long. */
-  shortName: 'Head Spa + Foot Massage Combo',
+  shortName: 'Full Body & TMJ Relief Combo',
   /** Prebuilt Fresha link for this special (owner-supplied; no offerItemId). */
-  url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A28631565&share=true&pId=2602780',
+  url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A29066348&share=true&pId=2602780',
   /** Duration tiers. First entry is the headline price (hero ribbon, "from"). */
-  options: [
-    { duration: '90 min', price: 110, value: 125 },
-    { duration: '120 min', price: 130, value: 145 },
-  ],
-  validity: 'Valid August 1 – August 31 only.',
+  options: [{ duration: '90 min', price: 125, value: 175 }],
+  validity: 'Valid September 1 – September 30 only.',
   summary:
-    'A cooling summer reset — our signature scalp ritual paired with a restorative foot massage that eases heat, swelling, and end-of-day fatigue.',
+    'A full 90-minute reset for the long weekend — a head-to-toe full body massage layered with targeted jaw, neck, and shoulder work for anyone who carries the week in their face and shoulders.',
   inclusions: [
-    '60-min Signature Head Spa — deep scalp cleansing with a soothing head and neck massage to relieve tension, eye pressure, and summer tiredness',
-    '30-min or 60-min restorative foot massage — targeted pressure points to boost circulation, relieve swollen legs, and promote deep, restful sleep',
+    '60-min full body massage — head-to-toe pressure tailored to you, easing overall tension and fatigue',
+    '10-min head and scalp massage — releases pressure behind the eyes and quiets a busy mind',
+    '10-min jaw massage — targeted TMJ relief for clenching, grinding, and jaw tightness',
+    '10-min neck and shoulder massage — unwinds desk-and-screen tension at the base of the skull',
+    'Pain relieving ointment or Tiger Balm applied to the areas that need it most',
+    'Eye mask for a fully restful, light-free session',
   ],
 } as const;
 
