@@ -24,6 +24,7 @@
  *   node scripts/gsc-report.mjs --json
  */
 
+import './lib/proxy.mjs';
 import { config, getAccessToken, SCOPES, num, delta, bar, table, windows } from './lib/google-auth.mjs';
 
 const DEFAULT_SITE = 'https://www.forestspamassage.com/';
@@ -164,7 +165,12 @@ async function main() {
   const token = await getAccessToken(keyFile, SCOPES.searchConsole);
   const range = (r) => ({ startDate: r.startDate, endDate: r.endDate });
 
-  const [curQ, prevQ, daily, pages, devices, countries] = await Promise.all([
+  const [curTotal, prevTotal, curQ, prevQ, daily, pages, devices, countries] = await Promise.all([
+    // No dimensions → one true total row. Summing query rows undercounts,
+    // because Search Console withholds long-tail queries below a privacy
+    // threshold; those impressions exist but never appear as rows.
+    query(siteUrl, token, { ...range(current) }),
+    query(siteUrl, token, { ...range(previous) }),
     query(siteUrl, token, { ...range(current), dimensions: ['query'], rowLimit: 5000 }),
     query(siteUrl, token, { ...range(previous), dimensions: ['query'], rowLimit: 5000 }),
     query(siteUrl, token, { ...range(current), dimensions: ['date'], rowLimit: 500 }),
@@ -199,17 +205,28 @@ async function main() {
     return i ? (sum(rows, 'clicks') / i) * 100 : 0;
   };
 
+  // Prefer the true no-dimension totals; fall back to query sums if that call
+  // was rejected. `T` rows carry the same metric fields, just un-dimensioned.
+  const tot = (report, fallback) => (report.rows?.length ? report.rows : fallback);
+  const cT = tot(curTotal, cur);
+  const pT = tot(prevTotal, prv);
+
   console.log(
     table(
       ['metric', 'current', 'previous', 'change'],
       [
-        ['Impressions', num(sum(cur, 'impressions')), num(sum(prv, 'impressions')), delta(sum(cur, 'impressions'), sum(prv, 'impressions'))],
-        ['Clicks', num(sum(cur, 'clicks')), num(sum(prv, 'clicks')), delta(sum(cur, 'clicks'), sum(prv, 'clicks'))],
-        ['CTR', `${ctr(cur).toFixed(2)}%`, `${ctr(prv).toFixed(2)}%`, delta(ctr(cur), ctr(prv))],
-        ['Avg position', avgPosition(cur).toFixed(1), avgPosition(prv).toFixed(1), delta(avgPosition(prv), avgPosition(cur))],
-        ['Distinct queries', num(cur.length), num(prv.length), delta(cur.length, prv.length)],
+        ['Impressions', num(sum(cT, 'impressions')), num(sum(pT, 'impressions')), delta(sum(cT, 'impressions'), sum(pT, 'impressions'))],
+        ['Clicks', num(sum(cT, 'clicks')), num(sum(pT, 'clicks')), delta(sum(cT, 'clicks'), sum(pT, 'clicks'))],
+        ['CTR', `${ctr(cT).toFixed(2)}%`, `${ctr(pT).toFixed(2)}%`, delta(ctr(cT), ctr(pT))],
+        ['Avg position', avgPosition(cT).toFixed(1), avgPosition(pT).toFixed(1), delta(avgPosition(pT), avgPosition(cT))],
+        ['Distinct queries (named)', num(cur.length), num(prv.length), delta(cur.length, prv.length)],
       ],
     ),
+  );
+  console.log(
+    `\n  Note: "distinct queries" counts only queries Search Console names.\n` +
+      `  Anonymized long-tail queries still count toward impressions above, so\n` +
+      `  the per-query tables below cover ${((sum(cur, 'impressions') / (sum(cT, 'impressions') || 1)) * 100).toFixed(0)}% of total impressions.`,
   );
 
   // How many URLs Google surfaces at all. After the migration this should be ~1,

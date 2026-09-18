@@ -33,6 +33,7 @@
  * www.forestspamassage.com; the hostname section always shows the split.
  */
 
+import './lib/proxy.mjs';
 import { config, getAccessToken, SCOPES, num, delta, bar, table, windows } from './lib/google-auth.mjs';
 
 const SITE_HOST = 'www.forestspamassage.com';
@@ -91,6 +92,9 @@ async function runReport(propertyId, token, body) {
 const hostFilter = (host) => ({
   filter: { fieldName: 'hostName', stringFilter: { matchType: 'EXACT', value: host } },
 });
+
+/** First row of a report, or `{}` — a rejected report has no `rows` at all. */
+const firstRow = (report) => (report.rows ?? [])[0] ?? {};
 
 const eventFilter = (name) => ({
   filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: name } },
@@ -168,7 +172,7 @@ async function main() {
         dimensions: [{ name: 'hostName' }],
         orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
       })),
-      runReport(propertyId, token, mk(current, ['sessions', 'activeUsers'], {
+      runReport(propertyId, token, mk(current, ['sessions', 'activeUsers', 'keyEvents', 'ecommercePurchases'], {
         dimensions: [{ name: 'sessionDefaultChannelGroup' }],
         orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
         ...scope,
@@ -180,8 +184,9 @@ async function main() {
         orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
         limit: 15,
       })),
-      runReport(propertyId, token, mk(current, ['keyEvents', 'purchases'], scope)),
-      runReport(propertyId, token, mk(previous, ['keyEvents', 'purchases'], scope)),
+      // `purchases` is a UI label; the Data API metric is `ecommercePurchases`.
+      runReport(propertyId, token, mk(current, ['keyEvents', 'ecommercePurchases'], scope)),
+      runReport(propertyId, token, mk(previous, ['keyEvents', 'ecommercePurchases'], scope)),
     ]);
 
   if (cur.error) throw new Error(`GA4 rejected the core report: ${cur.error}`);
@@ -191,12 +196,28 @@ async function main() {
     return;
   }
 
-  const c = cur.rows[0] ?? {};
-  const p = prev.rows[0] ?? {};
-  const cb = curBook.rows[0] ?? {};
-  const pb = prevBook.rows[0] ?? {};
-  const cp = purch.rows[0] ?? {};
-  const pp = prevPurch.rows[0] ?? {};
+  const c = firstRow(cur);
+  const p = firstRow(prev);
+  const cb = firstRow(curBook);
+  const pb = firstRow(prevBook);
+  const cp = firstRow(purch);
+  const pp = firstRow(prevPurch);
+
+  // Surface anything GA4 rejected. These are non-fatal (the affected rows read
+  // "–"), but silently dropping the reason makes the report impossible to trust.
+  const rejected = [
+    ['book_click (current)', curBook],
+    ['book_click (previous)', prevBook],
+    ['key events / purchases (current)', purch],
+    ['key events / purchases (previous)', prevPurch],
+    ['daily trend', daily],
+    ['hostnames', hosts],
+    ['channels', channels],
+  ].filter(([, r]) => r.error);
+  if (rejected.length) {
+    console.log('\n\x1b[33m⚠ some reports were rejected by GA4:\x1b[0m');
+    for (const [label, r] of rejected) console.log(`   ${label}: ${r.error}`);
+  }
 
   /** A metric row that GA4 rejected must read "–", never a misleading 0. */
   const row = (label, key, curRep, prevRep, curRow, prevRow) =>
@@ -226,7 +247,7 @@ async function main() {
         row('— Book clicks (events)', 'eventCount', curBook, prevBook, cb, pb),
         row('— Book clicks (people)', 'totalUsers', curBook, prevBook, cb, pb),
         row('Key events', 'keyEvents', purch, prevPurch, cp, pp),
-        row('Purchases (Fresha)', 'purchases', purch, prevPurch, cp, pp),
+        row('Purchases (Fresha)', 'ecommercePurchases', purch, prevPurch, cp, pp),
       ],
     ),
   );
@@ -267,11 +288,19 @@ async function main() {
   }
 
   if (channels.rows?.length) {
-    console.log(`\n\x1b[1mTraffic sources\x1b[0m`);
+    // Booking rate per channel is what separates "more traffic" from "more
+    // customers" — a channel can dominate sessions and still buy nothing.
+    console.log(`\n\x1b[1mTraffic sources\x1b[0m — with booking rate per channel`);
     console.log(
       table(
-        ['channel', 'sessions', 'users'],
-        channels.rows.slice(0, 10).map((r) => [r.sessionDefaultChannelGroup || '(other)', num(r.sessions), num(r.activeUsers)]),
+        ['channel', 'sessions', 'users', 'books', 'rate'],
+        channels.rows.slice(0, 10).map((r) => [
+          r.sessionDefaultChannelGroup || '(other)',
+          num(r.sessions),
+          num(r.activeUsers),
+          num(r.ecommercePurchases ?? 0),
+          r.activeUsers ? `${(((r.ecommercePurchases ?? 0) / r.activeUsers) * 100).toFixed(2)}%` : '–',
+        ]),
       ),
     );
   }
