@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, Gift } from 'lucide-react';
 import { business, booking, monthlySpecial } from '../../data/siteData';
-import heroImg from '../../assets/images/hero-ambiance.jpg';
+import { photos } from '../../data/photos';
 ---
 
 <section
@@ -10,11 +10,13 @@ import heroImg from '../../assets/images/hero-ambiance.jpg';
   class="relative flex min-h-[92svh] items-center overflow-hidden bg-charcoal text-sand"
 >
   <!-- Background photo (LCP). On mobile the focal point shifts right so the
-       candles show; text sits over the darkened left. -->
+       candles show; text sits over the darkened left.
+       It carries real alt text rather than being marked decorative: this is the
+       studio's own room, so it is meaningful content for both screen readers
+       and Google Images (alt is the primary signal image search reads). -->
   <Image
-    src={heroImg}
-    alt=""
-    aria-hidden="true"
+    src={photos.heroAmbiance.src}
+    alt={photos.heroAmbiance.alt}
     class="absolute inset-0 h-full w-full object-cover object-[64%_center] sm:object-center"
     widths={[768, 1280, 1920, 2600]}
     sizes="100vw"

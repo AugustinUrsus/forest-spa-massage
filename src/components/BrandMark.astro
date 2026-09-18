@@ -14,7 +14,11 @@ interface Props {
   class?: string;
   alt?: string;
 }
-const { variant = 'horizontal', class: className = '', alt = 'Forest Spa' } = Astro.props;
+const {
+  variant = 'horizontal',
+  class: className = '',
+  alt = 'Forest Spa — massage and head spa in Poway, San Diego',
+} = Astro.props;
 const src = variant === 'stacked-light' ? stackedLight : horizontal;
 ---
 

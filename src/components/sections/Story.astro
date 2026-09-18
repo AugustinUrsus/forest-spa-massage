@@ -1,11 +1,9 @@
 ---
-import { getImage } from 'astro:assets';
 import { CircleParking, Users, Clock } from 'lucide-react';
 import { story, amenities } from '../../data/siteData';
+import { storyPhotos } from '../../data/photos';
+import { carouselSlides } from '../../lib/images';
 import ImageCarousel from '../react/ImageCarousel.tsx';
-import couplesImg from '../../assets/images/couples-room.jpg';
-import sanctuary1 from '../../assets/images/sanctuary-1.jpg';
-import sanctuary2 from '../../assets/images/sanctuary-2.jpg';
 
 /** Map amenity.icon names (from siteData) to their lucide-react components. */
 const amenityIcons = {
@@ -15,24 +13,9 @@ const amenityIcons = {
 } as const;
 
 // Treatment-room photos, optimized at build time then handed to the island.
-// The original couples-room shot leads (4:3), followed by two 16:9 photos; the
-// carousel frames them all at 3:2 so the beds stay centered in every slide.
-const carousel = [
-  { src: couplesImg, alt: 'Forest Spa couples treatment room with two massage tables in sage-green linens' },
-  { src: sanctuary1, alt: 'Forest Spa couples suite with two massage tables dressed in sage-green linens' },
-  { src: sanctuary2, alt: 'Private Forest Spa treatment room with a single massage table and soft natural light' },
-];
-const slides = await Promise.all(
-  carousel.map(async ({ src, alt }) => {
-    const img = await getImage({
-      src,
-      widths: [480, 768, 1000, 1400],
-      sizes: '(min-width:1024px) 50vw, 100vw',
-      format: 'webp',
-    });
-    return { src: img.src, srcset: img.srcSet.attribute, alt };
-  }),
-);
+// Order and alt copy live in data/photos.ts; the carousel frames all three at
+// 3:2 so the beds stay centered in every slide.
+const slides = await carouselSlides(storyPhotos);
 ---
 
 <section id="story" class="bg-sand py-[var(--spacing-section)]">

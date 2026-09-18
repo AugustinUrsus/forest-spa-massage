@@ -4,6 +4,8 @@ import '@fontsource/cormorant-garamond/400.css';
 import '@fontsource/cormorant-garamond/600.css';
 import '../styles/global.css';
 import { business, booking, analytics, maps, serviceCategories, seo } from '../data/siteData';
+import { photos, storyPhotos, headSpaPhotos } from '../data/photos';
+import { imageObjects } from '../lib/images';
 // Brand display face "The Seasons" (subset to un-watermarked glyphs). Imported
 // as assets so Astro hashes the filenames (cache-busting) and applies the base.
 import tsRegularWoff2 from '../assets/fonts/theseasons-regular.woff2';
@@ -45,6 +47,16 @@ const fontFaceCss = [
   `@font-face{font-family:'The Seasons';src:url('${tsBoldWoff2}') format('woff2'),url('${tsBoldWoff}') format('woff');font-weight:600 700;font-style:normal;font-display:swap;}`,
 ].join('');
 
+/* ---- Photo structured data ------------------------------------------------
+ * Every studio photo on the page is described as a schema.org ImageObject with
+ * a caption, so Google Images has more to work with than the alt attribute
+ * alone. Widths match ones the page already renders, so these URLs point at
+ * variants that exist in the build rather than emitting unused files. */
+const heroImages = await imageObjects([photos.heroAmbiance], site, 1920);
+if (heroImages[0]) heroImages[0].representativeOfPage = true;
+const galleryImages = await imageObjects([...storyPhotos, ...headSpaPhotos], site, 1400);
+const photoSchemas = [...heroImages, ...galleryImages];
+
 /* ---- DaySpa structured data (NAP, hours, geo, service catalog, socials) --- */
 const schema = {
   '@context': 'https://schema.org',
@@ -55,7 +67,7 @@ const schema = {
   url: canonical,
   telephone: business.phoneE164,
   email: business.email,
-  image: absUrl('og-image.jpg'),
+  image: photoSchemas,
   logo: absUrl('icon-512.png'),
   priceRange: business.priceRange,
   currenciesAccepted: 'USD',
