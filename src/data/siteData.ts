@@ -182,25 +182,23 @@ export const navLinks: NavLink[] = [
 
 export const monthlySpecial = {
   /** Short month label shown in the eyebrow + hero ribbon, e.g. "August". */
-  month: 'September',
-  headline: 'The Labor Day Special',
-  name: 'Labor Day Reset: 90-Min Full Body & TMJ Relief Combo',
+  month: 'October',
+  headline: 'The October Special',
+  name: 'Gentle Belly Detox & Warm Botanical Relief',
   /** Condensed name for the hero ribbon, where the full name is too long. */
-  shortName: 'Full Body & TMJ Relief Combo',
-  /** Prebuilt Fresha link for this special (owner-supplied; no offerItemId). */
-  url: 'https://www.fresha.com/book-now/forest-spa-kbi5ew52/services?lid=2689228&oiid=sv%3A29066348&share=true&pId=2602780',
+  shortName: 'Gentle Belly Detox',
+  /** Prebuilt Fresha cart for this special (owner-supplied; no offerItemId). */
+  url: `${FRESHA_VENUE}/booking?pId=${FRESHA_PID}&allOffer=true&cartId=61eb23a2-fd58-4983-817b-9275733f61b9`,
   /** Duration tiers. First entry is the headline price (hero ribbon, "from"). */
-  options: [{ duration: '90 min', price: 125, value: 175 }],
-  validity: 'Valid September 1 – September 30 only.',
+  options: [{ duration: '90 min', price: 135, value: 185 }],
+  validity: 'Valid October 1 – October 31 only.',
   summary:
-    'A full 90-minute reset for the long weekend — a customized full body massage layered with targeted jaw, neck, and shoulder work for anyone who carries the week in their face and shoulders.',
+    'Say goodbye to bloating, menstrual cramps, and deep core tension. This signature 90-minute package combines a soothing full-body massage with specialized abdominal oil bodywork to support healthy digestion and lymphatic flow. We finish with a warm Mugwort Mineral Compress — a natural botanical heat therapy that deeply penetrates the belly to melt away cramps, ease cycle discomfort, and boost blood circulation. The ultimate comforting reset for your mind and body.',
   inclusions: [
-    '60-min full body massage — pressure tailored to you, easing overall tension and fatigue',
-    'Head and scalp massage — releases pressure behind the eyes and quiets a busy mind',
-    'Jaw massage — targeted TMJ relief for clenching, grinding, and jaw tightness',
-    'Neck and shoulder massage — unwinds desk-and-screen tension at the base of the skull',
-    'Pain relieving ointment or Tiger Balm applied to the areas that need it most',
-    'Eye mask for a fully restful, light-free session',
+    '90-min full body massage',
+    'Abdominal therapy — specialized oil bodywork to support healthy digestion and lymphatic flow',
+    'Essential oil',
+    'Herbal detox heat pad — a warm Mugwort Mineral Compress to melt away cramps and boost circulation',
   ],
 } as const;
 
