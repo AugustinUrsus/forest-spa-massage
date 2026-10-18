@@ -62,15 +62,17 @@ export function initTracking(): void {
         const location = bookEl.getAttribute('data-book') || 'unknown';
         track('book_click', { method: 'fresha', cta_location: location });
         track('generate_lead', { cta_location: location });
-        metaTrack('Schedule', { content_name: location });
+        metaTrack('Schedule', { content_name: location, currency: 'USD' });
+        metaTrack('InitiateCheckout', { content_name: location, currency: 'USD' });
         adsBookingConversion();
         return;
       }
 
       const callEl = el?.closest<HTMLElement>('[data-call]');
       if (callEl) {
-        track('phone_call', { cta_location: callEl.getAttribute('data-call') || 'unknown' });
-        metaTrack('Contact', { method: 'phone' });
+        const location = callEl.getAttribute('data-call') || 'unknown';
+        track('phone_call', { cta_location: location });
+        metaTrack('Contact', { method: 'phone', content_name: location });
       }
     },
     { capture: true },

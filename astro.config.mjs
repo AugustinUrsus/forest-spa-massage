@@ -53,7 +53,6 @@ for (const slug of legacyServicePages) {
   redirects[`/service-page/${slug}`] = /scalp|head|tmj/.test(slug) ? '/#head-spa' : '/#services';
 }
 
-const homeUrl = new URL(BASE_PATH.endsWith('/') ? BASE_PATH : `${BASE_PATH}/`, SITE_URL).href;
 
 export default defineConfig({
   site: SITE_URL,
@@ -62,11 +61,28 @@ export default defineConfig({
   redirects,
   integrations: [
     react(),
-    // Only the homepage is indexable (terms-conditions is noindex; redirect stubs
-    // aren't real pages). Stamp each entry with a build-time lastmod for crawlers.
+    // Include homepage, quiz, and journal articles in sitemap (terms-conditions is noindex; redirect stubs aren't real pages).
     sitemap({
-      filter: (page) => page === homeUrl,
-      serialize: (item) => ({ ...item, lastmod: new Date().toISOString() }),
+      filter: (page) => {
+        if (page.includes('terms-conditions')) return false;
+        if (page.includes('/service-page/')) return false;
+        for (const r of Object.keys(redirects)) {
+          const stub = r.replace(/^\//, '');
+          if (page.endsWith(`/${stub}`) || page.endsWith(`/${stub}/`)) return false;
+        }
+        return true;
+      },
+      serialize: (item) => {
+        // Provide stable, accurate lastmod dates so search engines respect crawl freshness
+        let lastmod = '2026-10-17T00:00:00.000Z';
+        if (item.url.includes('head-spa-scalp-therapy-benefits')) lastmod = '2026-10-01T09:00:00-07:00';
+        else if (item.url.includes('tmj-jaw-tension-relief')) lastmod = '2026-10-03T09:00:00-07:00';
+        else if (item.url.includes('deep-tissue-vs-swedish')) lastmod = '2026-10-06T09:00:00-07:00';
+        else if (item.url.includes('botanical-heat-abdominal-wellness')) lastmod = '2026-10-08T09:00:00-07:00';
+        else if (item.url.includes('tech-neck-desk-fatigue')) lastmod = '2026-10-11T09:00:00-07:00';
+        else if (item.url.includes('prenatal-massage-guide')) lastmod = '2026-10-14T09:00:00-07:00';
+        return { ...item, lastmod };
+      },
     }),
   ],
   vite: {

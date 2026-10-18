@@ -13,6 +13,14 @@ import tsRegularWoff from '../assets/fonts/theseasons-regular.woff';
 import tsBoldWoff2 from '../assets/fonts/theseasons-bold.woff2';
 import tsBoldWoff from '../assets/fonts/theseasons-bold.woff';
 
+export interface ArticleMeta {
+  datePublished: string;
+  dateModified?: string;
+  author: string;
+  section: string;
+  tags?: string[];
+}
+
 interface Props {
   title?: string;
   description?: string;
@@ -20,6 +28,9 @@ interface Props {
   image?: string;
   /** Keep this page out of the search index (e.g. legal pages). */
   noindex?: boolean;
+  ogType?: 'website' | 'article';
+  articleMeta?: ArticleMeta;
+  schemas?: Record<string, any>[];
 }
 
 const {
@@ -27,6 +38,9 @@ const {
   description = seo.description,
   image = seo.ogImage,
   noindex = false,
+  ogType = 'website',
+  articleMeta,
+  schemas,
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL; // "/" (custom domain) or "/forest-spa-massage/"
@@ -57,14 +71,17 @@ if (heroImages[0]) heroImages[0].representativeOfPage = true;
 const galleryImages = await imageObjects([...storyPhotos, ...headSpaPhotos], site, 1400);
 const photoSchemas = [...heroImages, ...galleryImages];
 
+// Persistent business entity ID (constant across entire domain)
+const businessId = `${new URL('/', site).href}#business`;
+
 /* ---- DaySpa structured data (NAP, hours, geo, service catalog, socials) --- */
-const schema = {
+const defaultBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': ['DaySpa', 'HealthAndBeautyBusiness'],
-  '@id': `${canonical}#business`,
+  '@id': businessId,
   name: business.name,
   description: business.description,
-  url: canonical,
+  url: new URL('/', site).href,
   telephone: business.phoneE164,
   email: business.email,
   image: photoSchemas,
@@ -97,6 +114,12 @@ const schema = {
   areaServed: [
     { '@type': 'City', name: 'Poway' },
     { '@type': 'City', name: 'San Diego' },
+    { '@type': 'AdministrativeArea', name: 'Rancho Bernardo' },
+    { '@type': 'AdministrativeArea', name: 'Carmel Mountain Ranch' },
+    { '@type': 'AdministrativeArea', name: 'Sabre Springs' },
+    { '@type': 'AdministrativeArea', name: 'Scripps Ranch' },
+    { '@type': 'AdministrativeArea', name: '4S Ranch' },
+    { '@type': 'AdministrativeArea', name: 'Ramona' },
   ],
   sameAs: [business.social.instagram, business.social.facebook],
   potentialAction: {
@@ -120,6 +143,8 @@ const schema = {
     })),
   },
 };
+
+const activeSchemas = schemas && schemas.length > 0 ? schemas : [defaultBusinessSchema];
 ---
 
 <!doctype html>
@@ -152,7 +177,7 @@ const schema = {
     <link rel="manifest" href={withBase('site.webmanifest')} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={business.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -161,6 +186,18 @@ const schema = {
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
+
+    {ogType === 'article' && articleMeta && (
+      <>
+        <meta property="article:published_time" content={articleMeta.datePublished} />
+        <meta property="article:modified_time" content={articleMeta.dateModified || articleMeta.datePublished} />
+        <meta property="article:author" content={articleMeta.author} />
+        <meta property="article:section" content={articleMeta.section} />
+        {articleMeta.tags?.map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </>
+    )}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -181,7 +218,9 @@ const schema = {
     />
 
     <!-- Structured data -->
-    <script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+    {activeSchemas.map((s) => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} is:inline />
+    ))}
 
     <!-- Google gtag — GA4 and/or Google Ads (only when configured) -->
     {

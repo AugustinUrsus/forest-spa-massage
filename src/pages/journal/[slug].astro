@@ -1,0 +1,379 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/sections/Header.astro';
+import Footer from '../../components/sections/Footer.astro';
+import StickyMobileBar from '../../components/sections/StickyMobileBar.astro';
+import { articles, type Article } from '../../data/articles';
+import { baseUrl } from '../../data/siteData';
+import { Clock, Calendar, CalendarHeart, Compass, ArrowLeft, ArrowRight, Check, Sparkles } from 'lucide-react';
+
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+
+// Related articles
+const relatedArticles = articles.filter((a) => article.relatedSlugs.includes(a.slug)).slice(0, 3);
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://www.forestspamassage.com').href;
+const homeUrl = new URL(baseUrl, Astro.site ?? 'https://www.forestspamassage.com').href;
+const journalUrl = new URL(`${baseUrl}journal/`, Astro.site ?? 'https://www.forestspamassage.com').href;
+const imageUrl = new URL(article.photo.src.src, Astro.site ?? 'https://www.forestspamassage.com').href;
+
+const articleSchemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: article.title,
+    alternativeHeadline: article.subtitle,
+    description: article.metaDescription,
+    datePublished: article.isoDate,
+    dateModified: article.isoModified ?? article.isoDate,
+    image: imageUrl,
+    inLanguage: 'en-US',
+    keywords: article.tags.join(', '),
+    articleSection: article.category,
+    author: {
+      '@type': 'Person',
+      name: article.author.name,
+      jobTitle: article.author.role,
+    },
+    publisher: {
+      '@type': 'DaySpa',
+      name: 'Forest Spa',
+      '@id': `${homeUrl}#business`,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: homeUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Wellness Journal',
+        item: journalUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: article.title,
+        item: canonicalUrl,
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title={article.seoTitle}
+  description={article.metaDescription}
+  image={article.photo.src.src}
+  ogType="article"
+  articleMeta={{
+    datePublished: article.isoDate,
+    dateModified: article.isoModified ?? article.isoDate,
+    author: article.author.name,
+    section: article.category,
+    tags: article.tags,
+  }}
+  schemas={articleSchemas}
+>
+  <Header />
+
+  <!-- Reading progress bar -->
+  <div class="fixed top-0 left-0 right-0 z-40 h-[3px] bg-black/5" aria-hidden="true">
+    <div id="reading-progress" class="h-full bg-bronze transition-[width] duration-150 ease-out" style="width: 0%"></div>
+  </div>
+
+  <main id="main" class="bg-sand pb-[var(--spacing-section)] pt-28 sm:pt-36">
+    <article class="container-px">
+      <!-- Breadcrumbs -->
+      <nav aria-label="Breadcrumb" class="mx-auto max-w-3xl mb-6 text-xs text-ink-soft">
+        <ol class="flex items-center gap-2 flex-wrap">
+          <li>
+            <a href={baseUrl} class="hover:text-bronze transition-colors">Home</a>
+          </li>
+          <li class="text-ink-soft/40">/</li>
+          <li>
+            <a href={`${baseUrl}journal`} class="hover:text-bronze transition-colors">Wellness Journal</a>
+          </li>
+          <li class="text-ink-soft/40">/</li>
+          <li class="font-medium text-ink truncate max-w-xs">{article.category}</li>
+        </ol>
+      </nav>
+
+      <!-- Article Header -->
+      <header class="mx-auto max-w-3xl text-center">
+        <span class="inline-flex items-center rounded-full bg-sage/15 px-3 py-1 text-xs font-semibold text-sage-deep mb-4">
+          {article.category}
+        </span>
+        <h1 class="display-heading text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-ink">
+          {article.title}
+        </h1>
+        <p class="mt-4 text-base sm:text-lg leading-relaxed text-ink-soft">
+          {article.subtitle}
+        </p>
+
+        <!-- Meta byline -->
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-ink-soft/80 border-y border-black/5 py-3">
+          <span class="font-medium text-ink">By {article.author.name}</span>
+          <span>•</span>
+          <span class="inline-flex items-center gap-1">
+            <Calendar size={13} /> {article.date}
+          </span>
+          <span>•</span>
+          <span class="inline-flex items-center gap-1">
+            <Clock size={13} /> {article.readTime}
+          </span>
+        </div>
+      </header>
+
+      <!-- Featured Image -->
+      <div class="mx-auto mt-10 max-w-4xl overflow-hidden rounded-2xl shadow-lg border border-black/10">
+        <Image
+          src={article.photo.src}
+          alt={article.photo.alt}
+          width={1200}
+          height={680}
+          class="w-full object-cover aspect-16/9 sm:aspect-21/9"
+        />
+        <div class="bg-cloud p-3 text-center text-xs text-ink-soft/70">
+          {article.photo.name}
+        </div>
+      </div>
+
+      <!-- Article Content Body -->
+      <div id="journal-article-body" class="mx-auto mt-12 max-w-[65ch] space-y-10">
+        <!-- Quick Table of Contents / Outline -->
+        <nav aria-label="Table of contents" class="rounded-xl border border-black/5 bg-sand-deep/40 p-4 sm:p-5">
+          <p class="text-xs font-semibold uppercase tracking-wider text-bronze mb-2.5">In This Guide</p>
+          <ul class="space-y-1.5 text-xs sm:text-sm">
+            {article.sections.map((sec, idx) => (
+              <li>
+                <a href={`#section-${idx}`} class="text-ink-soft hover:text-bronze hover:underline inline-flex items-baseline gap-2">
+                  <span class="text-sage-deep font-semibold">0{idx + 1}.</span>
+                  <span>{sec.heading}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <!-- Intro text -->
+        <div class="space-y-4 text-base sm:text-lg leading-relaxed sm:leading-8 text-ink font-light">
+          {article.intro.map((para) => (
+            <p>{para}</p>
+          ))}
+        </div>
+
+        <div class="hair-rule my-8" aria-hidden="true" />
+
+        <!-- Main Body Sections with mid-article bridge -->
+        {
+          article.sections.map((section, idx) => (
+            <section id={`section-${idx}`} class="space-y-4 scroll-mt-24">
+              <h2 class="display-heading text-2xl sm:text-3xl font-semibold text-ink">
+                {section.heading}
+              </h2>
+              {section.body.map((p) => (
+                <p class="text-sm sm:text-base leading-relaxed sm:leading-7 text-ink-soft">{p}</p>
+              ))}
+
+              {section.callout && (
+                <div class="my-6 rounded-xl border-l-4 border-bronze bg-sand-deep/60 p-5 shadow-xs">
+                  <h3 class="text-sm font-semibold text-ink flex items-center gap-2">
+                    <Sparkles size={16} className="text-bronze" />
+                    {section.callout.title}
+                  </h3>
+                  <p class="mt-2 text-xs sm:text-sm leading-relaxed text-ink-soft">
+                    {section.callout.text}
+                  </p>
+                </div>
+              )}
+
+              {/* Mid-article contextual conversion card between section 0 and section 1 */}
+              {idx === 0 && (
+                <div class="my-8 rounded-xl border border-bronze/20 bg-cloud/80 p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <span class="text-xs font-semibold uppercase tracking-widest text-bronze">Sanctuary Experience</span>
+                    <p class="text-sm font-semibold text-ink mt-0.5">{article.recommendedTreatment.name} ({article.recommendedTreatment.duration})</p>
+                    <p class="text-xs text-ink-soft mt-1">Available 7 days a week at our Poway retreat</p>
+                  </div>
+                  <a
+                    href={article.recommendedTreatment.bookingHref}
+                    target="_blank"
+                    rel="noopener"
+                    data-book={`mid-article:${article.recommendedTreatment.name}`}
+                    class="btn btn-primary text-xs shrink-0 self-start sm:self-center"
+                  >
+                    Reserve Time →
+                  </a>
+                </div>
+              )}
+            </section>
+          ))
+        }
+
+        <!-- At Home Tips Box -->
+        <div class="rounded-2xl border border-sage/30 bg-sage/10 p-6 sm:p-8 shadow-xs">
+          <h2 class="display-heading text-xl sm:text-2xl font-semibold text-ink flex items-center gap-2.5">
+            <Sparkles size={20} className="text-sage-deep" />
+            {article.tipsTitle}
+          </h2>
+          <ul class="mt-5 space-y-3">
+            {
+              article.tips.map((tip) => (
+                <li class="flex items-start gap-3 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                  <Check size={16} strokeWidth={2.2} className="mt-0.5 shrink-0 text-sage-deep" />
+                  <span>{tip}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Experience This At Forest Spa Callout -->
+        <div class="rounded-2xl border border-bronze/30 bg-cloud p-7 sm:p-9 shadow-md">
+          <p class="eyebrow text-xs uppercase tracking-widest text-bronze mb-2">Recommended Spa Treatment</p>
+          <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+            <h2 class="display-heading text-2xl sm:text-3xl font-semibold text-ink">
+              {article.recommendedTreatment.name}
+            </h2>
+            <div class="text-sm font-semibold text-bronze shrink-0">
+              {article.recommendedTreatment.duration} · {article.recommendedTreatment.price}
+            </div>
+          </div>
+
+          <p class="mt-3 text-sm leading-relaxed text-ink-soft">
+            {article.recommendedTreatment.description}
+          </p>
+
+          <div class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a
+              href={article.recommendedTreatment.bookingHref}
+              target="_blank"
+              rel="noopener"
+              data-book={`article:${article.recommendedTreatment.name}`}
+              class="btn btn-primary justify-center py-3 text-sm"
+            >
+              <CalendarHeart size={18} /> Book This Treatment
+            </a>
+            <a
+              href={`${baseUrl}quiz`}
+              class="btn btn-outline justify-center py-3 text-sm"
+            >
+              <Compass size={18} /> Take Treatment Quiz
+            </a>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap items-center gap-2 pt-4">
+          <span class="text-xs font-medium text-ink-soft/70">Tags:</span>
+          {
+            article.tags.map((tag) => (
+              <span class="rounded-full bg-sand-deep/80 px-3 py-1 text-xs text-ink-soft">
+                #{tag}
+              </span>
+            ))
+          }
+        </div>
+
+        <!-- Back to Journal -->
+        <div class="border-t border-black/10 pt-8 flex items-center justify-between">
+          <a
+            href={`${baseUrl}journal`}
+            class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-bronze hover:text-bronze-deep hover:underline"
+          >
+            <ArrowLeft size={14} /> Back to Wellness Journal
+          </a>
+
+          <a
+            href={`${baseUrl}#services`}
+            class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-ink-soft hover:text-bronze hover:underline"
+          >
+            Explore All Services <ArrowRight size={14} />
+          </a>
+        </div>
+      </div>
+
+      <!-- Related Articles Section -->
+      {
+        relatedArticles.length > 0 && (
+          <section class="mx-auto mt-20 max-w-5xl border-t border-black/10 pt-12">
+            <h2 class="display-heading mb-8 text-2xl font-semibold text-ink text-center">
+              Continue Reading
+            </h2>
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedArticles.map((rel) => (
+                <article class="surface-card group flex h-full flex-col overflow-hidden border border-black/10 transition-all duration-300 hover:border-bronze/40 hover:shadow-md">
+                  <a href={`${baseUrl}journal/${rel.slug}`} class="block aspect-16/10 overflow-hidden bg-sand-deep">
+                    <Image
+                      src={rel.photo.src}
+                      alt={rel.photo.alt}
+                      width={400}
+                      height={260}
+                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </a>
+                  <div class="flex flex-1 flex-col p-5">
+                    <span class="text-[11px] font-semibold text-sage-deep">{rel.category}</span>
+                    <h3 class="display-heading mt-2 text-base font-semibold leading-snug text-ink group-hover:text-bronze transition-colors">
+                      <a href={`${baseUrl}journal/${rel.slug}`}>{rel.title}</a>
+                    </h3>
+                    <div class="mt-auto pt-4 flex items-center justify-between text-xs text-ink-soft/70">
+                      <span>{rel.readTime}</span>
+                      <span class="font-medium text-bronze group-hover:underline">Read →</span>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )
+      }
+    </article>
+  </main>
+
+  <script is:inline>
+    const progress = document.getElementById('reading-progress');
+    const articleEl = document.getElementById('journal-article-body');
+
+    if (progress && articleEl) {
+      const updateProgress = () => {
+        const rect = articleEl.getBoundingClientRect();
+        const totalHeight = rect.height - window.innerHeight;
+        if (totalHeight <= 0) return;
+        const scrolled = -rect.top;
+        const pct = Math.min(100, Math.max(0, (scrolled / totalHeight) * 100));
+        progress.style.width = `${pct}%`;
+      };
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    }
+  </script>
+
+  <Footer />
+  <StickyMobileBar />
+</Layout>

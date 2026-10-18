@@ -4,25 +4,27 @@ import Instagram from '../icons/Instagram.astro';
 import Facebook from '../icons/Facebook.astro';
 import BrandMark from '../BrandMark.astro';
 import { business, booking, navLinks, baseUrl } from '../../data/siteData';
+import { articles } from '../../data/articles';
 
 const year = new Date().getFullYear();
+const topArticles = articles.slice(0, 4);
 ---
 
 <footer class="bg-charcoal-deep pt-16 pb-10 text-sand/80">
   <div class="container-px reveal">
     <!-- Top area -->
-    <div class="grid gap-12 lg:grid-cols-4 lg:gap-10">
+    <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
       <!-- Brand -->
-      <div class="lg:pr-6">
+      <div class="sm:col-span-2 lg:col-span-1 lg:pr-4">
         <BrandMark variant="stacked-light" class="h-24 w-auto" />
         <p class="eyebrow mt-6 text-gold">{business.tagline}</p>
-        <p class="mt-4 max-w-sm text-sm leading-relaxed text-sand/60">
+        <p class="mt-4 text-sm leading-relaxed text-sand/60">
           {business.description}
         </p>
       </div>
 
       <!-- Explore -->
-      <nav aria-label="Footer" class="lg:pl-2">
+      <nav aria-label="Footer Navigation" class="lg:pl-2">
         <h3 class="display-heading text-xs uppercase tracking-[0.22em] text-sand/60">Explore</h3>
         <ul class="mt-5 space-y-3 text-sm">
           {
@@ -34,6 +36,35 @@ const year = new Date().getFullYear();
               </li>
             ))
           }
+        </ul>
+      </nav>
+
+      <!-- Wellness Guides -->
+      <nav aria-label="Wellness Guides">
+        <h3 class="display-heading text-xs uppercase tracking-[0.22em] text-sand/60">
+          <a href={`${baseUrl}journal`} class="hover:text-gold transition-colors">Wellness Journal</a>
+        </h3>
+        <ul class="mt-5 space-y-3 text-sm">
+          {
+            topArticles.map((article) => (
+              <li>
+                <a
+                  href={`${baseUrl}journal/${article.slug}`}
+                  class="block text-sand/70 transition-colors duration-300 hover:text-gold line-clamp-2"
+                >
+                  {article.title}
+                </a>
+              </li>
+            ))
+          }
+          <li class="pt-1">
+            <a
+              href={`${baseUrl}journal`}
+              class="inline-block text-xs font-semibold text-gold hover:underline"
+            >
+              View All Guides →
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -95,7 +126,7 @@ const year = new Date().getFullYear();
           target="_blank"
           rel="noopener"
           data-book="footer"
-          class="btn btn-primary mt-6"
+          class="btn btn-primary mt-6 w-full sm:w-auto"
         >
           <CalendarHeart size={19} /> Book Now
         </a>

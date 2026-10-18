@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, Gift } from 'lucide-react';
-import { business, booking, monthlySpecial } from '../../data/siteData';
+import { business, booking, monthlySpecial, baseUrl } from '../../data/siteData';
 import { photos } from '../../data/photos';
 ---
 
@@ -75,6 +75,15 @@ import { photos } from '../../data/photos';
           class="btn btn-ghost-dark"
         >
           <Gift size={17} /> Gift Cards
+        </a>
+      </div>
+
+      <div class="mt-4 pt-1">
+        <a
+          href={`${baseUrl}quiz`}
+          class="inline-flex items-center gap-1.5 text-xs font-medium text-gold/80 transition-colors hover:text-gold hover:underline"
+        >
+          <span>Unsure which treatment fits you? Take our 60-Second Treatment Quiz →</span>
         </a>
       </div>
     </div>

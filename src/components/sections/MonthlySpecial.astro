@@ -1,6 +1,6 @@
 ---
 import { Coins, Sunrise, Check, CalendarHeart } from 'lucide-react';
-import { monthlySpecial, standingOffers } from '../../data/siteData';
+import { monthlySpecial, standingOffers, baseUrl } from '../../data/siteData';
 
 const offerIcons = { Coins, Sunrise } as const;
 ---
@@ -54,7 +54,7 @@ const offerIcons = { Coins, Sunrise } as const;
 
           <p class="mt-4 text-sm text-sand/60">{monthlySpecial.validity}</p>
 
-          <div class="mt-9">
+          <div class="mt-9 flex flex-wrap items-center gap-4">
             <a
               href={monthlySpecial.url}
               target="_blank"
@@ -63,6 +63,12 @@ const offerIcons = { Coins, Sunrise } as const;
               class="btn btn-on-dark"
             >
               <CalendarHeart size={19} strokeWidth={1.6} /> Book The Special
+            </a>
+            <a
+              href={`${baseUrl}journal/botanical-heat-abdominal-wellness`}
+              class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-gold hover:text-gold/80 hover:underline"
+            >
+              Read Mugwort & Heat Pack Guide →
             </a>
           </div>
         </div>

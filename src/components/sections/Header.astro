@@ -3,6 +3,17 @@ import { Phone, CalendarHeart } from 'lucide-react';
 import { business, booking, navLinks, baseUrl } from '../../data/siteData';
 import BrandMark from '../BrandMark.astro';
 import MobileNav from '../react/MobileNav.tsx';
+
+const currentPath = Astro.url.pathname;
+const isCurrentPage = (href: string) => {
+  if (href.endsWith('quiz') || href.endsWith('quiz/')) {
+    return currentPath.includes('/quiz');
+  }
+  if (href.endsWith('journal') || href.endsWith('journal/')) {
+    return currentPath.includes('/journal');
+  }
+  return false;
+};
 ---
 
 <!--
@@ -20,17 +31,22 @@ import MobileNav from '../react/MobileNav.tsx';
     </a>
 
     <!-- Desktop nav -->
-    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-4 xl:gap-5">
+    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-2.5 xl:gap-4">
       {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            data-nav-link
-            class="whitespace-nowrap text-sm font-medium text-ink transition-colors hover:text-bronze data-[active]:font-semibold data-[active]:text-bronze"
-          >
-            {link.label}
-          </a>
-        ))
+        navLinks.map((link) => {
+          const isActive = isCurrentPage(link.href);
+          return (
+            <a
+              href={link.href}
+              data-nav-link
+              data-active={isActive ? '' : undefined}
+              aria-current={isActive ? 'page' : undefined}
+              class="whitespace-nowrap text-xs xl:text-sm font-medium text-ink transition-colors hover:text-bronze data-[active]:font-semibold data-[active]:text-bronze"
+            >
+              {link.label}
+            </a>
+          );
+        })
       }
     </nav>
 
@@ -105,8 +121,10 @@ import MobileNav from '../react/MobileNav.tsx';
         if (currentId) {
           const navLinksEls = header.querySelectorAll<HTMLAnchorElement>('a[data-nav-link]');
           navLinksEls.forEach((link) => {
-            if (link.hash === `#${currentId}`) link.setAttribute('data-active', '');
-            else link.removeAttribute('data-active');
+            if (link.hash && link.hash.length > 1) {
+              if (link.hash === `#${currentId}`) link.setAttribute('data-active', '');
+              else link.removeAttribute('data-active');
+            }
           });
         }
       }

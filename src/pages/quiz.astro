@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/sections/Header.astro';
+import Footer from '../components/sections/Footer.astro';
+import StickyMobileBar from '../components/sections/StickyMobileBar.astro';
+import TreatmentQuiz from '../components/react/TreatmentQuiz.tsx';
+import { baseUrl } from '../data/siteData';
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://www.forestspamassage.com').href;
+const homeUrl = new URL(baseUrl, Astro.site ?? 'https://www.forestspamassage.com').href;
+
+const quizSchemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Forest Spa Treatment Finder Quiz',
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'All',
+    browserRequirements: 'Requires JavaScript. Requires HTML5.',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    description:
+      "Interactive 60-second spa recommendation quiz matching physical tension, pressure preference, and wellness goals to restorative massage or scalp therapy in Poway, CA.",
+    url: canonicalUrl,
+    provider: {
+      '@type': 'DaySpa',
+      name: 'Forest Spa',
+      '@id': `${homeUrl}#business`,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: homeUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Treatment Quiz',
+        item: canonicalUrl,
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Treatment Finder Quiz | Forest Spa Poway, San Diego"
+  description="Take our 60-second spa treatment quiz to match your tension, pressure preference, and wellness goals with the ideal massage or head spa in Poway, CA."
+  schemas={quizSchemas}
+>
+  <Header />
+
+  <main id="main" class="bg-sand-deep min-h-screen pt-28 sm:pt-36 pb-[var(--spacing-section)]">
+    <div class="container-px">
+      <!-- Intro header -->
+      <header class="mx-auto mb-10 sm:mb-12 max-w-2xl text-center">
+        <p class="eyebrow mb-3">Personalized Consultation</p>
+        <h1 class="display-heading text-3xl sm:text-4xl lg:text-5xl text-ink">
+          Find Your Ideal Treatment
+        </h1>
+        <p class="mt-4 text-base sm:text-lg leading-relaxed text-ink-soft">
+          Every body carries fatigue and stress differently. Answer 4 quick questions about
+          your goals and preferences to receive a tailored therapy recommendation with instant booking.
+        </p>
+
+        <div class="mt-4 flex items-center justify-center gap-4 text-xs font-medium text-ink-soft/80">
+          <span>✓ Takes 60 seconds</span>
+          <span>•</span>
+          <span>✓ Tailored to your pressure & goals</span>
+          <span>•</span>
+          <span>✓ Direct Fresha reservation</span>
+        </div>
+      </header>
+
+      <!-- Quiz Island -->
+      <TreatmentQuiz client:load baseUrl={baseUrl} />
+
+      <!-- Back to services anchor -->
+      <div class="mt-14 text-center">
+        <a
+          href={`${baseUrl}#services`}
+          class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-bronze hover:text-bronze-deep hover:underline"
+        >
+          ← Or Browse Our Complete À La Carte Menu
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <StickyMobileBar />
+</Layout>
