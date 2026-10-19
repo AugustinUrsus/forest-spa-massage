@@ -220,7 +220,7 @@ export const primaryNav: PrimaryNavItem[] = [
         badge: 'Popular',
       },
       {
-        label: 'Curated Ritual Packages',
+        label: 'Curated Massage Packages',
         href: `${baseUrl}#packages`,
         description: 'Head-to-toe multi-therapy escapes',
       },
@@ -299,7 +299,7 @@ export const mobileNavGroups: MobileNavGroup[] = [
     category: 'Treatments & Rituals',
     links: [
       { label: 'Massage Therapies', href: `${baseUrl}#services`, sublabel: 'À la carte full-body menu' },
-      { label: 'Signature Head Spa', href: `${baseUrl}#head-spa`, sublabel: 'Japanese scalp therapy', badge: 'Signature' },
+      { label: 'Signature Head Spa', href: `${baseUrl}#head-spa`, sublabel: 'Waterfall scalp ritual', badge: 'Signature' },
       { label: 'Curated Packages', href: `${baseUrl}#packages`, sublabel: 'Head-to-toe rituals' },
       { label: 'Monthly Special', href: `${baseUrl}#specials`, sublabel: 'October Gentle Belly Detox', badge: 'Special' },
     ],
@@ -384,7 +384,7 @@ export const packages: Package[] = [
   {
     name: 'Head-to-Toe Retreat',
     icon: 'Sparkles',
-    blurb: 'Our most complete escape — full-body massage plus scalp, hand, and foot rituals.',
+    blurb: 'Our most complete head-to-toe escape — full-body massage plus scalp, hand, and foot care.',
     tiers: [
       {
         tier: 'Premier',
@@ -705,9 +705,9 @@ export const serviceCategories: ServiceCategory[] = [
         priceLabel: 'from $75',
         duration: '60–120 min',
         description: 'Gentle, flowing strokes that relax muscles, improve circulation, and melt away stress.',
-        highlights: ['Flowing effleurage & kneading', 'Gentle whole-body nervous system reset', 'Boosts circulation & lymphatic return', 'Custom light-to-medium pressure'],
+        highlights: ['Flowing effleurage & kneading', 'Gentle whole-body stress relief', 'Boosts circulation & lymphatic return', 'Custom light-to-medium pressure'],
         idealFor: 'First-time spa guests, high stress, mental burnout, and those seeking pure peaceful relaxation.',
-        whatToExpect: 'Continuous, rhythmic gliding strokes with botanical massage oils designed to calm the sympathetic nervous system and relieve light muscular fatigue.',
+        whatToExpect: 'Continuous, rhythmic gliding strokes with botanical massage oils designed to melt away daily stress and ease muscle fatigue.',
         articleSlug: 'deep-tissue-vs-swedish',
       },
       {
@@ -819,20 +819,20 @@ export const serviceCategories: ServiceCategory[] = [
         priceLabel: '$140',
         duration: '60 min',
         description: 'Two skilled therapists in perfect sync for an immersive, deeply restorative escape.',
-        highlights: ['Two therapists working simultaneously', 'Choreographed synchronized strokes', 'Bypasses mental over-analysis', 'Twice the tension release in 60 minutes'],
+        highlights: ['Two therapists working simultaneously', 'Choreographed synchronized strokes', 'Calms a busy, overactive mind', 'Twice the tension release in 60 minutes'],
         idealFor: 'Spa connoisseurs, high-stress executives, and anyone struggling to turn off their active mind.',
-        whatToExpect: 'Two therapists coordinate identical movements across your body in harmony. With twice the sensory input, the brain quickly surrenders into profound meditative stillness.',
+        whatToExpect: 'Two therapists coordinate identical movements across your body in harmony. With two therapists working together, your mind easily lets go of stress and drifts into deep relaxation.',
       },
       {
         name: 'Four Hands Massage · 90 min',
         id: 'p:1739449',
         priceLabel: '$210',
         duration: '90 min',
-        description: 'A longer four-hands session — two therapists moving in harmony for total surrender.',
+        description: 'A longer four-hands session — two therapists moving in harmony for total full-body relaxation.',
         url: 'https://www.fresha.com/a/forest-spa-poway-14168-poway-road-msk4ljro/booking?allOffer=true&pId=2602780&cartId=59721975-9437-4504-a094-0bbf72d7e5d6',
         highlights: ['Full 90 minutes of dual-therapist immersion', 'Comprehensive full-body synchronicity', 'The pinnacle of luxury therapeutic bodywork', 'Unforgettable restoration experience'],
         idealFor: 'Special self-care celebrations and total, uninterrupted sensory rejuvenation.',
-        whatToExpect: 'An extraordinary extended symphony of synchronized touch, soothing warmth, and uninterrupted full-body flow that leaves you feeling weightless.',
+        whatToExpect: 'An extended session of synchronized bodywork, soothing warmth, and seamless flow that leaves you feeling completely refreshed and light on your feet.',
       },
     ],
   },
@@ -870,9 +870,9 @@ export const serviceCategories: ServiceCategory[] = [
         priceLabel: '$25',
         duration: '15 min',
         description: 'Acupressure, targeted pressure points, and pain-relieving serum to ease headaches.',
-        highlights: ['Occipital ridge & temple acupressure', 'Cooling botanical pain-relief serum', 'Releases vascular & cervical pressure', '15 minutes of focused cranial work'],
+        highlights: ['Occipital ridge & temple acupressure', 'Cooling botanical pain-relief serum', 'Releases neck and temple tension', '15 minutes of focused cranial work'],
         idealFor: 'Migraine-prone individuals, tension headaches, and long days under fluorescent office lights.',
-        whatToExpect: 'Precise fingertip compression applied to cranial meridian points (temples, base of skull, crown) with cooling herbal balm to release intracranial pressure.',
+        whatToExpect: 'Targeted fingertip pressure along the temples, forehead, and base of the skull, paired with cooling herbal balm to relieve head and neck pressure.',
         articleSlug: 'tmj-jaw-tension-relief',
       },
       {
@@ -1024,7 +1024,7 @@ export const serviceCategories: ServiceCategory[] = [
         description: 'A soothing blend of mugwort (traditional warming herb) and minerals, heated to melt away toxins and boost circulation.',
         highlights: ['Natural mugwort (Aiye) botanical compress', 'Infused with therapeutic heat minerals', 'Relieves core bloating, cramps & cold abdomen'],
         idealFor: 'Digestive sluggishness, menstrual cramp relief, cold hands/feet, and deep core tension.',
-        whatToExpect: 'A heated herbal mineral pack placed gently over your abdomen or sacrum during bodywork, radiating continuous penetrating warmth into internal meridians.',
+        whatToExpect: 'A heated herbal mineral pack placed gently over your abdomen or lower back during bodywork, radiating continuous soothing warmth to relieve tension and cramps.',
         articleSlug: 'botanical-heat-abdominal-wellness',
       },
     ],
@@ -1086,15 +1086,15 @@ export const headSpa = {
   eyebrow: 'Signature Head Spa',
   title: 'Refresh Your Mind With Our Signature Head Spa',
   intro:
-    'Your scalp works harder than you think. Daily stress, pollution, and product buildup lead to tension, dryness, and lackluster hair. Our head spa treatments go beyond basic massage — they are a full reset for your scalp and nervous system.',
+    'Daily stress, tension, and product buildup often collect around the scalp, temples, and neck. Our signature head spa therapies combine gentle exfoliation, botanical steam, and soothing acupressure with our warm waterfall halo rinse to leave your hair nourished and your mind completely refreshed.',
   benefits: [
-    'Relieves tension in scalp muscles — a major source of headaches',
-    'Detoxifies pores to prevent irritation and thinning',
-    'Boosts circulation for healthier hair growth',
-    'Restores moisture balance without weighing hair down',
-    'Induces deep calm through rhythmic massage techniques',
+    'Relieves tight muscles across the scalp, temples, and neck',
+    'Cleanses and exfoliates buildup for a healthier scalp environment',
+    'Gentle acupressure promotes healthy circulation',
+    'Deep conditioning steam softens hair and restores hydration',
+    'Warm waterfall halo rinse creates a deeply relaxing sensory reset',
   ],
-  closer: 'It’s not just self-care — it’s smart hair care with instant relaxation benefits.',
+  closer: 'Smart scalp care paired with head-to-toe relaxation.',
   services: [
     {
       name: 'The Signature Head Spa',
@@ -1121,10 +1121,10 @@ export const headSpa = {
 
 export const story = {
   eyebrow: 'Our Sanctuary',
-  title: 'A Biophilic Retreat In The Heart Of Poway',
+  title: 'A Peaceful Retreat In The Heart Of Poway',
   paragraphs: [
-    'Forest Spa was created as an oasis of biophilic healing — a warm, nature-inspired space where the pace of the outside world falls away the moment you step inside.',
-    'Our skilled therapists tailor every session to your unique wellness needs, bringing you the luxury of true relaxation without the luxury price tag. Discover the art of healing in our serene retreat, and let nature and nurture work their magic.',
+    'Forest Spa was created as a peaceful, nature-inspired sanctuary where the rush of the outside world falls away the moment you step inside.',
+    'Our licensed therapists tailor every massage and scalp session to your unique comfort and tension levels. We believe high-quality, restorative bodywork should be accessible, personal, and genuinely rejuvenating.',
   ],
 } as const;
 

@@ -66,7 +66,7 @@ export const photos = {
   headSpaFace: {
     src: headSpaFaceImg,
     name: 'Head and face massage, Forest Spa',
-    alt: 'Relaxing head and face massage wrapped in a warm towel during a Forest Spa head spa session',
+    alt: 'Relaxing head and face massage during a Forest Spa signature scalp session',
   },
   headSpaBasin: {
     src: headSpaBasinImg,

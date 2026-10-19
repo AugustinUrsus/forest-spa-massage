@@ -51,9 +51,9 @@ export const articles: Article[] = [
     seoTitle: 'Head Spa & Scalp Therapy Guide | Forest Spa Poway, CA',
     subtitle: 'Why scalp care is the ultimate gateway to deep full-body relaxation and healthy hair.',
     excerpt:
-      'Explore how botanical steam, meridian acupressure, and continuous halo hydrotherapy release chronic tension, improve scalp circulation, and quiet an overstimulated mind.',
+      'Explore how botanical steam, scalp acupressure, and our continuous waterfall halo rinse release chronic tension, improve circulation, and calm a busy mind.',
     metaDescription:
-      'Discover how botanical steam, meridian acupressure & halo hydrotherapy relieve scalp tension and restore calm. Read our guide from Forest Spa Poway specialists.',
+      'Discover how botanical steam, scalp acupressure & waterfall halo rinse relieve tension and restore calm. Read our guide from Forest Spa Poway specialists.',
     category: 'Scalp Therapy & Head Spa',
     readTime: '6 min read',
     date: 'October 2026',
@@ -77,14 +77,14 @@ export const articles: Article[] = [
         ],
         callout: {
           title: 'Did You Know?',
-          text: 'The cranial nerves directly connect to your autonomic nervous system. Rhythmic, circular acupressure on the crown and temples triggers an immediate parasympathetic response, slowing your heart rate and easing mental overwhelm.',
+          text: 'Rhythmic, circular acupressure on the crown, temples, and base of the skull signals your body to slow down, easing mental fatigue and melting away built-up tension.',
         },
       },
       {
         heading: '2. The Therapeutic Stages of a True Head Spa',
         body: [
           'A true head spa is not merely a shampoo — it is a sequenced ritual designed to detoxify the scalp and calm the senses. We begin with gentle scalp analysis and botanical steam, which softens dried sebum and product residue around the hair follicles without stripping natural moisture.',
-          'Next comes deep exfoliation and lathering using gentle purifying botanicals. Your therapist uses precise fingertip pressure along the bladder and gallbladder meridian channels to dissolve localized tension knots. Keratin conditioner and nourishing argan oil are then massaged through lengths, sealing the hair cuticle with glossy resilience.',
+          'Next comes deep exfoliation and lathering using gentle purifying botanicals. Your therapist uses precise fingertip pressure along key tension pathways to dissolve localized knots in the scalp and neck. Keratin conditioner and nourishing argan oil are then massaged through lengths, sealing the hair cuticle with glossy resilience.',
           'The crowning moment is the halo water-ring rinse: continuous warm streams of purified water cascade in a soothing circular waterfall over the forehead and hairline. The sensory rhythm produces an auditory and tactile lullaby that gently coaxes the brain into theta-wave relaxation.',
         ],
       },
@@ -210,7 +210,7 @@ export const articles: Article[] = [
         heading: '1. Swedish Massage: The Art of Restorative Calm',
         body: [
           'Swedish Massage is the foundation of Western therapeutic bodywork. It utilizes long, gliding strokes (effleurage), gentle kneading (petrissage), and circular rhythmic friction moving in the direction of blood flow toward the heart.',
-          'The pressure is light to medium, never forcing the body into a defensive reflex. Instead, it invites the sympathetic nervous system ("fight or flight") to downshift into parasympathetic dominance ("rest and digest"). This reduces cortisol levels, improves venous return, and bathes tired tissues in fresh oxygen without inducing post-treatment soreness.',
+          'The pressure is light to medium, never forcing tight muscles into resistance. Instead, it encourages your body to fully relax and unwind, improving circulation and easing everyday fatigue without post-treatment soreness.',
         ],
         callout: {
           title: 'When to Choose Swedish:',
@@ -350,7 +350,7 @@ export const articles: Article[] = [
         heading: '1. The Hidden Strain: Forearms, Wrists and Shoulders',
         body: [
           'Most people focus on the soreness at the base of their neck, but the chain of tension frequently originates in the forearms and hands. Repeated clicking, typing, and mouse gripping cause the flexor and extensor muscles of the forearm to develop dense trigger points.',
-          'These forearm knots restrict elbow and shoulder mobility, which forces the upper trapezius and levator scapulae to compensate during everyday arm movements. Effective therapy must address the full kinetic chain: from fingertips and wrists through the rotator cuff to the cervical spine.',
+          'Forearm tension restricts mobility and often pulls on the upper shoulders and neck during everyday desk work. Effective therapy addresses the entire upper body: from fingertips and wrists up through the shoulders and neck.',
         ],
         callout: {
           title: 'The 42-Pound Head',
