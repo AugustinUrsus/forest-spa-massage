@@ -279,3 +279,9 @@ body.drawer-open #mobile-sticky-bar {
     scroll-padding-top: 0;
   }
 }
+
+/* Defensive brand logo protection — brand marks must never compress or distort under flexbox stress */
+.brand-mark, img[src*="logo-"] {
+  flex-shrink: 0 !important;
+  object-fit: contain !important;
+}

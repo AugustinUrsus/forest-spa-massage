@@ -174,6 +174,154 @@ export const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
+export interface NavDropdownItem {
+  label: string;
+  href: string;
+  description?: string;
+  badge?: string;
+}
+
+export type PrimaryNavItem =
+  | {
+      type: 'link';
+      label: string;
+      href: string;
+      badge?: string;
+    }
+  | {
+      type: 'dropdown';
+      label: string;
+      id: string;
+      href: string;
+      items: NavDropdownItem[];
+    };
+
+/**
+ * Streamlined 4-Pillar Primary Desktop Navigation:
+ * Reduces 9 flat tabs down to 4 focused luxury pillars.
+ * Prevents cognitive overwhelm, maximizes booking attention, and protects the logo.
+ */
+export const primaryNav: PrimaryNavItem[] = [
+  {
+    type: 'dropdown',
+    label: 'Treatments',
+    id: 'treatments',
+    href: `${baseUrl}#services`,
+    items: [
+      {
+        label: 'Massage Therapies',
+        href: `${baseUrl}#services`,
+        description: 'Deep Tissue, Swedish, Hot Stone & Couples',
+      },
+      {
+        label: 'Signature Head Spa',
+        href: `${baseUrl}#head-spa`,
+        description: 'Scalp waterfall halo, acupressure & steam',
+        badge: 'Popular',
+      },
+      {
+        label: 'Curated Ritual Packages',
+        href: `${baseUrl}#packages`,
+        description: 'Head-to-toe multi-therapy escapes',
+      },
+      {
+        label: 'Treatment Finder Quiz',
+        href: `${baseUrl}quiz`,
+        description: '60-second personalized recommendation',
+        badge: 'Interactive',
+      },
+    ],
+  },
+  {
+    type: 'link',
+    label: 'Head Spa',
+    href: `${baseUrl}#head-spa`,
+  },
+  {
+    type: 'link',
+    label: 'Specials',
+    href: `${baseUrl}#specials`,
+    badge: 'Oct',
+  },
+  {
+    type: 'dropdown',
+    label: 'Explore',
+    id: 'explore',
+    href: `${baseUrl}#story`,
+    items: [
+      {
+        label: 'Treatment Quiz',
+        href: `${baseUrl}quiz`,
+        description: 'Match your fatigue & pressure preferences',
+        badge: '60s Quiz',
+      },
+      {
+        label: 'Wellness Journal',
+        href: `${baseUrl}journal`,
+        description: 'Therapist guides & restorative self-care',
+      },
+      {
+        label: 'Forest Club Membership',
+        href: `${baseUrl}#membership`,
+        description: '$98/mo VIP benefits & rollover hours',
+      },
+      {
+        label: 'Gift Cards',
+        href: `${baseUrl}#gift-cards`,
+        description: 'Digital gift cards for loved ones',
+      },
+      {
+        label: 'Our Story',
+        href: `${baseUrl}#story`,
+        description: 'Meet our sanctuary & certified specialists',
+      },
+      {
+        label: 'Location & Hours',
+        href: `${baseUrl}#location`,
+        description: '14168 Poway Rd, free parking & directions',
+      },
+    ],
+  },
+];
+
+export interface MobileNavGroup {
+  category: string;
+  links: {
+    label: string;
+    href: string;
+    sublabel?: string;
+    badge?: string;
+  }[];
+}
+
+export const mobileNavGroups: MobileNavGroup[] = [
+  {
+    category: 'Treatments & Rituals',
+    links: [
+      { label: 'Massage Therapies', href: `${baseUrl}#services`, sublabel: 'À la carte full-body menu' },
+      { label: 'Signature Head Spa', href: `${baseUrl}#head-spa`, sublabel: 'Japanese scalp therapy', badge: 'Signature' },
+      { label: 'Curated Packages', href: `${baseUrl}#packages`, sublabel: 'Head-to-toe rituals' },
+      { label: 'Monthly Special', href: `${baseUrl}#specials`, sublabel: 'October Gentle Belly Detox', badge: 'Special' },
+    ],
+  },
+  {
+    category: 'Personalized Care & Guides',
+    links: [
+      { label: 'Treatment Finder Quiz', href: `${baseUrl}quiz`, sublabel: 'Find your best fit in 60s' },
+      { label: 'Wellness Journal', href: `${baseUrl}journal`, sublabel: 'Bodywork wisdom & self-care' },
+    ],
+  },
+  {
+    category: 'Sanctuary & Visit',
+    links: [
+      { label: 'Club Membership', href: `${baseUrl}#membership`, sublabel: 'Monthly VIP savings' },
+      { label: 'Gift Cards', href: `${baseUrl}#gift-cards`, sublabel: 'Digital gift vouchers' },
+      { label: 'Our Story', href: `${baseUrl}#story`, sublabel: 'About Forest Spa Poway' },
+      { label: 'Location & Directions', href: `${baseUrl}#location`, sublabel: '14168 Poway Rd, Ste 206' },
+    ],
+  },
+];
+
 export const navLinks: NavLink[] = [
   { label: 'Services', href: `${baseUrl}#services` },
   { label: 'Packages', href: `${baseUrl}#packages` },

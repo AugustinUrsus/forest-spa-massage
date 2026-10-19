@@ -20,6 +20,13 @@ const {
   alt = 'Forest Spa — massage and head spa in Poway, San Diego',
 } = Astro.props;
 const src = variant === 'stacked-light' ? stackedLight : horizontal;
+const isHorizontal = variant === 'horizontal';
 ---
 
-<Image src={src} alt={alt} class={className} loading="eager" densities={[1, 2]} />
+<Image
+  src={src}
+  alt={alt}
+  class={`shrink-0 object-contain select-none ${isHorizontal ? 'aspect-[987/350]' : 'aspect-[500/500]'} ${className}`}
+  loading="eager"
+  densities={[1, 2]}
+/>

@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, Gift } from 'lucide-react';
+import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, Gift, Compass } from 'lucide-react';
 import { business, booking, monthlySpecial, baseUrl } from '../../data/siteData';
 import { photos } from '../../data/photos';
 ---
@@ -10,10 +10,7 @@ import { photos } from '../../data/photos';
   class="relative flex min-h-[92svh] items-center overflow-hidden bg-charcoal text-sand"
 >
   <!-- Background photo (LCP). On mobile the focal point shifts right so the
-       candles show; text sits over the darkened left.
-       It carries real alt text rather than being marked decorative: this is the
-       studio's own room, so it is meaningful content for both screen readers
-       and Google Images (alt is the primary signal image search reads). -->
+       candles show; text sits over the darkened left. -->
   <Image
     src={photos.heroAmbiance.src}
     alt={photos.heroAmbiance.alt}
@@ -25,13 +22,14 @@ import { photos } from '../../data/photos';
   />
   <!-- Legibility overlays -->
   <div class="absolute inset-0 bg-gradient-to-r from-charcoal-deep/85 via-charcoal/65 to-charcoal/25"></div>
-  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-sand"></div>
+  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-sand-deep"></div>
 
   <div class="container-px relative z-10 py-28 lg:py-32">
     <div class="max-w-2xl">
+      <!-- Special ribbon -->
       <a
         href="#specials"
-        class="group mb-6 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 py-1.5 pl-4 pr-3 text-sm font-medium text-gold backdrop-blur transition-colors hover:bg-gold/20"
+        class="group mb-5 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 py-1.5 pl-4 pr-3 text-xs sm:text-sm font-medium text-gold backdrop-blur transition-colors hover:bg-gold/20"
       >
         <Sparkles size={15} />
         <span>
@@ -43,7 +41,13 @@ import { photos } from '../../data/photos';
         <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
       </a>
 
-      <p class="eyebrow mb-5 text-gold">{business.tagline}</p>
+      <!-- Social Proof Trust Badge -->
+      <div class="mb-4 flex items-center gap-2 text-xs font-medium text-gold/90">
+        <span class="tracking-widest text-gold">★★★★★</span>
+        <span>5.0 Rating · 350+ Verified Reviews · Poway, CA</span>
+      </div>
+
+      <p class="eyebrow mb-4 text-gold">{business.tagline}</p>
 
       <h1 class="display-heading text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
         {business.headline}
@@ -54,13 +58,14 @@ import { photos } from '../../data/photos';
         {business.subhead}
       </p>
 
-      <div class="mt-9 flex flex-wrap items-center gap-4">
+      <!-- Primary Action Buttons -->
+      <div class="mt-8 flex flex-wrap items-center gap-4">
         <a
           href={booking.primary}
           target="_blank"
           rel="noopener"
           data-book="hero"
-          class="btn btn-primary"
+          class="btn btn-primary shadow-md hover:shadow-lg"
         >
           <CalendarHeart size={19} /> Book Appointment
         </a>
@@ -78,12 +83,60 @@ import { photos } from '../../data/photos';
         </a>
       </div>
 
-      <div class="mt-4 pt-1">
+      <!-- High-Converting Consultation Card (Treatment Quiz) -->
+      <div class="mt-7">
         <a
           href={`${baseUrl}quiz`}
-          class="inline-flex items-center gap-1.5 text-xs font-medium text-gold/80 transition-colors hover:text-gold hover:underline"
+          class="group inline-flex items-center gap-3.5 rounded-2xl border border-gold/30 bg-charcoal-deep/80 px-4 py-3 backdrop-blur-md transition-all duration-300 hover:border-gold hover:bg-charcoal-deep hover:shadow-lg"
         >
-          <span>Unsure which treatment fits you? Take our 60-Second Treatment Quiz →</span>
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/20 text-gold transition-transform duration-300 group-hover:scale-110">
+            <Compass size={18} />
+          </span>
+          <div class="text-left">
+            <p class="text-xs font-semibold text-sand transition-colors group-hover:text-gold">
+              Not sure which treatment fits your body today?
+            </p>
+            <p class="text-[11px] text-sand/70">
+              Take our 60-second Treatment Quiz → personalized recommendation
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Jump Section Gateway (Tactile Wayfinding Without Clutter) -->
+      <div class="mt-10 pt-1 flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-[11px] uppercase tracking-wider text-gold/75 mr-1 hidden sm:inline font-semibold">
+          Quick Jump:
+        </span>
+        <a
+          href="#services"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Body Massage
+        </a>
+        <a
+          href="#head-spa"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Signature Head Spa
+        </a>
+        <a
+          href="#packages"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Ritual Packages
+        </a>
+        <a
+          href="#specials"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          October Special
+        </a>
+        <a
+          href="#membership"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Membership
         </a>
       </div>
     </div>

@@ -1,6 +1,6 @@
 ---
-import { Phone, CalendarHeart } from 'lucide-react';
-import { business, booking, navLinks, baseUrl } from '../../data/siteData';
+import { Phone, CalendarHeart, ChevronDown } from 'lucide-react';
+import { business, booking, primaryNav, mobileNavGroups, baseUrl } from '../../data/siteData';
 import BrandMark from '../BrandMark.astro';
 import MobileNav from '../react/MobileNav.tsx';
 
@@ -17,48 +17,108 @@ const isCurrentPage = (href: string) => {
 ---
 
 <!--
-  Header banner. Solid opaque banner with smooth scroll hide/show
-  on mobile and active nav link tracking.
+  Header banner: Serene, uncluttered luxury aesthetic.
+  Features 4 core pillars with accessible dropdown popovers,
+  strictly zero-shrink brand logo geometry, and prominent booking CTA.
 -->
 <header
   id="site-header"
   class="fixed inset-x-0 top-0 z-30 bg-sand text-ink border-b border-black/5 pt-[env(safe-area-inset-top)] transition-[translate,box-shadow] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform data-[hidden]:-translate-y-full data-[scrolled]:shadow-md data-[scrolled]:shadow-charcoal/5"
 >
-  <div class="container-px flex h-16 items-center justify-between gap-4 xl:gap-6">
-    <!-- Brand -->
-    <a href={`${baseUrl}#top`} aria-label="Forest Spa home" class="flex items-center">
-      <BrandMark variant="horizontal" class="h-12 w-auto sm:h-14" />
+  <div class="container-px flex h-16 items-center justify-between gap-4 xl:gap-8">
+    <!-- Brand: shrink-0 and min-width shield logo from any flexbox compression -->
+    <a
+      href={`${baseUrl}#top`}
+      aria-label="Forest Spa home"
+      class="flex shrink-0 items-center min-w-[130px] sm:min-w-[155px] focus-visible:outline-bronze"
+    >
+      <BrandMark variant="horizontal" class="h-11 w-auto sm:h-13 xl:h-14 shrink-0" />
     </a>
 
-    <!-- Desktop nav -->
-    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-2.5 xl:gap-4">
+    <!-- Desktop Nav: Streamlined 4-Pillar Luxury Architecture -->
+    <nav aria-label="Primary" class="hidden lg:flex lg:items-center lg:gap-3 xl:gap-5">
       {
-        navLinks.map((link) => {
-          const isActive = isCurrentPage(link.href);
+        primaryNav.map((entry) => {
+          if (entry.type === 'link') {
+            const isActive = isCurrentPage(entry.href);
+            return (
+              <a
+                href={entry.href}
+                data-nav-link
+                data-active={isActive ? '' : undefined}
+                aria-current={isActive ? 'page' : undefined}
+                class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs xl:text-sm font-medium text-ink transition-colors hover:text-bronze hover:bg-black/5 data-[active]:font-semibold data-[active]:text-bronze"
+              >
+                <span>{entry.label}</span>
+                {entry.badge && (
+                  <span class="rounded-full bg-bronze/12 px-1.5 py-0.2 text-[10px] font-semibold text-bronze uppercase tracking-wider">
+                    {entry.badge}
+                  </span>
+                )}
+              </a>
+            );
+          }
+
+          // Dropdown group
           return (
-            <a
-              href={link.href}
-              data-nav-link
-              data-active={isActive ? '' : undefined}
-              aria-current={isActive ? 'page' : undefined}
-              class="whitespace-nowrap text-xs xl:text-sm font-medium text-ink transition-colors hover:text-bronze data-[active]:font-semibold data-[active]:text-bronze"
-            >
-              {link.label}
-            </a>
+            <div class="group relative py-2" data-nav-dropdown={entry.id}>
+              <a
+                href={entry.href}
+                data-nav-link
+                class="inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-xs xl:text-sm font-medium text-ink transition-colors group-hover:text-bronze group-hover:bg-black/5 focus-visible:outline-bronze"
+                aria-haspopup="true"
+              >
+                <span>{entry.label}</span>
+                <ChevronDown
+                  size={14}
+                  className="transition-transform duration-200 group-hover:rotate-180 text-ink/60 group-hover:text-bronze"
+                />
+              </a>
+
+              <!-- Dropdown Surface: Accessible, elegant card -->
+              <div
+                class="invisible pointer-events-none absolute left-0 top-full pt-2 opacity-0 -translate-y-1 transition-all duration-200 ease-out group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 z-50 min-w-[280px]"
+              >
+                <div class="rounded-2xl border border-black/10 bg-cloud/98 p-2.5 shadow-xl shadow-charcoal/10 backdrop-blur-md">
+                  {entry.items.map((sub) => (
+                    <a
+                      href={sub.href}
+                      class="group/sub block rounded-xl px-3 py-2 transition-colors hover:bg-sand/40"
+                    >
+                      <div class="flex items-center justify-between gap-2">
+                        <span class="text-xs xl:text-sm font-semibold text-ink group-hover/sub:text-bronze transition-colors">
+                          {sub.label}
+                        </span>
+                        {sub.badge && (
+                          <span class="rounded-full bg-sage/20 px-2 py-0.5 text-[10px] font-semibold text-sage-deep uppercase tracking-wider">
+                            {sub.badge}
+                          </span>
+                        )}
+                      </div>
+                      {sub.description && (
+                        <p class="mt-0.5 text-[11px] text-ink-soft/80 line-clamp-1">
+                          {sub.description}
+                        </p>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
           );
         })
       }
     </nav>
 
-    <!-- Desktop CTAs -->
-    <div class="hidden lg:flex lg:items-center lg:gap-3">
+    <!-- Desktop CTAs: High Conversion Prominence -->
+    <div class="hidden lg:flex lg:items-center lg:gap-3 shrink-0">
       <a
         href={business.phoneHref}
         data-call="header"
-        class="btn btn-outline hidden px-5 py-2.5 text-sm xl:inline-flex"
+        class="btn btn-outline hidden px-4 py-2 text-xs xl:inline-flex xl:text-sm"
         aria-label={`Call Forest Spa at ${business.phone}`}
       >
-        <Phone size={17} strokeWidth={1.6} />
+        <Phone size={16} strokeWidth={1.6} />
         <span>{business.phone}</span>
       </a>
       <a
@@ -66,16 +126,16 @@ const isCurrentPage = (href: string) => {
         target="_blank"
         rel="noopener"
         data-book="header"
-        class="btn btn-primary px-5 py-2.5 text-sm"
+        class="btn btn-primary px-5 py-2 text-xs xl:text-sm shadow-sm hover:shadow-md transition-shadow"
       >
-        <CalendarHeart size={17} strokeWidth={1.6} /> Book Now
+        <CalendarHeart size={16} strokeWidth={1.8} /> Book Now
       </a>
     </div>
 
     <!-- Mobile nav island -->
     <MobileNav
       client:media="(max-width: 1023px)"
-      links={navLinks}
+      groups={mobileNavGroups}
       bookUrl={booking.primary}
       phone={business.phone}
       phoneHref={business.phoneHref}

@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { Menu, X, Phone, CalendarHeart } from 'lucide-react';
-import type { NavLink } from '../../data/siteData';
+import type { MobileNavGroup } from '../../data/siteData';
 
 interface Props {
-  links: NavLink[];
+  groups: MobileNavGroup[];
   bookUrl: string;
   phone: string;
   phoneHref: string;
 }
 
-export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
+export default function MobileNav({ groups, bookUrl, phone, phoneHref }: Props) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -142,16 +142,39 @@ export default function MobileNav({ links, bookUrl, phone, phoneHref }: Props) {
           </button>
         </div>
 
-        <nav className="flex flex-1 flex-col px-3 py-2">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => goToLink(e, link.href)}
-              className="display-heading rounded-2xl px-3 py-3.5 text-2xl font-semibold tracking-wide text-ink transition-colors hover:text-bronze"
-            >
-              {link.label}
-            </a>
+        <nav className="flex flex-1 flex-col px-4 py-2 space-y-5 overflow-y-auto">
+          {groups.map((group) => (
+            <div key={group.category}>
+              <p className="eyebrow px-2 mb-1.5 text-[11px] text-bronze font-semibold">
+                {group.category}
+              </p>
+              <div className="flex flex-col space-y-1">
+                {group.links.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => goToLink(e, link.href)}
+                    className="group/link flex items-center justify-between rounded-xl px-2.5 py-2 transition-colors hover:bg-black/5"
+                  >
+                    <div>
+                      <p className="display-heading text-base sm:text-lg font-semibold text-ink group-hover/link:text-bronze transition-colors">
+                        {link.label}
+                      </p>
+                      {link.sublabel && (
+                        <p className="text-[11px] text-ink-soft/75">
+                          {link.sublabel}
+                        </p>
+                      )}
+                    </div>
+                    {link.badge && (
+                      <span className="rounded-full bg-sage/20 px-2 py-0.5 text-[10px] font-semibold text-sage-deep">
+                        {link.badge}
+                      </span>
+                    )}
+                  </a>
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
 

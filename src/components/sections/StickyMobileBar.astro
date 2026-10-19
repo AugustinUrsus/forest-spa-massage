@@ -8,22 +8,24 @@ import { business, booking } from '../../data/siteData';
   id="mobile-sticky-bar"
   class="lg:hidden fixed inset-x-0 bottom-0 z-30 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
 >
-  <div class="mx-auto flex max-w-md items-center gap-3">
+  <div class="mx-auto flex max-w-md items-center gap-2.5">
     <a
       href={business.phoneHref}
       data-call="sticky"
-      class="btn flex-1 border border-black/10 bg-cloud text-ink shadow-[0_0_26px_2px_rgba(46,46,43,0.28)]"
+      class="btn border border-black/10 bg-cloud text-ink shadow-md px-4 py-3 shrink-0"
+      aria-label={`Call Forest Spa at ${business.phone}`}
     >
-      <Phone size={18} strokeWidth={1.6} /> Call Us
+      <Phone size={17} strokeWidth={1.8} />
+      <span class="text-xs font-semibold">Call</span>
     </a>
     <a
       href={booking.primary}
       target="_blank"
       rel="noopener"
       data-book="sticky"
-      class="btn btn-primary flex-1 shadow-[0_0_26px_2px_rgba(107,92,53,0.5)]"
+      class="btn btn-primary flex-1 shadow-[0_0_24px_rgba(107,92,53,0.45)] py-3 text-sm font-semibold tracking-wide justify-center"
     >
-      <CalendarHeart size={18} strokeWidth={1.6} /> Book Now
+      <CalendarHeart size={18} strokeWidth={1.8} /> Book Appointment
     </a>
   </div>
 </div>
