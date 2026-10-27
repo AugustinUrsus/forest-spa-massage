@@ -114,9 +114,8 @@ export default function ServiceTabs({ categories }: Props) {
         role="tabpanel"
         id={`${uid}-panel`}
         aria-labelledby={`${uid}-tab-${active}`}
-        style={{ animation: 'reveal-in 0.4s var(--ease-out-soft) both' }}
       >
-        <p className="mx-auto mb-10 max-w-2xl text-center text-base sm:text-lg text-ink-soft">
+        <p className="hidden sm:block mx-auto mb-10 max-w-2xl text-center text-base sm:text-lg text-ink-soft">
           {category.blurb}
         </p>
 

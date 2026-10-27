@@ -7,7 +7,7 @@ import { photos } from '../../data/photos';
 
 <section
   id="top"
-  class="relative flex min-h-[92svh] items-center overflow-hidden bg-charcoal text-sand"
+  class="relative flex min-h-[100svh] items-center overflow-hidden bg-charcoal text-sand"
 >
   <!-- Background photo (LCP). On mobile the focal point shifts right so the
        candles show; text sits over the darkened left. -->
@@ -22,9 +22,9 @@ import { photos } from '../../data/photos';
   />
   <!-- Legibility overlays -->
   <div class="absolute inset-0 bg-gradient-to-r from-charcoal-deep/85 via-charcoal/65 to-charcoal/25"></div>
-  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-sand-deep"></div>
+  <div class="absolute inset-x-0 bottom-0 h-16 sm:h-24 bg-gradient-to-b from-transparent to-[#634e41] pointer-events-none"></div>
 
-  <div class="container-px relative z-10 py-28 lg:py-32">
+  <div class="container-px relative z-10 py-24 sm:py-28 lg:py-32">
     <div class="max-w-2xl">
       <!-- Special ribbon -->
       <a
@@ -84,7 +84,7 @@ import { photos } from '../../data/photos';
       </div>
 
       <!-- High-Converting Consultation Card (Treatment Quiz) -->
-      <div class="mt-7">
+      <div class="mt-7 hidden sm:block">
         <a
           href={`${baseUrl}quiz`}
           class="group inline-flex items-center gap-3.5 rounded-2xl border border-gold/30 bg-charcoal-deep/80 px-4 py-3 backdrop-blur-md transition-all duration-300 hover:border-gold hover:bg-charcoal-deep hover:shadow-lg"
@@ -104,7 +104,7 @@ import { photos } from '../../data/photos';
       </div>
 
       <!-- Quick Jump Section Gateway (Tactile Wayfinding Without Clutter) -->
-      <div class="mt-10 pt-1 flex flex-wrap items-center gap-2 text-xs">
+      <div class="mt-10 pt-1 hidden sm:flex flex-wrap items-center gap-2 text-xs">
         <span class="text-[11px] uppercase tracking-wider text-gold/75 mr-1 hidden sm:inline font-semibold">
           Quick Jump:
         </span>

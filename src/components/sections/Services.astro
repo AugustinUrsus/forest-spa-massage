@@ -24,12 +24,15 @@ const categories = serviceCategories.map((c) => ({
 }));
 ---
 
-<section id="services" class="bg-sand-deep py-[var(--spacing-section)]">
-  <div class="container-px reveal">
-    <header class="mx-auto mb-10 max-w-2xl text-center">
+<section id="services" class="relative bg-sand-deep pb-16 sm:pb-[var(--spacing-section)] overflow-hidden">
+  <!-- Top gradient fade: natural organic transition from charcoal to sand-deep before the header -->
+  <div class="h-20 sm:h-28 gradient-charcoal-to-sand"></div>
+
+  <div class="container-px pt-4 sm:pt-8">
+    <header class="mx-auto mb-6 sm:mb-10 max-w-2xl text-center">
       <p class="eyebrow mb-4">Treatment Menu</p>
       <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">Massage & Scalp Therapies</h2>
-      <p class="mt-5 text-lg text-ink-soft">
+      <p class="mt-5 text-lg text-ink-soft hidden sm:block">
         Choose from customized massage styles, signature scalp treatments, and targeted add-ons.
         Book your session directly, or expand any service to view pressure levels, techniques, and what to expect.
       </p>
@@ -58,6 +61,6 @@ const categories = serviceCategories.map((c) => ({
       </a>
     </div>
 
-    <ServiceTabs client:visible categories={categories} />
+    <ServiceTabs client:load categories={categories} />
   </div>
 </section>

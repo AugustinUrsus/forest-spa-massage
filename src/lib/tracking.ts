@@ -100,7 +100,7 @@ export function initReveal(): void {
         }
       }
     },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0.04 },
+    { rootMargin: '250px 0px 250px 0px', threshold: 0.01 },
   );
   els.forEach((el) => io.observe(el));
 }
