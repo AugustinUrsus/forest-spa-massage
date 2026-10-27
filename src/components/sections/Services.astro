@@ -1,6 +1,7 @@
 ---
 import { serviceCategories, bookingUrl, baseUrl } from '../../data/siteData';
 import ServiceTabs from '../react/ServiceTabs.tsx';
+import { Compass, ArrowRight } from 'lucide-react';
 
 // Attach the exact Fresha deep link and rich metadata to each service before handing off to the island.
 const categories = serviceCategories.map((c) => ({
@@ -23,12 +24,39 @@ const categories = serviceCategories.map((c) => ({
 }));
 ---
 
-<section id="services" class="bg-sand-deep pt-4 sm:pt-12 pb-16 sm:py-[var(--spacing-section)]">
+<section id="services" class="bg-sand-deep py-[var(--spacing-section)]">
   <div class="container-px reveal">
-    <header class="mx-auto mb-4 sm:mb-8 max-w-2xl text-center">
-      <p class="eyebrow mb-1 sm:mb-2">Treatment Menu</p>
-      <h2 class="display-heading text-2xl sm:text-4xl lg:text-5xl">Massage & Scalp Therapies</h2>
+    <header class="mx-auto mb-10 max-w-2xl text-center">
+      <p class="eyebrow mb-4">Treatment Menu</p>
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">Massage & Scalp Therapies</h2>
+      <p class="mt-5 text-lg text-ink-soft">
+        Choose from customized massage styles, signature scalp treatments, and targeted add-ons.
+        Book your session directly, or expand any service to view pressure levels, techniques, and what to expect.
+      </p>
     </header>
+
+    <!-- Interactive Treatment Quiz recommendation callout -->
+    <div class="mx-auto mb-12 max-w-2xl">
+      <a
+        href={`${baseUrl}quiz`}
+        class="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-bronze/20 bg-cloud/80 p-4 sm:p-5 shadow-sm transition-all duration-300 hover:border-bronze hover:bg-cloud hover:shadow-md"
+      >
+        <div class="flex items-center gap-3.5">
+          <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sage/15 text-sage-deep">
+            <Compass size={22} strokeWidth={1.8} />
+          </span>
+          <div>
+            <p class="text-sm font-semibold text-ink group-hover:text-bronze transition-colors">
+              Not sure which massage or pressure fits your body?
+            </p>
+            <p class="text-xs text-ink-soft">Take our quick 60-second quiz for personalized recommendations</p>
+          </div>
+        </div>
+        <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-bronze whitespace-nowrap shrink-0 sm:self-center">
+          Find My Treatment <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+        </span>
+      </a>
+    </div>
 
     <ServiceTabs client:visible categories={categories} />
   </div>

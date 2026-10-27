@@ -1,13 +1,13 @@
 ---
 import { Image } from 'astro:assets';
-import { CalendarHeart, ArrowDown, Gift } from 'lucide-react';
-import { business, booking } from '../../data/siteData';
+import { CalendarHeart, ArrowDown, ArrowRight, Sparkles, Gift, Compass } from 'lucide-react';
+import { business, booking, monthlySpecial, baseUrl } from '../../data/siteData';
 import { photos } from '../../data/photos';
 ---
 
 <section
   id="top"
-  class="relative flex min-h-[65svh] sm:min-h-[92svh] items-center overflow-hidden bg-charcoal text-sand"
+  class="relative flex min-h-[92svh] items-center overflow-hidden bg-charcoal text-sand"
 >
   <!-- Background photo (LCP). On mobile the focal point shifts right so the
        candles show; text sits over the darkened left. -->
@@ -22,29 +22,44 @@ import { photos } from '../../data/photos';
   />
   <!-- Legibility overlays -->
   <div class="absolute inset-0 bg-gradient-to-r from-charcoal-deep/85 via-charcoal/65 to-charcoal/25"></div>
-  <div class="absolute inset-x-0 bottom-0 h-16 sm:h-24 bg-gradient-to-b from-transparent to-sand-deep"></div>
+  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-sand-deep"></div>
 
-  <div class="container-px relative z-10 pt-16 pb-8 sm:py-28 lg:py-32">
+  <div class="container-px relative z-10 py-28 lg:py-32">
     <div class="max-w-2xl">
+      <!-- Special ribbon -->
+      <a
+        href="#specials"
+        class="group mb-5 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 py-1.5 pl-4 pr-3 text-xs sm:text-sm font-medium text-gold backdrop-blur transition-colors hover:bg-gold/20"
+      >
+        <Sparkles size={15} />
+        <span>
+          {monthlySpecial.month} · {monthlySpecial.shortName} — {
+            monthlySpecial.options.length > 1 ? 'from ' : ''
+          }${monthlySpecial.options[0].price}
+          <span class="text-gold/60 line-through">${monthlySpecial.options[0].value}</span>
+        </span>
+        <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+      </a>
+
       <!-- Social Proof Trust Badge -->
-      <div class="mb-2 sm:mb-4 flex items-center gap-2 text-xs font-medium text-gold/90">
+      <div class="mb-4 flex items-center gap-2 text-xs font-medium text-gold/90">
         <span class="tracking-widest text-gold">★★★★★</span>
         <span>Rated Best Massage in Poway · 2026</span>
       </div>
 
-      <p class="eyebrow mb-2 sm:mb-4 text-gold hidden sm:block">{business.tagline}</p>
+      <p class="eyebrow mb-4 text-gold">{business.tagline}</p>
 
-      <h1 class="display-heading text-2xl sm:text-5xl lg:text-6xl leading-[1.15] sm:leading-[1.08]">
+      <h1 class="display-heading text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
         {business.headline}
       </h1>
 
       <!-- Subhead: hidden on mobile, shown from sm up -->
-      <p class="mt-4 sm:mt-6 hidden max-w-xl text-lg leading-relaxed text-sand/85 sm:block sm:text-xl">
+      <p class="mt-6 hidden max-w-xl text-lg leading-relaxed text-sand/85 sm:block sm:text-xl">
         {business.subhead}
       </p>
 
       <!-- Primary Action Buttons -->
-      <div class="mt-5 sm:mt-8 flex flex-wrap items-center gap-2.5 sm:gap-4">
+      <div class="mt-8 flex flex-wrap items-center gap-4">
         <a
           href={booking.primary}
           target="_blank"
@@ -52,19 +67,76 @@ import { photos } from '../../data/photos';
           data-book="hero"
           class="btn btn-primary shadow-md hover:shadow-lg"
         >
-          <CalendarHeart size={18} /> Book Appointment
+          <CalendarHeart size={19} /> Book Appointment
         </a>
         <a href="#services" class="btn btn-ghost-dark">
-          Explore Services <ArrowDown size={16} />
+          Explore Services <ArrowDown size={17} />
         </a>
         <a
           href={booking.giftCards}
           target="_blank"
           rel="noopener"
           data-book="hero-giftcard"
-          class="btn btn-ghost-dark hidden sm:inline-flex"
+          class="btn btn-ghost-dark"
         >
           <Gift size={17} /> Gift Cards
+        </a>
+      </div>
+
+      <!-- High-Converting Consultation Card (Treatment Quiz) -->
+      <div class="mt-7">
+        <a
+          href={`${baseUrl}quiz`}
+          class="group inline-flex items-center gap-3.5 rounded-2xl border border-gold/30 bg-charcoal-deep/80 px-4 py-3 backdrop-blur-md transition-all duration-300 hover:border-gold hover:bg-charcoal-deep hover:shadow-lg"
+        >
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/20 text-gold transition-transform duration-300 group-hover:scale-110">
+            <Compass size={18} />
+          </span>
+          <div class="text-left">
+            <p class="text-xs font-semibold text-sand transition-colors group-hover:text-gold">
+              Not sure which massage or pressure is right for you?
+            </p>
+            <p class="text-[11px] text-sand/70">
+              Take our 60-second Treatment Quiz for a personalized recommendation →
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Jump Section Gateway (Tactile Wayfinding Without Clutter) -->
+      <div class="mt-10 pt-1 flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-[11px] uppercase tracking-wider text-gold/75 mr-1 hidden sm:inline font-semibold">
+          Quick Jump:
+        </span>
+        <a
+          href="#services"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Body Massage
+        </a>
+        <a
+          href="#head-spa"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Signature Head Spa
+        </a>
+        <a
+          href="#packages"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Ritual Packages
+        </a>
+        <a
+          href="#specials"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          October Special
+        </a>
+        <a
+          href="#membership"
+          class="rounded-full border border-sand/20 bg-charcoal-deep/60 px-3.5 py-1.5 text-sand/90 backdrop-blur transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-sand"
+        >
+          Membership
         </a>
       </div>
     </div>
