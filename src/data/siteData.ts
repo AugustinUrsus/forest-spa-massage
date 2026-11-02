@@ -356,7 +356,7 @@ export const monthlySpecial = {
   summary:
     'Celebrate the season of thankfulness with our limited-time November specials! Unwind with our customized 90-minute full-body massage designed to release muscle tension, boost circulation, and melt holiday stress, or indulge in the complete 120-minute Stone & Scent Combo Prestige with foot reflexology, hot stones, and calming aromatherapy.',
   inclusions: [
-    '90-min body massage (pick from Swedish, Sports, Thai, or Deep Tissue)',
+    '90-min body massage (pick from Swedish, Sports, or Deep Tissue)',
     '30-min foot reflexology with scrub (Combo Prestige)',
     'Hot stones therapy (Combo Prestige)',
     'Calming aromatherapy or essential oil (Combo Prestige)',
@@ -371,10 +371,10 @@ export const monthlySpecial = {
       value: 115,
       duration: '90 min',
       summary:
-        'Celebrate the season of thankfulness with our limited-time holiday special! Unwind with a customized 90-minute full-body massage (choose from Swedish, Deep Tissue, Sports, or Thai massage) designed to release muscle tension, boost circulation, and melt away holiday stress. No add-on requirements, no catches—just 90 pure minutes of relaxation.',
+        'Celebrate the season of thankfulness with our limited-time holiday special! Unwind with a customized 90-minute full-body massage (choose from Swedish, Deep Tissue, or Sports massage) designed to release muscle tension, boost circulation, and melt away holiday stress. No add-on requirements, no catches—just 90 pure minutes of relaxation.',
       inclusions: [
         '90-min customized full-body massage',
-        'Choice of Swedish, Deep Tissue, Sports, or Thai modality',
+        'Choice of Swedish, Deep Tissue, or Sports modality',
         'Designed to release muscle tension and melt away holiday stress',
         'Boosts healthy circulation and full-body relaxation',
         'No add-on requirements, no catches—just 90 pure minutes of relaxation',
@@ -423,6 +423,42 @@ export const standingOffers = [
 /* -------------------------------------------------------------------------- */
 
 export const packages: Package[] = [
+  {
+    name: 'Women’s Self-Care & Warming Ritual',
+    icon: 'Heart',
+    blurb:
+      'A holistic wellness ritual combining a custom full-body massage with targeted abdominal therapy and a hot Mugwort Mineral Compress for core warmth and cramp relief.',
+    tiers: [
+      {
+        tier: 'Premier',
+        id: '',
+        url: 'https://l.fresha.com/3x6fcvz8b',
+        price: 130,
+        value: 155,
+        duration: '90 min',
+        inclusions: [
+          '90-min full body massage',
+          'Abdominal therapy (warmth & tension release)',
+          'Essential oil',
+          'Herbal detox heat pad — hot Mugwort Mineral Compress',
+        ],
+      },
+      {
+        tier: 'Prestige',
+        id: '',
+        url: 'https://l.fresha.com/336jcsz3b',
+        price: 155,
+        value: 185,
+        duration: '120 min',
+        inclusions: [
+          '120-min full body massage',
+          'Abdominal therapy (warmth & tension release)',
+          'Essential oil',
+          'Herbal detox heat pad — hot Mugwort Mineral Compress',
+        ],
+      },
+    ],
+  },
   {
     name: 'Head-to-Toe Retreat',
     icon: 'Sparkles',
