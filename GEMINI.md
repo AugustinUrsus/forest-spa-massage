@@ -131,10 +131,10 @@ All CTAs route to **Fresha** via deep links. Two URL patterns exist in `src/data
 
 ### Typography & Fonts
 - **Headings:** Brand display font **"The Seasons"** (self-hosted).
-  - *Subset Note:* Demo version stamps "DEMO" on non-standard punctuation. Font is subsetted for `A-Z a-z 0-9 , . : ; ?`. Other symbols (e.g., `&`, `-`, `/`) fall back to **Playfair Display**.
+  - *Subset Note:* Demo version stamps "DEMO" on non-standard punctuation and on the digit `4` (`U+0034`). Font is subsetted for `A-Z a-z 0-3 5-9 , . : ; ?` with `4` and other symbols (e.g., `&`, `-`, `/`) falling back to **Cormorant Garamond** / **Playfair Display**.
   - Re-subsetting command:
     ```bash
-    python3 -m fontTools.subset in.ttf --unicodes="U+0020,U+002C,U+002E,U+003A,U+003B,U+003F,U+0030-0039,U+0041-005A,U+0061-007A" --flavor=woff2 --output-file=public/fonts/the-seasons-regular.woff2
+    python3 -m fontTools.subset in.ttf --unicodes="U+0020,U+002C,U+002E,U+003A,U+003B,U+003F,U+0030-0033,U+0035-0039,U+0041-005A,U+0061-007A" --flavor=woff2 --output-file=src/assets/fonts/theseasons-regular.woff2
     ```
 - **Body:** **Inter** (`@fontsource-variable/inter`).
 

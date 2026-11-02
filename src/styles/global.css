@@ -9,9 +9,9 @@
 
 /* Display face is the brand's "The Seasons" (self-hosted, @font-face injected
    from Layout.astro so url()s carry the base path). The freely-available file
-   is a DEMO that watermarks most punctuation, so it is SUBSET to keep only the
-   clean glyphs (A–Z a–z 0–9 , . : ; ?); any other character (& $ - / etc.) falls
-   through to Cormorant Garamond — an elegant serif close to The Seasons. */
+   is a DEMO that watermarks punctuation and the digit '4', so it is SUBSET to keep
+   only the clean glyphs (A–Z a–z 0–3 5–9 , . : ; ?); any other character (4 & $ - / etc.)
+   falls through to Cormorant Garamond — an elegant serif close to The Seasons. */
 
 @theme {
   /* Brand palette --------------------------------------------------------- */
