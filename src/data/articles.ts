@@ -1,6 +1,6 @@
 import type { Photo } from './photos';
 import { photos } from './photos';
-import { bookingUrl, monthlySpecial } from './siteData';
+import { bookingUrl } from './siteData';
 
 export interface ArticleSection {
   heading: string;
@@ -311,13 +311,13 @@ export const articles: Article[] = [
       'Protect your lower abdomen and lower back from sudden cold drafts or air-conditioning blasts.',
     ],
     recommendedTreatment: {
-      name: monthlySpecial.name,
-      duration: '90 min',
-      price: '$135',
+      name: 'November Special: Stone & Scent Combo Prestige',
+      duration: '120 min',
+      price: '$145',
       description:
-        'Full-body massage paired with specialized abdominal oil bodywork, essential oils, and our warm Mugwort Mineral Compress.',
-      bookingHref: monthlySpecial.url,
-      badge: 'Monthly Special',
+        'Indulge in 90 minutes of customized full-body massage paired with 30 minutes of foot reflexology with scrub, hot stones, and calming aromatherapy.',
+      bookingHref: bookingUrl('s:26261893'),
+      badge: 'November Special',
     },
     relatedSlugs: ['deep-tissue-vs-swedish', 'head-spa-scalp-therapy-benefits', 'tech-neck-desk-fatigue'],
     tags: ['Abdominal Massage', 'Mugwort Therapy', 'Core Warmth', 'Digestive Health', 'Cramp Relief'],

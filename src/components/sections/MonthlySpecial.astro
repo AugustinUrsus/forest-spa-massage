@@ -1,5 +1,5 @@
 ---
-import { Coins, Sunrise, Check, CalendarHeart } from 'lucide-react';
+import { Coins, Sunrise, Check, CalendarHeart, Sparkles } from 'lucide-react';
 import { monthlySpecial, standingOffers, baseUrl } from '../../data/siteData';
 
 const offerIcons = { Coins, Sunrise } as const;
@@ -15,85 +15,86 @@ const offerIcons = { Coins, Sunrise } as const;
       </h2>
     </div>
 
-    <!-- Feature card -->
-    <div
-      class="mt-12 rounded-[var(--radius-card)] border border-gold/30 bg-charcoal-deep/60 p-8 sm:p-10 lg:p-12"
-    >
-      <div class="grid gap-10 lg:grid-cols-2 lg:gap-14">
-        <!-- Left: name, price, summary, CTA -->
-        <div>
-          <h3 class="display-heading text-3xl leading-tight text-sand sm:text-4xl">
-            {monthlySpecial.name}
-          </h3>
-
-          <!-- Price rows: one per duration tier -->
-          <div class="mt-6 space-y-4">
-            {
-              monthlySpecial.options.map((option) => (
-                <div class="flex flex-wrap items-end gap-x-4 gap-y-2">
-                  <span class="font-display text-4xl font-semibold leading-none text-gold sm:text-5xl">
-                    ${option.price}
-                  </span>
-                  <span class="text-lg leading-none text-sand/50 line-through">
-                    ${option.value}
-                  </span>
-                  <span
-                    class="inline-flex items-center rounded-full bg-gold px-3 py-1 text-sm font-semibold text-charcoal"
-                  >
-                    Save ${option.value - option.price}
-                  </span>
-                  <span class="text-sm text-sand/70">· {option.duration}</span>
+    <!-- Feature cards grid -->
+    <div class="mt-12 grid gap-8 lg:grid-cols-2">
+      {
+        monthlySpecial.items.map((item) => (
+          <div class="flex flex-col justify-between rounded-[var(--radius-card)] border border-gold/30 bg-charcoal-deep/60 p-7 sm:p-9 lg:p-10 transition-all duration-300 hover:border-gold/50 shadow-lg">
+            <div>
+              {item.badge && (
+                <div class="mb-4 inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/15 px-3 py-1 text-xs font-semibold text-gold">
+                  <Sparkles size={13} />
+                  <span>{item.badge}</span>
                 </div>
-              ))
-            }
+              )}
+
+              <h3 class="display-heading text-2xl sm:text-3xl leading-snug text-sand">
+                {item.name}
+              </h3>
+
+              <!-- Price row -->
+              <div class="mt-5 flex flex-wrap items-end gap-x-3 gap-y-2">
+                <span class="font-display text-3xl sm:text-4xl font-semibold leading-none text-gold">
+                  ${item.price}
+                </span>
+                <span class="text-base sm:text-lg leading-none text-sand/50 line-through">
+                  ${item.value}
+                </span>
+                <span class="inline-flex items-center rounded-full bg-gold px-2.5 py-0.5 text-xs font-semibold text-charcoal">
+                  Save ${item.value - item.price}
+                </span>
+                <span class="text-xs sm:text-sm text-sand/70">· {item.duration}</span>
+              </div>
+
+              <p class="mt-5 text-sm sm:text-base leading-relaxed text-sand/80">
+                {item.summary}
+              </p>
+
+              <!-- Inclusions checklist -->
+              <div class="mt-6 border-t border-sand/10 pt-5">
+                <p class="eyebrow mb-3.5 text-xs text-gold">What's Included</p>
+                <ul class="space-y-2.5 text-sm">
+                  {item.inclusions.map((inclusion) => (
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold">
+                        <Check size={13} strokeWidth={2.2} />
+                      </span>
+                      <span class="text-sand/90 leading-snug">{inclusion}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-5 border-t border-sand/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener"
+                data-book="monthly-special"
+                class="btn btn-on-dark w-full sm:w-auto"
+              >
+                <CalendarHeart size={18} strokeWidth={1.6} /> Book This Special
+              </a>
+              <span class="text-xs text-sand/60">{monthlySpecial.validity}</span>
+            </div>
           </div>
+        ))
+      }
+    </div>
 
-          <p class="mt-6 max-w-md text-lg leading-relaxed text-sand/80">
-            {monthlySpecial.summary}
-          </p>
-
-          <p class="mt-4 text-sm text-sand/60">{monthlySpecial.validity}</p>
-
-          <div class="mt-9 flex flex-wrap items-center gap-4">
-            <a
-              href={monthlySpecial.url}
-              target="_blank"
-              rel="noopener"
-              data-book="monthly-special"
-              class="btn btn-on-dark"
-            >
-              <CalendarHeart size={19} strokeWidth={1.6} /> Book The Special
-            </a>
-            <a
-              href={`${baseUrl}journal/botanical-heat-abdominal-wellness`}
-              class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-gold hover:text-gold/80 hover:underline"
-            >
-              Read Mugwort & Heat Pack Guide →
-            </a>
-          </div>
-        </div>
-
-        <!-- Right: inclusions checklist -->
-        <div class="lg:border-l lg:border-sand/10 lg:pl-14">
-          <p class="eyebrow mb-5 text-gold">What's Included</p>
-          <ul class="space-y-4">
-            {
-              monthlySpecial.inclusions.map((inclusion) => (
-                <li class="flex items-start gap-3">
-                  <span class="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold">
-                    <Check size={16} strokeWidth={2} />
-                  </span>
-                  <span class="text-sand/90">{inclusion}</span>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
+    <!-- Educational Journal Link -->
+    <div class="mt-8 text-center sm:text-left">
+      <a
+        href={`${baseUrl}journal/deep-tissue-vs-swedish`}
+        class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-gold hover:text-gold/80 hover:underline"
+      >
+        Read Swedish vs. Deep Tissue Massage Guide →
+      </a>
     </div>
 
     <!-- Standing offers -->
-    <div class="mt-8 grid gap-5 sm:grid-cols-2">
+    <div class="mt-10 grid gap-5 sm:grid-cols-2">
       {
         standingOffers.map((offer) => {
           const Icon = offerIcons[offer.icon];

@@ -241,7 +241,7 @@ export const primaryNav: PrimaryNavItem[] = [
     type: 'link',
     label: 'Specials',
     href: `${baseUrl}#specials`,
-    badge: 'Oct',
+    badge: 'Nov',
   },
   {
     type: 'dropdown',
@@ -301,7 +301,7 @@ export const mobileNavGroups: MobileNavGroup[] = [
       { label: 'Massage Therapies', href: `${baseUrl}#services`, sublabel: 'À la carte full-body menu' },
       { label: 'Signature Head Spa', href: `${baseUrl}#head-spa`, sublabel: 'Waterfall scalp ritual', badge: 'Signature' },
       { label: 'Curated Packages', href: `${baseUrl}#packages`, sublabel: 'Head-to-toe rituals' },
-      { label: 'Monthly Special', href: `${baseUrl}#specials`, sublabel: 'October Gentle Belly Detox', badge: 'Special' },
+      { label: 'Monthly Special', href: `${baseUrl}#specials`, sublabel: 'November Thanksgiving Specials', badge: 'Special' },
     ],
   },
   {
@@ -323,9 +323,9 @@ export const mobileNavGroups: MobileNavGroup[] = [
 ];
 
 export const navLinks: NavLink[] = [
-  { label: 'Services', href: `${baseUrl}#services` },
+  { label: 'Massage', href: `${baseUrl}#services` },
   { label: 'Packages', href: `${baseUrl}#packages` },
-  { label: 'Monthly Special', href: `${baseUrl}#specials` },
+  { label: 'November Special', href: `${baseUrl}#specials` },
   { label: 'Head Spa', href: `${baseUrl}#head-spa` },
   { label: 'Treatment Quiz', href: `${baseUrl}quiz` },
   { label: 'Journal', href: `${baseUrl}journal` },
@@ -340,23 +340,65 @@ export const navLinks: NavLink[] = [
 
 export const monthlySpecial = {
   /** Short month label shown in the eyebrow + hero ribbon, e.g. "August". */
-  month: 'October',
-  headline: 'The October Special',
-  name: 'Gentle Belly Detox & Warm Botanical Relief',
+  month: 'November',
+  headline: 'Thanksgiving & November Specials',
+  name: 'Stone & Scent Combo Prestige & Thanksgiving 90-Min Massage',
   /** Condensed name for the hero ribbon, where the full name is too long. */
-  shortName: 'Gentle Belly Detox',
-  /** Prebuilt Fresha cart for this special (owner-supplied; no offerItemId). */
-  url: `${FRESHA_VENUE}/booking?pId=${FRESHA_PID}&allOffer=true&cartId=61eb23a2-fd58-4983-817b-9275733f61b9`,
+  shortName: 'Thanksgiving Specials',
+  /** Direct Fresha booking link for the combo prestige special. */
+  url: 'https://l.fresha.com/3s65ctzxb',
   /** Duration tiers. First entry is the headline price (hero ribbon, "from"). */
-  options: [{ duration: '90 min', price: 135, value: 185 }],
-  validity: 'Valid October 1 – October 31 only.',
+  options: [
+    { duration: '90 min', price: 105, value: 115 },
+    { duration: '120 min', price: 145, value: 185 },
+  ],
+  validity: 'Available through November 30th only.',
   summary:
-    'Say goodbye to bloating, menstrual cramps, and deep core tension. This signature 90-minute package combines a soothing full-body massage with specialized abdominal oil bodywork to support healthy digestion and lymphatic flow. We finish with a warm Mugwort Mineral Compress — a natural botanical heat therapy that deeply penetrates the belly to melt away cramps, ease cycle discomfort, and boost blood circulation. The ultimate comforting reset for your mind and body.',
+    'Celebrate the season of thankfulness with our limited-time November specials! Unwind with our customized 90-minute full-body massage designed to release muscle tension, boost circulation, and melt holiday stress, or indulge in the complete 120-minute Stone & Scent Combo Prestige with foot reflexology, hot stones, and calming aromatherapy.',
   inclusions: [
-    '90-min full body massage',
-    'Abdominal therapy — specialized oil bodywork to support healthy digestion and lymphatic flow',
-    'Essential oil',
-    'Herbal detox heat pad — a warm Mugwort Mineral Compress to melt away cramps and boost circulation',
+    '90-min body massage (pick from Swedish, Sports, Thai, or Deep Tissue)',
+    '30-min foot reflexology with scrub (Combo Prestige)',
+    'Hot stones therapy (Combo Prestige)',
+    'Calming aromatherapy or essential oil (Combo Prestige)',
+  ],
+  items: [
+    {
+      id: 's:26261955',
+      name: 'Thanksgiving Gratitude Special: 90-Min Full Body Massage',
+      shortName: 'Thanksgiving Gratitude Special',
+      badge: 'Holiday Feature',
+      price: 105,
+      value: 115,
+      duration: '90 min',
+      summary:
+        'Celebrate the season of thankfulness with our limited-time holiday special! Unwind with a customized 90-minute full-body massage (choose from Swedish, Deep Tissue, Sports, or Thai massage) designed to release muscle tension, boost circulation, and melt away holiday stress. No add-on requirements, no catches—just 90 pure minutes of relaxation.',
+      inclusions: [
+        '90-min customized full-body massage',
+        'Choice of Swedish, Deep Tissue, Sports, or Thai modality',
+        'Designed to release muscle tension and melt away holiday stress',
+        'Boosts healthy circulation and full-body relaxation',
+        'No add-on requirements, no catches—just 90 pure minutes of relaxation',
+      ],
+      url: 'https://l.fresha.com/376gcdzyb',
+    },
+    {
+      id: 's:26261893',
+      name: 'November Special: Stone & Scent Combo Prestige ($185 Value)',
+      shortName: 'Stone & Scent Combo Prestige',
+      badge: 'Best Value · Save $40',
+      price: 145,
+      value: 185,
+      duration: '120 min',
+      summary:
+        'Indulge in our ultimate 2-hour holiday retreat. Enjoy a customized 90-minute full-body massage paired with 30 minutes of restorative foot reflexology with scrub, deeply penetrating hot stone therapy, and calming aromatherapy essential oils.',
+      inclusions: [
+        '90-min body massage (pick from Swedish, Sports, Thai, or Deep Tissue)',
+        '30-min foot reflexology with scrub',
+        'Penetrating hot stones',
+        'Calming aromatherapy or essential oil',
+      ],
+      url: 'https://l.fresha.com/3s65ctzxb',
+    },
   ],
 } as const;
 
