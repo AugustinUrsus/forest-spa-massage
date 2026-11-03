@@ -424,42 +424,6 @@ export const standingOffers = [
 
 export const packages: Package[] = [
   {
-    name: 'Women’s Self-Care & Warming Ritual',
-    icon: 'Heart',
-    blurb:
-      'A holistic wellness ritual combining a custom full-body massage with targeted abdominal therapy and a hot Mugwort Mineral Compress for core warmth and cramp relief.',
-    tiers: [
-      {
-        tier: 'Premier',
-        id: '',
-        url: 'https://l.fresha.com/3x6fcvz8b',
-        price: 130,
-        value: 155,
-        duration: '90 min',
-        inclusions: [
-          '90-min full body massage',
-          'Abdominal therapy (warmth & tension release)',
-          'Essential oil',
-          'Herbal detox heat pad — hot Mugwort Mineral Compress',
-        ],
-      },
-      {
-        tier: 'Prestige',
-        id: '',
-        url: 'https://l.fresha.com/336jcsz3b',
-        price: 155,
-        value: 185,
-        duration: '120 min',
-        inclusions: [
-          '120-min full body massage',
-          'Abdominal therapy (warmth & tension release)',
-          'Essential oil',
-          'Herbal detox heat pad — hot Mugwort Mineral Compress',
-        ],
-      },
-    ],
-  },
-  {
     name: 'Head-to-Toe Retreat',
     icon: 'Sparkles',
     blurb: 'Our most complete head-to-toe escape — full-body massage plus scalp, hand, and foot care.',
@@ -672,6 +636,42 @@ export const packages: Package[] = [
           '90-min massage (your choice of modality)',
           'Dynamic cupping',
           'Essential oil or Pain relief oil',
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Women’s Self-Care & Warming Ritual',
+    icon: 'Heart',
+    blurb:
+      'A holistic wellness ritual combining a custom full-body massage with targeted abdominal therapy and a hot Mugwort Mineral Compress for core warmth and cramp relief.',
+    tiers: [
+      {
+        tier: 'Premier',
+        id: '',
+        url: 'https://l.fresha.com/3x6fcvz8b',
+        price: 130,
+        value: 155,
+        duration: '90 min',
+        inclusions: [
+          '90-min full body massage',
+          'Abdominal therapy (warmth & tension release)',
+          'Essential oil',
+          'Herbal detox heat pad — hot Mugwort Mineral Compress',
+        ],
+      },
+      {
+        tier: 'Prestige',
+        id: '',
+        url: 'https://l.fresha.com/336jcsz3b',
+        price: 155,
+        value: 185,
+        duration: '120 min',
+        inclusions: [
+          '120-min full body massage',
+          'Abdominal therapy (warmth & tension release)',
+          'Essential oil',
+          'Herbal detox heat pad — hot Mugwort Mineral Compress',
         ],
       },
     ],
