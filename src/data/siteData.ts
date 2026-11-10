@@ -269,7 +269,7 @@ export const primaryNav: PrimaryNavItem[] = [
       {
         label: 'Forest Club Membership',
         href: `${baseUrl}#membership`,
-        description: '$98/mo VIP benefits & rollover hours',
+        description: '$68/mo (60 min) or $98/mo (90 min) & rollover hours',
       },
       {
         label: 'Gift Cards',
@@ -419,8 +419,8 @@ export const monthlySpecial = {
 export const standingOffers = [
   {
     icon: 'Coins',
-    title: 'Cash Discount At Checkout',
-    description: 'Pay with cash and enjoy a free hot stone or essential oil add-on with your service.',
+    title: 'Cash Discount & Specials',
+    description: 'Enjoy special savings when paying with cash at checkout. Please check our Specials section for current promotions.',
     id: 's:22810448',
   },
   {
@@ -1130,7 +1130,7 @@ export const membershipIntro = {
   eyebrow: 'Membership',
   title: 'Relax Monthly — Your Membership Covers Itself',
   description:
-    'Our members turn self-care into a habit and let their monthly massage more than pay for the membership. Start today and feel the difference from day one.',
+    'Our members turn self-care into a habit. Choose between our $68/mo 60-minute plan or $98/mo 90-minute luxury tier — your monthly massage more than pays for the membership.',
 } as const;
 
 export const memberships: Membership[] = [
@@ -1326,13 +1326,43 @@ export const faqs: FAQItem[] = [
     category: 'Membership',
     question: 'How does the Forest Club Membership work?',
     answer:
-      'The Forest Club ($98/month) is our flexible wellness membership designed for regular self-care. Members receive one 60-minute massage credit each month, exclusive discounts on additional sessions and retail, and rollover privileges — your unused massage credits never expire as long as your membership remains active.',
+      'The Forest Club offers two flexible monthly wellness options: our Standard Membership ($68/month) includes one 60-minute massage credit each month, while our Membership Plus ($98/month) includes one 90-minute massage credit each month. Both plans include member-exclusive discounts on additional visits and rollover privileges — your unused massage credits never expire as long as your membership remains active.',
   },
   {
     category: 'Booking & Visit',
     question: 'What payment methods do you accept, and do you offer discounts?',
     answer:
-      'We accept all major credit cards and cash. When paying with cash at checkout, guests receive a special Cash Discount (such as a complimentary hot stone or essential oil add-on). We also offer an Early Bird 10% discount for appointments Monday through Thursday before 11:30 AM (not combinable with other promotions).',
+      'We accept Cash, all major Credit Cards, Zelle, and Venmo. When paying with cash at checkout, guests enjoy special cash savings and promotional perks — please refer to our website\'s Specials section for current offers. We also offer an Early Bird 10% discount for appointments Monday through Thursday before 11:30 AM (cannot be combined with other promotions).',
+  },
+  {
+    category: 'Treatments',
+    question: 'What are the professional qualifications and experience of your therapists?',
+    answer:
+      'All of our practitioners are California State Licensed Massage Therapists (LMT) with comprehensive training in muscular anatomy, postural alignment, and therapeutic bodywork. Every therapist on our team brings between 5 to 15+ years of hands-on clinical and spa experience to provide intuitive, safe, and highly personalized care.',
+  },
+  {
+    category: 'Booking & Visit',
+    question: 'How should I prepare before my massage, and what should I do afterward?',
+    answer:
+      '• Before your session: Avoid heavy meals within 1 hour of your appointment, and arrive 5 minutes early to unwind, check in, and discuss your focus areas with your therapist.\n• After your session: Drink plenty of warm water to support circulation and metabolic recovery. Avoid strenuous workouts for the remainder of the day to give your muscles ample time to rest and integrate.',
+  },
+  {
+    category: 'Treatments',
+    question: 'Can massage therapy help with chronic back pain, neck stiffness, or sports injuries?',
+    answer:
+      'Yes. Targeted therapeutic modalities (such as Deep Tissue, trigger point therapy, and sports bodywork) effectively relieve chronic muscular tension, break up fascial knots, and alleviate postural strain.\n\nImportant note: If you have an acute injury, recent surgery, or a severe medical condition, please consult your physician first, and inform your therapist on your intake form so we can adapt your treatment safely.',
+  },
+  {
+    category: 'Booking & Visit',
+    question: 'What are your sanitation, room hygiene, and linen standards?',
+    answer:
+      'We maintain strict medical-grade cleanliness standards:\n• Fresh linens for every guest: All sheets, blankets, and face cradle covers are strictly single-use and professionally laundered and sanitized with high heat after every session.\n• Complete room disinfection: After each appointment, massage tables, headrests, treatment rooms, and equipment are thoroughly sanitized with hospital-grade alcohol and disinfecting solutions.',
+  },
+  {
+    category: 'Treatments',
+    question: 'Do I need to undress completely for my massage?',
+    answer:
+      'Not at all. You undress only to your personal comfort level — many guests choose to keep undergarments on, while others disrobe entirely. Throughout your entire session, you remain securely covered with clean professional draping sheets and blankets. Your therapist uncovers only the specific area currently being massaged, ensuring your modesty, privacy, and safety are 100% protected at all times.',
   },
   {
     category: 'Treatments',

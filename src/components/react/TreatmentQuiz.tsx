@@ -945,7 +945,7 @@ export default function TreatmentQuiz({ baseUrl = '/' }: Props) {
 
                 {/* Standing Perks & Savings Microcopy */}
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#476048] bg-sage/12 p-3 rounded-xl border border-sage/20">
-                  <span>🎁 Pay Cash at checkout: free hot stone or essential oil add-on</span>
+                  <span>🎁 Cash, Zelle & Venmo accepted: special discounts at checkout (see Specials)</span>
                   <span>•</span>
                   <span>☀️ Early Bird: 10% off Mon–Thu before 11:30 am</span>
                 </div>

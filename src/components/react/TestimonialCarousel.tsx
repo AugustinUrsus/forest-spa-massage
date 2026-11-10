@@ -22,7 +22,7 @@ export default function TestimonialCarousel({ reviews }: { reviews: Review[] }) 
     if (reduce) return;
     const id = window.setInterval(() => {
       if (!paused.current) setIndex((p) => (p + 1) % n);
-    }, 2000);
+    }, 6000);
     return () => window.clearInterval(id);
   }, [n]);
 
@@ -41,13 +41,15 @@ export default function TestimonialCarousel({ reviews }: { reviews: Review[] }) 
     >
       <Quote size={56} strokeWidth={1.5} className="mx-auto text-sage opacity-20" aria-hidden="true" />
 
-      <blockquote
-        key={index}
-        className="display-heading mx-auto mt-6 flex min-h-[8.5rem] max-w-2xl items-center justify-center text-xl leading-relaxed text-sand sm:min-h-[7.5rem] sm:text-2xl"
-        style={{ animation: 'reveal-in 0.5s var(--ease-out-soft) both' }}
-      >
-        {r.quote}
-      </blockquote>
+      <div className="mx-auto mt-6 flex h-[17rem] sm:h-[13rem] md:h-[11rem] max-w-2xl items-center justify-center px-2">
+        <blockquote
+          key={index}
+          className="display-heading text-base sm:text-xl md:text-2xl leading-relaxed text-sand text-center"
+          style={{ animation: 'reveal-in 0.4s var(--ease-out-soft) both' }}
+        >
+          “{r.quote}”
+        </blockquote>
+      </div>
 
       <figcaption className="mt-8 text-sand/70">
         — {r.author}

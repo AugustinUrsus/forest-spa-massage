@@ -53,8 +53,17 @@ const faqSchema = {
                 <ChevronDown size={18} strokeWidth={2} />
               </span>
             </summary>
-            <div class="mt-4 pt-4 border-t border-black/5 text-ink-soft text-sm sm:text-base leading-relaxed">
-              <p>{faq.answer}</p>
+            <div class="mt-4 pt-4 border-t border-black/5 text-ink-soft text-sm sm:text-base leading-relaxed space-y-2">
+              {faq.answer.split('\n').filter((l) => l.trim().length > 0).map((line) => (
+                line.startsWith('•') ? (
+                  <div class="flex items-start gap-2.5 pl-1 text-ink-soft">
+                    <span class="text-bronze font-bold text-base leading-none mt-1 shrink-0">•</span>
+                    <span>{line.replace(/^•\s*/, '')}</span>
+                  </div>
+                ) : (
+                  <p>{line}</p>
+                )
+              ))}
             </div>
           </details>
         ))

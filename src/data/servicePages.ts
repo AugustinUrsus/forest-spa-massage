@@ -27,7 +27,6 @@ export interface ServicePageData {
   durationLabel: string;
   priceLabel: string;
   intensity: string;
-  roomType: string;
   primaryOfferId: string;
   customBookingUrl?: string;
   highlights: string[];
@@ -54,7 +53,6 @@ export const servicePages: ServicePageData[] = [
     durationLabel: '60–120 min',
     priceLabel: 'from $80',
     intensity: 'Firm to Deep Pressure',
-    roomType: 'Private Treatment Suite',
     primaryOfferId: 's:20874167',
     highlights: [
       'Targeted deep myofascial release & sustained trigger point compression',
@@ -127,7 +125,6 @@ export const servicePages: ServicePageData[] = [
     durationLabel: '60–120 min',
     priceLabel: 'from $75',
     intensity: 'Light to Medium Pressure',
-    roomType: 'Private Treatment Suite',
     primaryOfferId: 's:20874160',
     highlights: [
       'Classic long, flowing effleurage strokes and gentle circular kneading',
@@ -195,7 +192,6 @@ export const servicePages: ServicePageData[] = [
     durationLabel: '60–90 min',
     priceLabel: 'from $85',
     intensity: 'Gentle Scalp Acupressure & Hydrotherapy',
-    roomType: 'Specialized Ergonomic Head Spa Suite',
     primaryOfferId: 's:20874427',
     highlights: [
       'Continuous halo water-ring hydrotherapy with soothing circular warm rain',
@@ -262,7 +258,6 @@ export const servicePages: ServicePageData[] = [
     durationLabel: '60–90 min',
     priceLabel: 'from $140 for two',
     intensity: 'Individually Customized per Guest',
-    roomType: 'Private Ambient Couples Suite',
     primaryOfferId: 'p:1651755',
     highlights: [
       'Dedicated private couples sanctuary with soft ambient lighting and aromatics',
@@ -329,7 +324,6 @@ export const servicePages: ServicePageData[] = [
     durationLabel: '60–90 min',
     priceLabel: 'from $80',
     intensity: 'Gentle, Safe Maternal Pressure',
-    roomType: 'Comfort-Cushioned Private Suite',
     primaryOfferId: 's:20874198',
     highlights: [
       'Specialized supportive side-lying bolster system keeping spine in neutral alignment',
