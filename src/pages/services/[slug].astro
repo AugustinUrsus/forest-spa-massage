@@ -404,10 +404,9 @@ const serviceSchemas = [
 
         <div class="space-y-4">
           {
-            service.faqs.map((faq, i) => (
+            service.faqs.map((faq) => (
               <details
                 class="group surface-card !shadow-xs p-6 border border-black/8 bg-cloud/90 transition-all duration-300 hover:border-bronze/40 open:border-bronze/50 open:bg-cloud open:shadow-md"
-                open={i === 0}
               >
                 <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink select-none [&::-webkit-details-marker]:hidden">
                   <span class="display-heading text-base sm:text-lg font-medium text-ink group-open:text-bronze transition-colors">
