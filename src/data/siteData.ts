@@ -79,6 +79,12 @@ export interface NavLink {
   href: string;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+  category?: 'Treatments' | 'Booking & Visit' | 'Head Spa' | 'Membership';
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Business (NAP + brand)                                                    */
 /* -------------------------------------------------------------------------- */
@@ -280,6 +286,11 @@ export const primaryNav: PrimaryNavItem[] = [
         href: `${baseUrl}#location`,
         description: '14168 Poway Rd, free parking & directions',
       },
+      {
+        label: 'FAQ & Visiting Guide',
+        href: `${baseUrl}#faq`,
+        description: 'Hours, parking, treatments & booking FAQ',
+      },
     ],
   },
 ];
@@ -318,6 +329,7 @@ export const mobileNavGroups: MobileNavGroup[] = [
       { label: 'Gift Cards', href: `${baseUrl}#gift-cards`, sublabel: 'Digital gift vouchers' },
       { label: 'Our Story', href: `${baseUrl}#story`, sublabel: 'About Forest Spa Poway' },
       { label: 'Location & Directions', href: `${baseUrl}#location`, sublabel: '14168 Poway Rd, Ste 206' },
+      { label: 'FAQs & Guide', href: `${baseUrl}#faq`, sublabel: 'Visiting questions & answers' },
     ],
   },
 ];
@@ -331,6 +343,7 @@ export const navLinks: NavLink[] = [
   { label: 'Journal', href: `${baseUrl}journal` },
   { label: 'Membership', href: `${baseUrl}#membership` },
   { label: 'Gift Cards', href: `${baseUrl}#gift-cards` },
+  { label: 'FAQ', href: `${baseUrl}#faq` },
   { label: 'Directions', href: `${baseUrl}#location` },
 ];
 
@@ -1259,6 +1272,79 @@ export const testimonials: Testimonial[] = [
     author: 'Tea S.',
     source: 'Google',
     rating: 5,
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/*  Frequently Asked Questions (FAQ) — guest guide & AI/search optimization   */
+/* -------------------------------------------------------------------------- */
+
+export const faqs: FAQItem[] = [
+  {
+    category: 'Treatments',
+    question: 'What massage therapies and spa treatments does Forest Spa offer?',
+    answer:
+      'Forest Spa offers a diverse menu of restorative bodywork in Poway, including Swedish Massage, Deep Tissue Massage, Sports Massage, Prenatal Massage, Thai Massage, Lomi Lomi Massage, Lymphatic Drainage Massage, Foot Reflexology, Four Hands Massage, and Couples Massages. We also feature our signature Head Spa scalp rituals, curated multi-therapy packages, and restorative add-ons like hot stone therapy, herbal heat packs, and TMJ headache relief.',
+  },
+  {
+    category: 'Head Spa',
+    question: 'What is the Signature Head Spa, and what is included?',
+    answer:
+      'Our Signature Head Spa is a multi-step scalp rejuvenation and nervous system reset. It includes warm botanical mist to open pores, gentle clarifying scalp exfoliation, therapeutic acupressure across the scalp, neck, and shoulders, deep-conditioning argan oil and keratin treatment, and our signature halo water-ring waterfall rinse. It relieves tension headaches, mental fatigue, scalp dryness or buildup, and promotes restful sleep.',
+  },
+  {
+    category: 'Treatments',
+    question: 'Do you offer couples massage in a private suite?',
+    answer:
+      'Yes, we have a serene, dedicated private couples suite where you and your partner, friend, or family member can enjoy side-by-side treatments. Each guest can individually customize their preferred massage modality (such as Swedish or Deep Tissue) and pressure level with their licensed therapist. Our couples sessions include a built-in 10% discount and are available in 60-minute ($140) and 90-minute ($210) durations.',
+  },
+  {
+    category: 'Booking & Visit',
+    question: 'Where is Forest Spa located, and is parking free?',
+    answer:
+      'Forest Spa is located at 14168 Poway Rd, Ste 206, Poway, CA 92064, conveniently accessible for guests across Poway, Rancho Bernardo, Scripps Ranch, Carmel Mountain Ranch, 4S Ranch, and Ramona. We offer abundant free on-site plaza parking directly in front of our building, as well as ample street parking.',
+  },
+  {
+    category: 'Booking & Visit',
+    question: 'What are your operating hours?',
+    answer:
+      'We are open 7 days a week, Monday through Sunday, from 9:00 AM to 9:00 PM. Our consistent daily hours make it easy to schedule restorative daytime sessions or unwind after work.',
+  },
+  {
+    category: 'Booking & Visit',
+    question: 'How do I book an appointment? Do you accept walk-ins?',
+    answer:
+      'We recommend booking online 24/7 through our direct Fresha booking link for instant appointment confirmation and therapist selection. We do welcome walk-in guests when schedule availability permits; however, advance booking is recommended to guarantee your preferred time slot. For same-day openings or questions, please call us directly at (858) 288-2600.',
+  },
+  {
+    category: 'Treatments',
+    question: 'What is the difference between Swedish Massage and Deep Tissue Massage?',
+    answer:
+      'Swedish Massage utilizes gentle, long, flowing gliding strokes (effleurage) and rhythmic kneading with light-to-medium pressure to promote total body relaxation, soothe the nervous system, and improve circulation. Deep Tissue Massage uses firm, deliberate pressure and sustained friction to penetrate deeper muscle layers and fascia, releasing chronic postural knots, stubborn tension, and sports or desk-related stiffness.',
+  },
+  {
+    category: 'Membership',
+    question: 'How does the Forest Club Membership work?',
+    answer:
+      'The Forest Club ($98/month) is our flexible wellness membership designed for regular self-care. Members receive one 60-minute massage credit each month, exclusive discounts on additional sessions and retail, and rollover privileges — your unused massage credits never expire as long as your membership remains active.',
+  },
+  {
+    category: 'Booking & Visit',
+    question: 'What payment methods do you accept, and do you offer discounts?',
+    answer:
+      'We accept all major credit cards and cash. When paying with cash at checkout, guests receive a special Cash Discount (such as a complimentary hot stone or essential oil add-on). We also offer an Early Bird 10% discount for appointments Monday through Thursday before 11:30 AM (not combinable with other promotions).',
+  },
+  {
+    category: 'Treatments',
+    question: 'What is the TMJ & Headache Relief add-on, and how does it work?',
+    answer:
+      'Our TMJ & Headache Relief add-on ($25) specifically targets jaw clenching, teeth grinding, screen fatigue, and tension headaches. It incorporates targeted cranial and jaw acupressure, an herbal heat pack, a soothing eye mask, and pain-relieving botanicals. When added to a massage, it is woven smoothly into your session without adding extra time.',
+  },
+  {
+    category: 'Booking & Visit',
+    question: 'Is Forest Spa inclusive and welcoming to all guests?',
+    answer:
+      'Yes. Forest Spa is committed to providing a safe, tranquil, and compassionate sanctuary for every guest. We are proudly LGBTQ-friendly and a certified transgender safe space. Our professional therapists maintain the highest standards of discretion, cleanliness, and personalized care.',
   },
 ];
 

@@ -20,6 +20,13 @@ const categories = serviceCategories.map((c) => ({
     idealFor: s.idealFor ?? undefined,
     whatToExpect: s.whatToExpect ?? undefined,
     articleUrl: s.articleSlug ? `${baseUrl}journal/${s.articleSlug}` : undefined,
+    servicePageUrl: ['Swedish Massage', 'Deep Tissue Massage', 'Prenatal Massage'].includes(s.name)
+      ? `${baseUrl}services/${s.name.toLowerCase().replace(/\s+/g, '-')}/`
+      : s.name.startsWith('Couples Massage')
+        ? `${baseUrl}services/couples-massage/`
+        : s.name === 'Signature Head Spa'
+          ? `${baseUrl}services/head-spa/`
+          : undefined,
   })),
 }));
 ---

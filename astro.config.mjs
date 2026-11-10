@@ -53,6 +53,22 @@ for (const slug of legacyServicePages) {
   redirects[`/service-page/${slug}`] = /scalp|head|tmj/.test(slug) ? '/#head-spa' : '/#services';
 }
 
+// Map high-value legacy URLs and short vanity paths directly to dedicated service landing pages
+redirects['/service-page/deep-tissue-massage'] = '/services/deep-tissue-massage';
+redirects['/service-page/swedish-massage'] = '/services/swedish-massage';
+redirects['/service-page/couples-massage'] = '/services/couples-massage';
+redirects['/service-page/prenatal-massage'] = '/services/prenatal-massage';
+redirects['/service-page/signature-scalp-revival'] = '/services/head-spa';
+
+// Direct aliases
+redirects['/deeptissue'] = '/services/deep-tissue-massage';
+redirects['/deep-tissue'] = '/services/deep-tissue-massage';
+redirects['/deep-tissue-massage'] = '/services/deep-tissue-massage';
+redirects['/swedish'] = '/services/swedish-massage';
+redirects['/swedish-massage'] = '/services/swedish-massage';
+redirects['/couples-massage'] = '/services/couples-massage';
+redirects['/prenatal-massage'] = '/services/prenatal-massage';
+
 
 export default defineConfig({
   site: SITE_URL,
@@ -61,21 +77,28 @@ export default defineConfig({
   redirects,
   integrations: [
     react(),
-    // Include homepage, quiz, and journal articles in sitemap (terms-conditions is noindex; redirect stubs aren't real pages).
+    // Include homepage, quiz, journal articles, and service landing pages in sitemap (terms-conditions is noindex; redirect stubs aren't real pages).
     sitemap({
       filter: (page) => {
         if (page.includes('terms-conditions')) return false;
         if (page.includes('/service-page/')) return false;
-        for (const r of Object.keys(redirects)) {
-          const stub = r.replace(/^\//, '');
-          if (page.endsWith(`/${stub}`) || page.endsWith(`/${stub}/`)) return false;
+        try {
+          const path = new URL(page).pathname.replace(/\/$/, '') || '/';
+          for (const r of Object.keys(redirects)) {
+            const redirectPath = r.replace(/\/$/, '') || '/';
+            if (path === redirectPath) return false;
+          }
+        } catch {
+          // fallback if url parsing fails
         }
         return true;
       },
       serialize: (item) => {
         // Provide stable, accurate lastmod dates so search engines respect crawl freshness
         let lastmod = '2026-10-17T00:00:00.000Z';
-        if (item.url.includes('head-spa-scalp-therapy-benefits')) lastmod = '2026-10-01T09:00:00-07:00';
+        if (item.url.includes('/services/')) lastmod = '2026-11-09T09:00:00-08:00';
+        else if (item.url.includes('couples-massage-guide')) lastmod = '2026-11-04T09:00:00-08:00';
+        else if (item.url.includes('head-spa-scalp-therapy-benefits')) lastmod = '2026-10-01T09:00:00-07:00';
         else if (item.url.includes('tmj-jaw-tension-relief')) lastmod = '2026-10-03T09:00:00-07:00';
         else if (item.url.includes('deep-tissue-vs-swedish')) lastmod = '2026-10-06T09:00:00-07:00';
         else if (item.url.includes('botanical-heat-abdominal-wellness')) lastmod = '2026-10-08T09:00:00-07:00';

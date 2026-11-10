@@ -13,6 +13,7 @@ interface Item {
   idealFor?: string;
   whatToExpect?: string;
   articleUrl?: string;
+  servicePageUrl?: string;
 }
 
 interface Category {
@@ -227,6 +228,18 @@ export default function ServiceTabs({ categories }: Props) {
                             >
                               <BookOpen size={13} className="shrink-0 text-sage" />
                               <span>Read related wellness guide →</span>
+                            </a>
+                          </div>
+                        )}
+
+                        {s.servicePageUrl && (
+                          <div className="pt-0.5">
+                            <a
+                              href={s.servicePageUrl}
+                              className="inline-flex items-center gap-1.5 font-semibold text-bronze transition-colors hover:text-bronze-deep hover:underline"
+                            >
+                              <Sparkles size={13} className="shrink-0 text-bronze" />
+                              <span>Dedicated treatment page & details →</span>
                             </a>
                           </div>
                         )}

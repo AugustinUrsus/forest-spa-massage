@@ -1,0 +1,100 @@
+---
+import { ChevronDown, Phone, CalendarHeart, Sparkles } from 'lucide-react';
+import { faqs, business, booking } from '../../data/siteData';
+
+// FAQPage structured data for Google Rich Results & AI LLM Crawlers (GEO)
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+---
+
+<section id="faq" class="bg-sand py-[var(--spacing-section)]">
+  <div class="container-px reveal">
+    <!-- Header -->
+    <header class="mx-auto mb-12 sm:mb-16 max-w-3xl text-center">
+      <p class="eyebrow mb-4">Guest Guidance</p>
+      <h2 class="display-heading text-3xl sm:text-4xl lg:text-5xl">
+        Frequently Asked Questions
+      </h2>
+      <p class="mt-4 sm:mt-6 text-base sm:text-lg leading-relaxed text-ink-soft">
+        Clear answers about our massage therapies, signature Head Spa scalp ritual, private couples suite, booking policies, and visiting our Poway sanctuary.
+      </p>
+    </header>
+
+    <!-- FAQ Accordion Grid -->
+    <div class="grid gap-4 sm:gap-5 lg:grid-cols-2 lg:gap-6 items-start">
+      {
+        faqs.map((faq, index) => (
+          <details
+            class="group surface-card !shadow-xs p-6 border border-black/8 bg-cloud/90 transition-all duration-300 hover:border-bronze/40 open:border-bronze/50 open:bg-cloud open:shadow-md"
+            open={index === 0}
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 select-none [&::-webkit-details-marker]:hidden">
+              <div class="pr-2">
+                {faq.category && (
+                  <span class="eyebrow !text-[10px] tracking-[0.2em] text-bronze/75 block mb-1.5">
+                    {faq.category}
+                  </span>
+                )}
+                <h3 class="display-heading text-base sm:text-lg font-medium text-ink transition-colors group-open:text-bronze leading-snug">
+                  {faq.question}
+                </h3>
+              </div>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sand/70 text-ink/70 transition-transform duration-300 group-open:rotate-180 group-open:bg-bronze group-open:text-cream">
+                <ChevronDown size={18} strokeWidth={2} />
+              </span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-black/5 text-ink-soft text-sm sm:text-base leading-relaxed">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <!-- Bottom Assistance Callout -->
+    <div class="mt-12 sm:mt-16 mx-auto max-w-3xl rounded-[var(--radius-card)] border border-bronze/20 bg-cloud/70 p-8 text-center sm:p-10 backdrop-blur-xs">
+      <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-sand text-bronze">
+        <Sparkles size={22} strokeWidth={1.8} />
+      </div>
+      <h3 class="display-heading text-xl sm:text-2xl text-ink">
+        Have A Question We Didn't Answer?
+      </h3>
+      <p class="mt-3 text-sm sm:text-base text-ink-soft leading-relaxed max-w-xl mx-auto">
+        Our welcoming team is always here to recommend the right pressure, pair your modalities, or coordinate your private couples suite.
+      </p>
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+        <a
+          href={business.phoneHref}
+          data-call="faq-section"
+          class="btn btn-outline text-sm"
+        >
+          <Phone size={16} strokeWidth={1.8} />
+          Call {business.phone}
+        </a>
+        <a
+          href={booking.primary}
+          target="_blank"
+          rel="noopener"
+          data-book="faq-section"
+          class="btn btn-primary text-sm"
+        >
+          <CalendarHeart size={16} strokeWidth={1.8} />
+          Book Appointment
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schema.org FAQPage structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+</section>

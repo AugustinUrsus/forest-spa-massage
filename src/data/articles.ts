@@ -458,4 +458,72 @@ export const articles: Article[] = [
     relatedSlugs: ['deep-tissue-vs-swedish', 'botanical-heat-abdominal-wellness', 'head-spa-scalp-therapy-benefits'],
     tags: ['Prenatal Massage', 'Pregnancy Care', 'Back Pain Relief', 'Maternal Wellness', 'Poway Spa'],
   },
+  {
+    slug: 'couples-massage-guide',
+    title: 'The Art of Shared Renewal: A Complete Guide to Couples Massage in Poway',
+    seoTitle: 'Couples Massage Guide | Shared Wellness & Private Suite | Forest Spa Poway',
+    subtitle: 'How side-by-side therapeutic massage fosters deeper connection, relieves stress, and creates unforgettable mindful moments.',
+    excerpt:
+      'Explore what makes couples massage at Forest Spa special: private suite tranquility, tailored modalities for each partner, and the physiological benefits of synchronized calm.',
+    metaDescription:
+      'Discover the benefits of couples massage in Poway. Learn what to expect in our private suite, how to choose modalities, and booking tips from Forest Spa specialists.',
+    category: 'Shared Wellness & Couples',
+    readTime: '5 min read',
+    date: 'November 2026',
+    isoDate: '2026-11-04T09:00:00-08:00',
+    isoModified: '2026-11-09T10:00:00-08:00',
+    photo: photos.couplesRoom,
+    author: {
+      name: 'Forest Spa Wellness Team',
+      role: 'Certified Bodywork & Couples Specialists',
+    },
+    intro: [
+      'In today’s fast-paced world, finding moments of uninterrupted tranquility together can be challenging. A couples massage is more than just a joint spa appointment — it is a shared sensory pause that allows two people to unwind side by side in mutual serenity.',
+      'At Forest Spa in Poway, our dedicated private couples suite is designed as a peaceful haven where partners, close friends, or parent-and-adult-child pairs can decompress together. With soft ambient lighting, calming botanicals, and two licensed therapists working in synchronized rhythm, both guests experience restorative care tailored to their individual needs.',
+    ],
+    sections: [
+      {
+        heading: '1. Synchronized Calm: The Science of Shared Relaxation',
+        body: [
+          'Human nervous systems naturally attune to one another. When you and your companion share a quiet, dimly lit space filled with soothing music and gentle aromatics, your breathing patterns gradually harmonize, and heart rates gently settle.',
+          'As therapeutic strokes release muscle tension, the body down-regulates cortisol while stimulating the release of oxytocin, often called the bonding hormone. This neurological shift creates a profound state of shared relaxation, leaving both partners deeply grounded, calm, and emotionally refreshed.',
+        ],
+        callout: {
+          title: 'Shared Tranquility',
+          text: 'Sharing a relaxing treatment creates a comforting rhythm that helps both minds transition smoothly into restful theta-wave relaxation.',
+        },
+      },
+      {
+        heading: '2. Tailored to Each Individual: Zero Compromise',
+        body: [
+          'A common misconception is that both guests must receive the exact same massage style and pressure. In reality, every body has unique muscular demands and tension patterns.',
+          'In our private suite, each guest communicates directly with their dedicated therapist. One partner may prefer a firm, targeted Deep Tissue session to dissolve stubborn desk posture knots, while the other enjoys a flowing, rhythmic Swedish massage for gentle nervous system relief. You share the tranquil atmosphere while receiving 100% personalized care.',
+        ],
+      },
+      {
+        heading: '3. What to Expect in Our Private Couples Suite',
+        body: [
+          'Upon arrival, our welcoming team guides you into our private couples sanctuary, featuring side-by-side heated tables dressed in soft sage linens. You will have a few private moments to disrobe to your comfort level and settle onto the tables under warm blankets.',
+          'Throughout the session, therapists check in discreetly to ensure pressure, temperature, and bolster positioning are completely comfortable. Afterward, you are given time to slowly reawaken, sip hydrating water, and enjoy the blissful calm before stepping back into your day.',
+        ],
+      },
+    ],
+    tipsTitle: 'Tips for the Perfect Couples Spa Retreat',
+    tips: [
+      'Arrive 10 minutes early so neither of you feels rushed, giving your senses time to slow down before the treatment starts.',
+      'Turn off phone vibrations completely and store devices in your private suite basket to preserve total mindful presence.',
+      'Leave open time on your schedule following your session to enjoy a relaxing lunch or quiet walk in Poway without rushing into busy tasks.',
+    ],
+    recommendedTreatment: {
+      name: 'Couples Massage · 60 or 90 min',
+      duration: '60–90 min',
+      price: 'From $140 for two',
+      description:
+        'Unwind side by side with your partner in our serene private suite. Two therapists customize pressure and modalities for each guest, with a built-in 10% couples savings.',
+      bookingHref: bookingUrl('p:1651755'),
+      badge: '10% Savings',
+    },
+    relatedSlugs: ['deep-tissue-vs-swedish', 'head-spa-scalp-therapy-benefits', 'tech-neck-desk-fatigue'],
+    tags: ['Couples Massage', 'Shared Wellness', 'Date Ideas Poway', 'Stress Relief', 'San Diego Spa'],
+  },
 ];

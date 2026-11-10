@@ -1,0 +1,538 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/sections/Header.astro';
+import Footer from '../../components/sections/Footer.astro';
+import StickyMobileBar from '../../components/sections/StickyMobileBar.astro';
+import { servicePages, type ServicePageData } from '../../data/servicePages';
+import { articles } from '../../data/articles';
+import { business, bookingUrl, baseUrl } from '../../data/siteData';
+import {
+  Clock,
+  Sparkles,
+  Check,
+  CalendarHeart,
+  Phone,
+  ArrowRight,
+  ChevronRight,
+  ChevronDown,
+  ShieldCheck,
+  HeartHandshake,
+  Layers,
+  Award,
+} from 'lucide-react';
+
+export function getStaticPaths() {
+  return servicePages.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: ServicePageData;
+}
+
+const { service } = Astro.props;
+
+// Related article
+const relatedArticle = service.articleSlug
+  ? articles.find((a) => a.slug === service.articleSlug)
+  : null;
+
+// Related services
+const relatedServices = servicePages.filter((s) =>
+  service.relatedServiceSlugs.includes(s.slug),
+);
+
+const canonicalUrl = new URL(
+  Astro.url.pathname,
+  Astro.site ?? 'https://www.forestspamassage.com',
+).href;
+const homeUrl = new URL(baseUrl, Astro.site ?? 'https://www.forestspamassage.com').href;
+const imageUrl = new URL(
+  service.photo.src.src,
+  Astro.site ?? 'https://www.forestspamassage.com',
+).href;
+
+const primaryBookingUrl =
+  service.customBookingUrl ?? bookingUrl(service.primaryOfferId);
+
+// Structured Data
+const serviceSchemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.name,
+    description: service.metaDescription,
+    image: imageUrl,
+    provider: {
+      '@type': ['DaySpa', 'HealthAndBeautyBusiness'],
+      name: business.name,
+      telephone: business.phoneE164,
+      url: homeUrl,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: business.address.street,
+        addressLocality: business.address.locality,
+        addressRegion: business.address.region,
+        postalCode: business.address.postalCode,
+        addressCountry: business.address.country,
+      },
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Poway' },
+      { '@type': 'City', name: 'San Diego' },
+      { '@type': 'AdministrativeArea', name: 'Rancho Bernardo' },
+      { '@type': 'AdministrativeArea', name: 'Scripps Ranch' },
+      { '@type': 'AdministrativeArea', name: '4S Ranch' },
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `${service.name} Pricing Tiers`,
+      itemListElement: service.tiers.map((t) => ({
+        '@type': 'Offer',
+        price: t.priceNum,
+        priceCurrency: 'USD',
+        name: `${service.name} - ${t.duration}`,
+        description: t.description,
+        url: t.freshaUrl ?? primaryBookingUrl,
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: homeUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Treatments',
+        item: `${homeUrl}#services`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: service.name,
+        item: canonicalUrl,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: service.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.answer,
+      },
+    })),
+  },
+];
+---
+
+<Layout
+  title={service.seoTitle}
+  description={service.metaDescription}
+  image={service.photo.src.src}
+  schemas={serviceSchemas}
+>
+  <Header />
+
+  <main id="main" class="pt-24 sm:pt-28 bg-sand">
+    <!-- Breadcrumbs -->
+    <nav aria-label="Breadcrumb" class="container-px py-4">
+      <ol class="flex items-center gap-2 text-xs text-ink/60">
+        <li>
+          <a href={homeUrl} class="hover:text-bronze transition-colors">Home</a>
+        </li>
+        <li><ChevronRight size={13} className="text-ink/30" /></li>
+        <li>
+          <a href={`${homeUrl}#services`} class="hover:text-bronze transition-colors">Treatments</a>
+        </li>
+        <li><ChevronRight size={13} className="text-ink/30" /></li>
+        <li class="font-medium text-ink truncate" aria-current="page">
+          {service.name}
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Service Hero -->
+    <section class="container-px py-8 sm:py-12">
+      <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+        <!-- Left: Copy & CTAs -->
+        <div class="lg:col-span-7">
+          <p class="eyebrow mb-3 text-bronze">{service.eyebrow}</p>
+          <h1 class="display-heading text-3xl sm:text-4xl lg:text-5xl tracking-normal text-ink leading-tight">
+            {service.headline}
+          </h1>
+          <p class="mt-5 text-base sm:text-lg leading-relaxed text-ink-soft">
+            {service.subhead}
+          </p>
+
+          <!-- Attribute Badges -->
+          <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="rounded-xl border border-black/5 bg-cloud/70 p-3.5 backdrop-blur-xs">
+              <span class="text-[11px] uppercase tracking-wider text-bronze font-semibold block mb-1">Duration</span>
+              <span class="text-sm font-semibold text-ink flex items-center gap-1.5">
+                <Clock size={15} className="text-bronze" /> {service.durationLabel}
+              </span>
+            </div>
+            <div class="rounded-xl border border-black/5 bg-cloud/70 p-3.5 backdrop-blur-xs">
+              <span class="text-[11px] uppercase tracking-wider text-bronze font-semibold block mb-1">Pricing</span>
+              <span class="text-sm font-semibold text-ink flex items-center gap-1.5">
+                <Sparkles size={15} className="text-bronze" /> {service.priceLabel}
+              </span>
+            </div>
+            <div class="rounded-xl border border-black/5 bg-cloud/70 p-3.5 backdrop-blur-xs">
+              <span class="text-[11px] uppercase tracking-wider text-bronze font-semibold block mb-1">Pressure</span>
+              <span class="text-sm font-semibold text-ink flex items-center gap-1.5 truncate">
+                <Layers size={15} className="text-bronze shrink-0" /> {service.intensity}
+              </span>
+            </div>
+            <div class="rounded-xl border border-black/5 bg-cloud/70 p-3.5 backdrop-blur-xs">
+              <span class="text-[11px] uppercase tracking-wider text-bronze font-semibold block mb-1">Setting</span>
+              <span class="text-sm font-semibold text-ink flex items-center gap-1.5 truncate">
+                <HeartHandshake size={15} className="text-bronze shrink-0" /> {service.roomType}
+              </span>
+            </div>
+          </div>
+
+          <!-- Direct CTAs -->
+          <div class="mt-8 flex flex-wrap items-center gap-4">
+            <a
+              href={primaryBookingUrl}
+              target="_blank"
+              rel="noopener"
+              data-book={`service-hero-${service.slug}`}
+              class="btn btn-primary"
+            >
+              <CalendarHeart size={18} strokeWidth={1.8} />
+              Book This Treatment
+            </a>
+            <a
+              href={business.phoneHref}
+              data-call={`service-hero-${service.slug}`}
+              class="btn btn-outline"
+            >
+              <Phone size={17} strokeWidth={1.8} />
+              Call {business.phone}
+            </a>
+          </div>
+
+          <!-- Trust Callout -->
+          <div class="mt-6 flex items-center gap-2 text-xs text-ink/70">
+            <ShieldCheck size={16} className="text-sage-deep shrink-0" />
+            <span>Licensed therapists · Free on-site parking · Cash discount available at checkout</span>
+          </div>
+        </div>
+
+        <!-- Right: Photo -->
+        <div class="lg:col-span-5">
+          <div class="relative overflow-hidden rounded-[var(--radius-card)] shadow-2xl shadow-charcoal/15 border border-black/10">
+            <Image
+              src={service.photo.src}
+              alt={service.photo.alt}
+              width={700}
+              height={500}
+              class="h-[360px] sm:h-[460px] w-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-cream">
+              <p class="text-xs uppercase tracking-widest text-gold font-medium">Forest Spa Sanctuary</p>
+              <p class="text-sm font-medium mt-0.5">{service.photo.name}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Highlights & Who It's For -->
+    <section class="bg-sand-deep py-[var(--spacing-section)]">
+      <div class="container-px">
+        <header class="mx-auto mb-12 sm:mb-16 max-w-2xl text-center">
+          <p class="eyebrow mb-3">Therapeutic Focus</p>
+          <h2 class="display-heading text-2xl sm:text-3xl lg:text-4xl">
+            Why Choose {service.name}
+          </h2>
+          <p class="mt-4 text-ink-soft text-sm sm:text-base leading-relaxed">
+            Every session is customized in real time to your body's tension points and personal comfort.
+          </p>
+        </header>
+
+        <div class="grid gap-8 lg:grid-cols-2">
+          <!-- Highlights card -->
+          <div class="surface-card p-8 sm:p-10 flex flex-col justify-between">
+            <div>
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-sand text-bronze mb-5">
+                <Sparkles size={22} strokeWidth={1.8} />
+              </span>
+              <h3 class="display-heading text-xl sm:text-2xl text-ink mb-6">
+                Key Techniques & Benefits
+              </h3>
+              <ul class="space-y-4">
+                {
+                  service.highlights.map((h) => (
+                    <li class="flex items-start gap-3.5">
+                      <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sage/20 text-sage-deep">
+                        <Check size={13} strokeWidth={2.4} />
+                      </span>
+                      <span class="text-sm sm:text-base text-ink leading-relaxed">
+                        {h}
+                      </span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+
+          <!-- Ideal For card -->
+          <div class="surface-card p-8 sm:p-10 flex flex-col justify-between">
+            <div>
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-sand text-bronze mb-5">
+                <Award size={22} strokeWidth={1.8} />
+              </span>
+              <h3 class="display-heading text-xl sm:text-2xl text-ink mb-6">
+                Recommended For
+              </h3>
+              <ul class="space-y-4">
+                {
+                  service.idealFor.map((item) => (
+                    <li class="flex items-start gap-3.5">
+                      <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-bronze/15 text-bronze">
+                        <Check size={13} strokeWidth={2.4} />
+                      </span>
+                      <span class="text-sm sm:text-base text-ink leading-relaxed">
+                        {item}
+                      </span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technique Narrative -->
+        <div class="mt-8 surface-card p-8 sm:p-10">
+          <h3 class="display-heading text-xl sm:text-2xl text-ink mb-4">
+            What To Expect During Your Session
+          </h3>
+          <div class="space-y-4 text-ink-soft leading-relaxed text-sm sm:text-base">
+            {service.techniqueSummary.map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Pricing & Duration Options -->
+    <section class="bg-cloud py-[var(--spacing-section)]">
+      <div class="container-px">
+        <header class="mx-auto mb-12 sm:mb-16 max-w-2xl text-center">
+          <p class="eyebrow mb-3">Transparent Menu</p>
+          <h2 class="display-heading text-2xl sm:text-3xl lg:text-4xl">
+            Select Your Duration
+          </h2>
+          <p class="mt-4 text-ink-soft text-sm sm:text-base">
+            Choose your ideal session length with direct Fresha instant booking.
+          </p>
+        </header>
+
+        <div class="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+          {
+            service.tiers.map((tier) => (
+              <div
+                class={`flex flex-col justify-between rounded-[var(--radius-card)] border p-7 sm:p-8 transition-all duration-300 ${
+                  tier.isPopular
+                    ? 'border-bronze bg-sand/30 shadow-xl shadow-bronze/5 relative'
+                    : 'border-black/10 bg-cloud hover:border-bronze/40'
+                }`}
+              >
+                {tier.isPopular && (
+                  <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-bronze px-3 py-0.5 text-[11px] font-semibold tracking-wider uppercase text-cream shadow-sm">
+                    Most Popular
+                  </span>
+                )}
+
+                <div>
+                  <div class="flex items-baseline justify-between mb-2">
+                    <span class="display-heading text-xl text-ink font-medium">
+                      {tier.duration}
+                    </span>
+                    <span class="display-heading text-2xl font-bold text-bronze">
+                      {tier.price}
+                    </span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-ink-soft leading-relaxed mt-4">
+                    {tier.description}
+                  </p>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-black/5">
+                  <a
+                    href={tier.freshaUrl ?? primaryBookingUrl}
+                    target="_blank"
+                    rel="noopener"
+                    data-book={`service-tier-${service.slug}-${tier.duration}`}
+                    class={`btn w-full text-sm ${tier.isPopular ? 'btn-primary' : 'btn-outline'}`}
+                  >
+                    <CalendarHeart size={16} /> Book {tier.duration}
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Service Specific FAQs -->
+    <section class="bg-sand py-[var(--spacing-section)]">
+      <div class="container-px max-w-4xl">
+        <header class="mb-10 text-center">
+          <p class="eyebrow mb-3">Got Questions?</p>
+          <h2 class="display-heading text-2xl sm:text-3xl lg:text-4xl">
+            {service.name} FAQ
+          </h2>
+        </header>
+
+        <div class="space-y-4">
+          {
+            service.faqs.map((faq, i) => (
+              <details
+                class="group surface-card !shadow-xs p-6 border border-black/8 bg-cloud/90 transition-all duration-300 hover:border-bronze/40 open:border-bronze/50 open:bg-cloud open:shadow-md"
+                open={i === 0}
+              >
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink select-none [&::-webkit-details-marker]:hidden">
+                  <span class="display-heading text-base sm:text-lg font-medium text-ink group-open:text-bronze transition-colors">
+                    {faq.question}
+                  </span>
+                  <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sand/70 text-ink/70 transition-transform duration-300 group-open:rotate-180 group-open:bg-bronze group-open:text-cream">
+                    <ChevronDown size={16} strokeWidth={2} />
+                  </span>
+                </summary>
+                <div class="mt-4 pt-4 border-t border-black/5 text-ink-soft text-sm sm:text-base leading-relaxed">
+                  <p>{faq.answer}</p>
+                </div>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Related Journal Article & Related Services -->
+    <section class="bg-sand-deep py-[var(--spacing-section)]">
+      <div class="container-px">
+        {
+          relatedArticle && (
+            <div class="mb-16 surface-card overflow-hidden grid lg:grid-cols-12 items-center">
+              <div class="lg:col-span-5 h-64 lg:h-full relative overflow-hidden">
+                <Image
+                  src={relatedArticle.photo.src}
+                  alt={relatedArticle.photo.alt}
+                  width={600}
+                  height={400}
+                  class="h-full w-full object-cover"
+                />
+              </div>
+              <div class="lg:col-span-7 p-8 sm:p-10">
+                <p class="eyebrow mb-2">From Our Wellness Journal</p>
+                <h3 class="display-heading text-xl sm:text-2xl text-ink leading-snug">
+                  {relatedArticle.title}
+                </h3>
+                <p class="mt-3 text-sm text-ink-soft leading-relaxed line-clamp-2">
+                  {relatedArticle.excerpt}
+                </p>
+                <div class="mt-6">
+                  <a
+                    href={`${baseUrl}journal/${relatedArticle.slug}/`}
+                    class="inline-flex items-center gap-2 text-sm font-semibold text-bronze hover:underline"
+                  >
+                    Read Therapist Guide <ArrowRight size={15} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          )
+        }
+
+        <!-- Related Services -->
+        <div>
+          <h3 class="display-heading text-xl sm:text-2xl text-ink text-center mb-8">
+            Explore Complementary Therapies
+          </h3>
+          <div class="grid gap-6 sm:grid-cols-3 max-w-5xl mx-auto">
+            {
+              relatedServices.map((rel) => (
+                <a
+                  href={`${baseUrl}services/${rel.slug}/`}
+                  class="surface-card p-6 flex flex-col justify-between hover:-translate-y-1 transition-all group"
+                >
+                  <div>
+                    <p class="eyebrow !text-[10px] text-bronze/70 mb-2">
+                      {rel.durationLabel} · {rel.priceLabel}
+                    </p>
+                    <h4 class="display-heading text-lg text-ink group-hover:text-bronze transition-colors">
+                      {rel.name}
+                    </h4>
+                    <p class="mt-2 text-xs sm:text-sm text-ink-soft leading-relaxed line-clamp-2">
+                      {rel.subhead}
+                    </p>
+                  </div>
+                  <span class="mt-6 inline-flex items-center gap-1.5 text-xs font-semibold text-bronze group-hover:translate-x-1 transition-transform">
+                    View Details <ArrowRight size={13} />
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Visit Sanctuary Bar -->
+    <section class="bg-charcoal text-sand py-12 sm:py-16">
+      <div class="container-px text-center max-w-2xl mx-auto">
+        <p class="eyebrow mb-3 text-gold">Ready For Renewal?</p>
+        <h2 class="display-heading text-2xl sm:text-3xl text-sand">
+          Experience {service.name} at Forest Spa
+        </h2>
+        <p class="mt-4 text-sm sm:text-base text-sand/80 leading-relaxed">
+          Located at 14168 Poway Rd, Ste 206, Poway, CA 92064. Free parking, serene private suites, open Monday through Sunday, 9:00 AM – 9:00 PM.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <a
+            href={primaryBookingUrl}
+            target="_blank"
+            rel="noopener"
+            data-book={`service-bottom-${service.slug}`}
+            class="btn btn-on-dark"
+          >
+            <CalendarHeart size={18} /> Book Appointment
+          </a>
+          <a
+            href={business.phoneHref}
+            data-call={`service-bottom-${service.slug}`}
+            class="btn btn-ghost-dark"
+          >
+            <Phone size={17} /> Call (858) 288-2600
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <StickyMobileBar />
+</Layout>
