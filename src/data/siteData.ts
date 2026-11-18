@@ -312,7 +312,7 @@ export const mobileNavGroups: MobileNavGroup[] = [
       { label: 'Massage Therapies', href: `${baseUrl}#services`, sublabel: 'À la carte full-body menu' },
       { label: 'Signature Head Spa', href: `${baseUrl}#head-spa`, sublabel: 'Waterfall scalp ritual', badge: 'Signature' },
       { label: 'Curated Packages', href: `${baseUrl}#packages`, sublabel: 'Head-to-toe rituals' },
-      { label: 'Monthly Special', href: `${baseUrl}#specials`, sublabel: 'November Thanksgiving Specials', badge: 'Special' },
+      { label: 'Thanksgiving & Nov Specials', href: `${baseUrl}#specials`, sublabel: 'Holiday Massage & Combo Specials', badge: 'Special' },
     ],
   },
   {
@@ -337,7 +337,7 @@ export const mobileNavGroups: MobileNavGroup[] = [
 export const navLinks: NavLink[] = [
   { label: 'Massage', href: `${baseUrl}#services` },
   { label: 'Packages', href: `${baseUrl}#packages` },
-  { label: 'November Special', href: `${baseUrl}#specials` },
+  { label: 'Thanksgiving Specials', href: `${baseUrl}#specials` },
   { label: 'Head Spa', href: `${baseUrl}#head-spa` },
   { label: 'Treatment Quiz', href: `${baseUrl}quiz` },
   { label: 'Journal', href: `${baseUrl}journal` },
@@ -355,11 +355,11 @@ export const monthlySpecial = {
   /** Short month label shown in the eyebrow + hero ribbon, e.g. "August". */
   month: 'November',
   headline: 'Thanksgiving & November Specials',
-  name: 'Stone & Scent Combo Prestige & Thanksgiving 90-Min Massage',
+  name: 'Thanksgiving 90-Min Massage & Stone & Scent Combo Prestige',
   /** Condensed name for the hero ribbon, where the full name is too long. */
   shortName: 'Thanksgiving Specials',
-  /** Direct Fresha booking link for the combo prestige special. */
-  url: 'https://l.fresha.com/3s65ctzxb',
+  /** Direct Fresha booking link for the Thanksgiving 90-min special. */
+  url: 'https://l.fresha.com/376gcdzyb',
   /** Duration tiers. First entry is the headline price (hero ribbon, "from"). */
   options: [
     { duration: '90 min', price: 105, value: 115 },
@@ -367,29 +367,30 @@ export const monthlySpecial = {
   ],
   validity: 'Available through November 30th only.',
   summary:
-    'Celebrate the season of thankfulness with our limited-time November specials! Unwind with our customized 90-minute full-body massage designed to release muscle tension, boost circulation, and melt holiday stress, or indulge in the complete 120-minute Stone & Scent Combo Prestige with foot reflexology, hot stones, and calming aromatherapy.',
+    'Celebrate the season of gratitude with our limited-time holiday specials! Unwind with our customized 90-minute Thanksgiving full-body massage for just $105 (was $115), or indulge in our complete 120-minute Stone & Scent Combo Prestige with foot reflexology, hot stones, and calming aromatherapy for $145 (was $185).',
   inclusions: [
     '90-min body massage (pick from Swedish, Sports, or Deep Tissue)',
     '30-min foot reflexology with scrub (Combo Prestige)',
-    'Hot stones therapy (Combo Prestige)',
+    'Penetrating hot stones (Combo Prestige)',
     'Calming aromatherapy or essential oil (Combo Prestige)',
+    'Special Thanksgiving gratitude pricing & stress relief',
   ],
   items: [
     {
       id: 's:26261955',
       name: 'Thanksgiving Gratitude Special: 90-Min Full Body Massage',
       shortName: 'Thanksgiving Gratitude Special',
-      badge: 'Holiday Feature',
+      badge: 'Thanksgiving Special · 10% Off',
       price: 105,
       value: 115,
       duration: '90 min',
       summary:
-        'Celebrate the season of thankfulness with our limited-time holiday special! Unwind with a customized 90-minute full-body massage (choose from Swedish, Deep Tissue, or Sports massage) designed to release muscle tension, boost circulation, and melt away holiday stress. No add-on requirements, no catches—just 90 pure minutes of relaxation.',
+        'Celebrate the season of gratitude with our limited-time holiday special! Unwind with a customized 90-minute full-body massage (choose from Swedish, Deep Tissue, or Sports) designed to release deep muscle tension, boost healthy circulation, and melt away holiday stress. Valid this weekend through November 30th only.',
       inclusions: [
         '90-min customized full-body massage',
         'Choice of Swedish, Deep Tissue, or Sports modality',
-        'Designed to release muscle tension and melt away holiday stress',
-        'Boosts healthy circulation and full-body relaxation',
+        'Special Thanksgiving gratitude pricing ($105, regularly $115 — 10% off)',
+        'Designed to release muscle tension, improve circulation & melt holiday stress',
         'No add-on requirements, no catches—just 90 pure minutes of relaxation',
       ],
       url: 'https://l.fresha.com/376gcdzyb',
